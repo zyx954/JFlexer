@@ -18,8 +18,8 @@ public class TestScanner {
             do {
                 symbol = scanner.yylex();
                 System.out.println("Read symbol: " + scanner.yytext() + "\n\t it is a " 
-                        + symbol.getType() + " at line " + symbol.getLine() 
-                        + " at column " + symbol.getColumn());
+                        + symbol.getType() + "\n\t at line " + symbol.getLine() 
+                        + " at column " + symbol.getColumn() + "\n\t value: " + symbol.getValue() + "\n");
                 
                 
             } while (symbol.getType() != TokenType.EOF);
