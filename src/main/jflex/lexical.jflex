@@ -16,8 +16,12 @@ import org.ifn660.jflexer.type.TokenType;
 %%
 // Lexical rules
 
-[a-zA-Z]   {return CHARACTER;}
-[0-9]   {return DIGIT;}
-[,]     {return COMMA;}
-[ ]    {return SPACE;}
+int {return TYPE;}
+[a-zA-Z]+   {return IDENTIFIER;}
+=   {return ASSIGN;}
+[0-9]+     {return NUMBER;}
+"{"   {return BLOCK_S;}
+"}"   {return BLOCK_E;}
+[ \t\n]     {return IGNORE;}
+.   {return IGNORE;}
 <<EOF>>     {return EOF;}

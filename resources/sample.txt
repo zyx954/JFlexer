@@ -1,1 +1,5 @@
-abc DEF gHiJk 123xyz,,rrrw,
+public class Example {
+   public static void main(String[] args) {
+      int x = 21;
+   }
+}

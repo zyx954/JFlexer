@@ -14,24 +14,9 @@ public class TestScanner {
             TokenType token;
             do {
                 token = scanner.yylex();
-                System.out.print("Read: " + scanner.yytext() + " it is a ");
+                System.out.println("Read: " + scanner.yytext() + " it is a " + token);
                 
-                switch (token) {
-                    case CHARACTER:
-                        System.out.println("character");
-                    break;
-                    case DIGIT:
-                        System.out.println("digit");
-                    break;
-                    case COMMA:
-                        System.out.println("comma");
-                    break;
-                    case SPACE:
-                        System.out.println("space");
-                    break;
-                    default:
-                        System.out.println("Unknown token");
-                }
+                
             } while (token != EOF);
         } catch (IOException e) {
             e.printStackTrace();
