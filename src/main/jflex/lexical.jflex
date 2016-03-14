@@ -1,23 +1,90 @@
-// UserCode
-
-// this is the place to put package declarations and import statements. 
-// It is possible, but not considered good Java style to put helper classes, such as token classes, into this section
+/* JFlex example: partial Java language lexer specification */
 package org.ifn660.jflexer;
 
-import static org.ifn660.jflexer.type.TokenType.*;
+import org.ifn660.jflexer.symbol.Symbol;
 import org.ifn660.jflexer.type.TokenType;
 
+/**
+ * This class is a simple example lexer.
+ */
 %%
-// Options and declarations
 
-// this is to tell the yyflex scanner method to return an object of type TokenType
-%type TokenType
+%class Lexer
+%type Symbol
+%line
+%column
+%state STRING
+
+%{
+  StringBuffer string = new StringBuffer();
+
+  private Symbol symbol(TokenType type) {
+    return new Symbol(type, yyline, yycolumn);
+  }
+  private Symbol symbol(TokenType type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+  }
+%}
+
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
+WhiteSpace     = {LineTerminator} | [ \t\f]
+
+/* comments */
+Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
+
+TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+// Comment can be the last line of the file, without line terminator.
+EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
+DocumentationComment = "/**" {CommentContent} "*"+ "/"
+CommentContent       = ( [^*] | \*+ [^/*] )*
+
+Identifier = [:jletter:] [:jletterdigit:]*
+
+DecIntegerLiteral = 0 | [1-9][0-9]*
+
+
 
 %%
-// Lexical rules
 
-[a-zA-Z]   {return CHARACTER;}
-[0-9]   {return DIGIT;}
-[,]     {return COMMA;}
-[ ]    {return SPACE;}
-<<EOF>>     {return EOF;}
+/* keywords */
+<YYINITIAL> "abstract"           { return symbol(TokenType.ABSTRACT); }
+<YYINITIAL> "boolean"            { return symbol(TokenType.BOOLEAN); }
+<YYINITIAL> "break"              { return symbol(TokenType.BREAK); }
+
+<YYINITIAL> {
+  /* identifiers */ 
+  {Identifier}                   { return symbol(TokenType.IDENTIFIER); }
+ 
+  /* literals */
+  {DecIntegerLiteral}            { return symbol(TokenType.INTEGER_LITERAL); }
+  \"                             { string.setLength(0); yybegin(STRING); }
+
+  /* operators */
+  "="                            { return symbol(TokenType.EQ); }
+  "=="                           { return symbol(TokenType.EQEQ); }
+  "+"                            { return symbol(TokenType.PLUS); }
+
+  /* comments */
+  {Comment}                      { /* ignore */ }
+ 
+  /* whitespace */
+  {WhiteSpace}                   { /* ignore */ }
+}
+
+<STRING> {
+  \"                             { yybegin(YYINITIAL); 
+                                   return symbol(TokenType.STRING_LITERAL, 
+                                   string.toString()); }
+  [^\n\r\"\\]+                   { string.append( yytext() ); }
+  \\t                            { string.append('\t'); }
+  \\n                            { string.append('\n'); }
+
+  \\r                            { string.append('\r'); }
+  \\\"                           { string.append('\"'); }
+  \\                             { string.append('\\'); }
+}
+
+<<EOF>>     {return symbol(TokenType.EOF);}
+/* error fallback */
+[^]                              { return symbol(TokenType.UNKNOWN); }
