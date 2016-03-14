@@ -2,6 +2,10 @@ package org.ifn660.jflexer.symbol;
 
 import org.ifn660.jflexer.type.TokenType;
 
+/**
+ * this is a class to temporary simulate the real CUP Symbol class
+ *
+ */
 public class Symbol {
     private TokenType type;
     private int line;
