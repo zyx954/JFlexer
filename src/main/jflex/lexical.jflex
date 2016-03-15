@@ -53,6 +53,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "boolean"            { return symbol(TokenType.BOOLEAN); }
 <YYINITIAL> "break"              { return symbol(TokenType.BREAK); }
 <YYINITIAL> "if"				 { return symbol(TokenType.IF); }
+<YYINITIAL> "else"				 { return symbol(TokenType.ELSE); }
 
 
 <YYINITIAL> {
