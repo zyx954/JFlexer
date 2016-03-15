@@ -1,9 +1,6 @@
 package org.ifn660.jflexer;
 
-import static org.ifn660.jflexer.type.TokenType.*;
-
-import org.ifn660.jflexer.symbol.Symbol;
-import org.ifn660.jflexer.type.TokenType;
+import java_cup.runtime.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,13 +13,13 @@ public class TestScanner {
 
             Symbol symbol;
             do {
-                symbol = scanner.yylex();
+                symbol = scanner.next_token(); // as CUP parser expects a next_token method instead of yylex
                 System.out.println("Read symbol: " + scanner.yytext() + "\n\t it is a " 
-                        + symbol.getType() + "\n\t at line " + symbol.getLine() 
-                        + " at column " + symbol.getColumn() + "\n\t value: " + symbol.getValue() + "\n");
+                        + symbol.sym + " aka (" + sym.terminalNames[symbol.sym]  + ")" + "\n\t at line " + symbol.left
+                        + " at column " + symbol.right + "\n\t value: " + symbol.value + "\n");
                 
                 
-            } while (symbol.getType() != TokenType.EOF);
+            } while (symbol.sym != sym.EOF);
         } catch (IOException e) {
             e.printStackTrace();
         }

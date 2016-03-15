@@ -39,7 +39,7 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\004\000\004\004\004\001\002\000\004\002\001\001" +
+    "\000\004\000\004\007\004\001\002\000\004\002\001\001" +
     "\002\000\004\002\006\001\002\000\004\002\000\001\002" +
     "" });
 
@@ -113,7 +113,7 @@ class CUP$parser$actions {
       switch (CUP$parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // expr ::= number 
+          case 0: // expr ::= IDENTIFIER 
             {
               Object RESULT =null;
 

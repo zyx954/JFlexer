@@ -3,14 +3,13 @@
 /* JFlex example: partial Java language lexer specification */
 package org.ifn660.jflexer;
 
-import org.ifn660.jflexer.symbol.Symbol;
-import org.ifn660.jflexer.type.TokenType;
+import java_cup.runtime.*;
 
 /**
  * This class is a simple example lexer.
  */
 
-class Lexer {
+class Lexer implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -399,10 +398,10 @@ class Lexer {
   /* user code: */
   StringBuffer string = new StringBuffer();
 
-  private Symbol symbol(TokenType type) {
+  private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);
   }
-  private Symbol symbol(TokenType type, Object value) {
+  private Symbol symbol(int type, Object value) {
     return new Symbol(type, yyline, yycolumn, value);
   }
 
@@ -631,13 +630,25 @@ class Lexer {
 
 
   /**
+   * Contains user EOF-code, which will be executed exactly once,
+   * when the end of file is reached
+   */
+  private void zzDoEOF() throws java.io.IOException {
+    if (!zzEOFDone) {
+      zzEOFDone = true;
+      yyclose();
+    }
+  }
+
+
+  /**
    * Resumes scanning until the next regular expression is matched,
    * the end of input is encountered or an I/O-Error occurs.
    *
    * @return      the next token
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
-  public Symbol yylex() throws java.io.IOException {
+  public java_cup.runtime.Symbol next_token() throws java.io.IOException {
     int zzInput;
     int zzAction;
 
@@ -773,14 +784,15 @@ class Lexer {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
+            zzDoEOF();
               {
-                return symbol(TokenType.EOF);
+                return symbol(sym.EOF);
               }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { return symbol(TokenType.UNKNOWN);
+            { return symbol(sym.UNKNOWN);
             }
           case 30: break;
           case 2: 
@@ -788,11 +800,11 @@ class Lexer {
             }
           case 31: break;
           case 3: 
-            { return symbol(TokenType.IDENTIFIER);
+            { return symbol(sym.IDENTIFIER);
             }
           case 32: break;
           case 4: 
-            { return symbol(TokenType.INTEGER_LITERAL);
+            { return symbol(sym.INTEGER_LITERAL);
             }
           case 33: break;
           case 5: 
@@ -800,47 +812,47 @@ class Lexer {
             }
           case 34: break;
           case 6: 
-            { return symbol(TokenType.LPAREN);
+            { return symbol(sym.LPAREN);
             }
           case 35: break;
           case 7: 
-            { return symbol(TokenType.RPAREN);
+            { return symbol(sym.RPAREN);
             }
           case 36: break;
           case 8: 
-            { return symbol(TokenType.LBRACE);
+            { return symbol(sym.LBRACE);
             }
           case 37: break;
           case 9: 
-            { return symbol(TokenType.RBRACE);
+            { return symbol(sym.RBRACE);
             }
           case 38: break;
           case 10: 
-            { return symbol(TokenType.LBRACK);
+            { return symbol(sym.LBRACK);
             }
           case 39: break;
           case 11: 
-            { return symbol(TokenType.RBRACK);
+            { return symbol(sym.RBRACK);
             }
           case 40: break;
           case 12: 
-            { return symbol(TokenType.SEMICOLON);
+            { return symbol(sym.SEMICOLON);
             }
           case 41: break;
           case 13: 
-            { return symbol(TokenType.COMMA);
+            { return symbol(sym.COMMA);
             }
           case 42: break;
           case 14: 
-            { return symbol(TokenType.DOT);
+            { return symbol(sym.DOT);
             }
           case 43: break;
           case 15: 
-            { return symbol(TokenType.EQ);
+            { return symbol(sym.EQ);
             }
           case 44: break;
           case 16: 
-            { return symbol(TokenType.PLUS);
+            { return symbol(sym.PLUS);
             }
           case 45: break;
           case 17: 
@@ -849,7 +861,7 @@ class Lexer {
           case 46: break;
           case 18: 
             { yybegin(YYINITIAL); 
-                                   return symbol(TokenType.STRING_LITERAL, 
+                                   return symbol(sym.STRING_LITERAL, 
                                    string.toString());
             }
           case 47: break;
@@ -858,11 +870,11 @@ class Lexer {
             }
           case 48: break;
           case 20: 
-            { return symbol(TokenType.IF);
+            { return symbol(sym.IF);
             }
           case 49: break;
           case 21: 
-            { return symbol(TokenType.EQEQ);
+            { return symbol(sym.EQEQ);
             }
           case 50: break;
           case 22: 
@@ -882,19 +894,19 @@ class Lexer {
             }
           case 54: break;
           case 26: 
-            { return symbol(TokenType.ELSE);
+            { return symbol(sym.ELSE);
             }
           case 55: break;
           case 27: 
-            { return symbol(TokenType.BREAK);
+            { return symbol(sym.BREAK);
             }
           case 56: break;
           case 28: 
-            { return symbol(TokenType.BOOLEAN);
+            { return symbol(sym.BOOLEAN);
             }
           case 57: break;
           case 29: 
-            { return symbol(TokenType.ABSTRACT);
+            { return symbol(sym.ABSTRACT);
             }
           case 58: break;
           default:

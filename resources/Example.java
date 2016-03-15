@@ -1,11 +1,13 @@
 public class Example {
     public static void main(String[] args) {
-    	
+
         int x = 0;
-        
-		if (x == 42) {
-        	System.out.println("hello world");
-        }   
+        String str = "hello";
+
+        if (x == 42) {
+            System.out.println(str);
+        } else {
+            System.out.println("world");
+        }
     }
 }
-

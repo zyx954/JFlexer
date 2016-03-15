@@ -1,8 +1,7 @@
 /* JFlex example: partial Java language lexer specification */
 package org.ifn660.jflexer;
 
-import org.ifn660.jflexer.symbol.Symbol;
-import org.ifn660.jflexer.type.TokenType;
+import java_cup.runtime.*;
 
 /**
  * This class is a simple example lexer.
@@ -10,18 +9,18 @@ import org.ifn660.jflexer.type.TokenType;
 %%
 
 %class Lexer
-%type Symbol
-%line
-%column
+%cup    // switches to CUP compatibility mode to interface with a CUP generated parser.
+%line   //switches line counting on (the current line number can be accessed via the variable yyline)
+%column //switches column counting on (the current column is accessed via yycolumn)
 %state STRING
 
 %{
   StringBuffer string = new StringBuffer();
 
-  private Symbol symbol(TokenType type) {
+  private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);
   }
-  private Symbol symbol(TokenType type, Object value) {
+  private Symbol symbol(int type, Object value) {
     return new Symbol(type, yyline, yycolumn, value);
   }
 %}
@@ -49,40 +48,40 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 
 /* keywords */
-<YYINITIAL> "abstract"           { return symbol(TokenType.ABSTRACT); }
-<YYINITIAL> "boolean"            { return symbol(TokenType.BOOLEAN); }
-<YYINITIAL> "break"              { return symbol(TokenType.BREAK); }
-<YYINITIAL> "if"				 { return symbol(TokenType.IF); }
-<YYINITIAL> "else"				 { return symbol(TokenType.ELSE); }
+<YYINITIAL> "abstract"           { return symbol(sym.ABSTRACT); }
+<YYINITIAL> "boolean"            { return symbol(sym.BOOLEAN); }
+<YYINITIAL> "break"              { return symbol(sym.BREAK); }
+<YYINITIAL> "if"                 { return symbol(sym.IF); }
+<YYINITIAL> "else"               { return symbol(sym.ELSE); }
 
 
 <YYINITIAL> {
 
 /* identifiers */ 
-  {Identifier}                   { return symbol(TokenType.IDENTIFIER); }
+  {Identifier}                   { return symbol(sym.IDENTIFIER); }
  
  
 /* literals */
-  {DecIntegerLiteral}            { return symbol(TokenType.INTEGER_LITERAL); }
+  {DecIntegerLiteral}            { return symbol(sym.INTEGER_LITERAL); }
   \"                             { string.setLength(0); yybegin(STRING); }
 
 
 /* separators */
-  "("                            { return symbol(TokenType.LPAREN); }
-  ")"                            { return symbol(TokenType.RPAREN); }
-  "{"                            { return symbol(TokenType.LBRACE); }
-  "}"                            { return symbol(TokenType.RBRACE); }
-  "["                            { return symbol(TokenType.LBRACK); }
-  "]"                            { return symbol(TokenType.RBRACK); }
-  ";"                            { return symbol(TokenType.SEMICOLON); }
-  ","                            { return symbol(TokenType.COMMA); }
-  "."                            { return symbol(TokenType.DOT); }
+  "("                            { return symbol(sym.LPAREN); }
+  ")"                            { return symbol(sym.RPAREN); }
+  "{"                            { return symbol(sym.LBRACE); }
+  "}"                            { return symbol(sym.RBRACE); }
+  "["                            { return symbol(sym.LBRACK); }
+  "]"                            { return symbol(sym.RBRACK); }
+  ";"                            { return symbol(sym.SEMICOLON); }
+  ","                            { return symbol(sym.COMMA); }
+  "."                            { return symbol(sym.DOT); }
 
 
   /* operators */
-  "="                            { return symbol(TokenType.EQ); }
-  "=="                           { return symbol(TokenType.EQEQ); }
-  "+"                            { return symbol(TokenType.PLUS); }
+  "="                            { return symbol(sym.EQ); }
+  "=="                           { return symbol(sym.EQEQ); }
+  "+"                            { return symbol(sym.PLUS); }
 
 
   /* comments */
@@ -97,7 +96,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 <STRING> {
   \"                             { yybegin(YYINITIAL); 
-                                   return symbol(TokenType.STRING_LITERAL, 
+                                   return symbol(sym.STRING_LITERAL, 
                                    string.toString()); }
   [^\n\r\"\\]+                   { string.append( yytext() ); }
   \\t                            { string.append('\t'); }
@@ -108,6 +107,6 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 }
 
 
-<<EOF>>     {return symbol(TokenType.EOF);}
+<<EOF>>     {return symbol(sym.EOF);}
 /* error fallback */
-[^]                              { return symbol(TokenType.UNKNOWN); }
+[^]                              { return symbol(sym.UNKNOWN); }

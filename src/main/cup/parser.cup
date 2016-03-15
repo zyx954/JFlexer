@@ -2,7 +2,11 @@ package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
 
-terminal number;
+terminal ABSTRACT, BOOLEAN, BREAK, IDENTIFIER, INTEGER_LITERAL, 
+    EQ, EQEQ, PLUS, STRING_LITERAL, UNKNOWN, IF, LPAREN,
+    RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA,
+    DOT, ELSE;
+    
 non terminal expr;
 
-expr ::= number;
+expr ::= IDENTIFIER;
