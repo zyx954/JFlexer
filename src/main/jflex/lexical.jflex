@@ -47,30 +47,52 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 %%
 
+
 /* keywords */
 <YYINITIAL> "abstract"           { return symbol(TokenType.ABSTRACT); }
 <YYINITIAL> "boolean"            { return symbol(TokenType.BOOLEAN); }
 <YYINITIAL> "break"              { return symbol(TokenType.BREAK); }
+<YYINITIAL> "if"				 { return symbol(TokenType.IF); }
+
 
 <YYINITIAL> {
-  /* identifiers */ 
+
+/* identifiers */ 
   {Identifier}                   { return symbol(TokenType.IDENTIFIER); }
  
-  /* literals */
+ 
+/* literals */
   {DecIntegerLiteral}            { return symbol(TokenType.INTEGER_LITERAL); }
   \"                             { string.setLength(0); yybegin(STRING); }
+
+
+/* separators */
+  "("                            { return symbol(TokenType.LPAREN); }
+  ")"                            { return symbol(TokenType.RPAREN); }
+  "{"                            { return symbol(TokenType.LBRACE); }
+  "}"                            { return symbol(TokenType.RBRACE); }
+  "["                            { return symbol(TokenType.LBRACK); }
+  "]"                            { return symbol(TokenType.RBRACK); }
+  ";"                            { return symbol(TokenType.SEMICOLON); }
+  ","                            { return symbol(TokenType.COMMA); }
+  "."                            { return symbol(TokenType.DOT); }
+
 
   /* operators */
   "="                            { return symbol(TokenType.EQ); }
   "=="                           { return symbol(TokenType.EQEQ); }
   "+"                            { return symbol(TokenType.PLUS); }
 
+
   /* comments */
   {Comment}                      { /* ignore */ }
  
+ 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
+  
 }
+
 
 <STRING> {
   \"                             { yybegin(YYINITIAL); 
@@ -79,11 +101,11 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
   [^\n\r\"\\]+                   { string.append( yytext() ); }
   \\t                            { string.append('\t'); }
   \\n                            { string.append('\n'); }
-
   \\r                            { string.append('\r'); }
   \\\"                           { string.append('\"'); }
   \\                             { string.append('\\'); }
 }
+
 
 <<EOF>>     {return symbol(TokenType.EOF);}
 /* error fallback */
