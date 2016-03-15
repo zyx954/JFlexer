@@ -1,0 +1,8 @@
+package org.ifn660.jflexer;
+
+import java_cup.runtime.*;
+
+terminal number;
+non terminal expr;
+
+expr ::= number;
