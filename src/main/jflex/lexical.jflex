@@ -53,6 +53,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "break"              { return symbol(sym.BREAK); }
 <YYINITIAL> "if"                 { return symbol(sym.IF); }
 <YYINITIAL> "else"               { return symbol(sym.ELSE); }
+<YYINITIAL> "class"              { return symbol(sym.CLASS); }
 
 
 <YYINITIAL> {
