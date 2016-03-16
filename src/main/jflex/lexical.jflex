@@ -54,6 +54,9 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "if"                 { return symbol(sym.IF); }
 <YYINITIAL> "else"               { return symbol(sym.ELSE); }
 <YYINITIAL> "class"              { return symbol(sym.CLASS); }
+<YYINITIAL> "public"             { return symbol(sym.PUBLIC); }
+<YYINITIAL> "protected"          { return symbol(sym.PROTECTED); }
+<YYINITIAL> "private"            { return symbol(sym.PRIVATE); }
 
 
 <YYINITIAL> {
