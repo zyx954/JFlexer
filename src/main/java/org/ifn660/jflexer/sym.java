@@ -12,10 +12,12 @@ public interface sym {
   public static final int ELSE = 22;
   public static final int SEMICOLON = 19;
   public static final int PLUS = 9;
+  public static final int INT = 23;
   public static final int RBRACE = 16;
   public static final int RPAREN = 14;
   public static final int LBRACK = 17;
   public static final int IDENTIFIER = 5;
+  public static final int TRUE = 24;
   public static final int IF = 12;
   public static final int LPAREN = 13;
   public static final int LBRACE = 15;
@@ -24,6 +26,7 @@ public interface sym {
   public static final int COMMA = 20;
   public static final int EOF = 0;
   public static final int BREAK = 4;
+  public static final int FALSE = 25;
   public static final int DOT = 21;
   public static final int error = 1;
   public static final int EQ = 7;
@@ -54,7 +57,10 @@ public interface sym {
   "SEMICOLON",
   "COMMA",
   "DOT",
-  "ELSE"
+  "ELSE",
+  "INT",
+  "TRUE",
+  "FALSE"
   };
 }
 

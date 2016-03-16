@@ -8,6 +8,8 @@ import java.io.IOException;
 public class TestScanner {
     public static void main(String[] args) {
         System.out.println("Scanning [" + args[0] + "]");
+        
+        
         try {
             Lexer scanner = new Lexer(new FileReader("resources" + "/" + args[0]));
 
@@ -23,5 +25,8 @@ public class TestScanner {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+
+        
     }
 }

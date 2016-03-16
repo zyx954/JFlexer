@@ -6,6 +6,7 @@ import java_cup.runtime.*;
 /**
  * This class is a simple example lexer.
  */
+ 
 %%
 
 %class Lexer
@@ -53,6 +54,11 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "break"              { return symbol(sym.BREAK); }
 <YYINITIAL> "if"                 { return symbol(sym.IF); }
 <YYINITIAL> "else"               { return symbol(sym.ELSE); }
+<YYINITIAL> "int"               { return symbol(sym.INT); }
+<YYINITIAL> "true"               { return symbol(sym.TRUE); }
+<YYINITIAL> "true"               { return symbol(sym.FALSE); }
+
+
 
 
 <YYINITIAL> {
