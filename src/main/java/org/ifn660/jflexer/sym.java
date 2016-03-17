@@ -9,6 +9,7 @@ package org.ifn660.jflexer;
 public interface sym {
   /* terminals */
   public static final int RBRACK = 18;
+  public static final int CLASS = 23;
   public static final int ELSE = 22;
   public static final int SEMICOLON = 19;
   public static final int PLUS = 9;
@@ -54,7 +55,8 @@ public interface sym {
   "SEMICOLON",
   "COMMA",
   "DOT",
-  "ELSE"
+  "ELSE",
+  "CLASS"
   };
 }
 
