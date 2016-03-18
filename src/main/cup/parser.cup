@@ -2,11 +2,34 @@ package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
 
-terminal ABSTRACT, BOOLEAN, BREAK, IDENTIFIER, INTEGER_LITERAL, 
+parser code  {: 
+  public void report_error(String message, Object info) {
+    StringBuilder m = new StringBuilder("Error ");
+
+    if (info instanceof java_cup.runtime.Symbol) 
+      m.append( "("+info.toString()+")" );
+     
+    m.append(" : "+message);
+   
+    System.out.println(m);
+  }
+   
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    throw new RuntimeException("Fatal Syntax Error");
+  }
+:};
+
+terminal PUBLIC, ABSTRACT, BOOLEAN, BREAK, IDENTIFIER, INTEGER_LITERAL, 
     EQ, EQEQ, PLUS, STRING_LITERAL, UNKNOWN, IF, LPAREN,
     RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA,
     DOT, ELSE, CLASS;
     
-non terminal expr;
+non terminal expr, eof;
 
-expr ::= IDENTIFIER;
+expr ::= PUBLIC expr | ABSTRACT expr | BOOLEAN expr | BREAK expr | IDENTIFIER expr | INTEGER_LITERAL expr | 
+    EQ expr | EQEQ expr | PLUS expr | STRING_LITERAL expr | UNKNOWN expr | IF expr | LPAREN expr |
+    RPAREN expr | LBRACE expr | RBRACE expr | LBRACK expr | RBRACK expr | SEMICOLON expr | COMMA expr |
+    DOT expr | ELSE expr | CLASS expr | eof;
+    
+eof ::= 0;

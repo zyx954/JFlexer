@@ -8,11 +8,13 @@ import java_cup.runtime.*;
  */
 %%
 
+%public
 %class Lexer
 %cup    // switches to CUP compatibility mode to interface with a CUP generated parser.
 %line   //switches line counting on (the current line number can be accessed via the variable yyline)
 %column //switches column counting on (the current column is accessed via yycolumn)
 %state STRING
+%cupdebug
 
 %{
   StringBuffer string = new StringBuffer();
@@ -54,6 +56,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "if"                 { return symbol(sym.IF); }
 <YYINITIAL> "else"               { return symbol(sym.ELSE); }
 <YYINITIAL> "class"              { return symbol(sym.CLASS); }
+<YYINITIAL> "public"              { return symbol(sym.PUBLIC); }
 
 
 <YYINITIAL> {
@@ -107,7 +110,6 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
   \\                             { string.append('\\'); }
 }
 
-
-<<EOF>>     {return symbol(sym.EOF);}
+<<EOF>> {return symbol(sym.EOF);}
 /* error fallback */
 [^]                              { return symbol(sym.UNKNOWN); }
