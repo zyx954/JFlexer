@@ -191,12 +191,13 @@ public class Lexer implements java_cup.runtime.Scanner {
     "\2\0\1\1\2\2\1\1\1\3\2\4\6\3\1\5"+
     "\1\6\1\7\1\10\1\11\1\12\1\13\1\14\1\15"+
     "\1\16\1\17\1\20\1\21\1\22\1\23\1\2\1\0"+
-    "\5\3\1\24\1\3\1\25\1\26\1\27\1\30\1\31"+
-    "\2\0\6\3\1\0\1\2\4\3\1\32\2\3\1\33"+
-    "\1\3\1\34\3\3\1\35\1\3\1\36\1\37";
+    "\6\3\1\24\1\3\1\25\1\26\1\27\1\30\1\31"+
+    "\2\0\5\3\1\32\1\3\1\0\1\2\4\3\1\33"+
+    "\2\3\1\34\1\3\1\35\3\3\1\36\1\3\1\37"+
+    "\1\40";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[71];
+    int [] result = new int[73];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -225,14 +226,15 @@ public class Lexer implements java_cup.runtime.Scanner {
     "\0\344\0\u010a\0\u0130\0\u0156\0\u017c\0\u01a2\0\u01c8\0\114"+
     "\0\114\0\114\0\114\0\114\0\114\0\114\0\114\0\114"+
     "\0\114\0\u01ee\0\114\0\u0214\0\114\0\u023a\0\u0260\0\u0286"+
-    "\0\u02ac\0\u02d2\0\u02f8\0\u031e\0\u0344\0\276\0\u036a\0\114"+
-    "\0\114\0\114\0\114\0\114\0\u0390\0\u03b6\0\u03dc\0\u0402"+
-    "\0\u0428\0\u044e\0\u0474\0\u049a\0\u04c0\0\u0390\0\u04e6\0\u050c"+
-    "\0\u0532\0\u0558\0\276\0\u057e\0\u05a4\0\276\0\u05ca\0\276"+
-    "\0\u05f0\0\u0616\0\u063c\0\276\0\u0662\0\276\0\276";
+    "\0\u02ac\0\u02d2\0\u02f8\0\u031e\0\u0344\0\u036a\0\276\0\u0390"+
+    "\0\114\0\114\0\114\0\114\0\114\0\u03b6\0\u03dc\0\u0402"+
+    "\0\u0428\0\u044e\0\u0474\0\u049a\0\276\0\u04c0\0\u04e6\0\u03b6"+
+    "\0\u050c\0\u0532\0\u0558\0\u057e\0\276\0\u05a4\0\u05ca\0\276"+
+    "\0\u05f0\0\276\0\u0616\0\u063c\0\u0662\0\276\0\u0688\0\276"+
+    "\0\276";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[71];
+    int [] result = new int[73];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -263,27 +265,27 @@ public class Lexer implements java_cup.runtime.Scanner {
     "\1\5\47\0\1\37\1\40\46\0\23\7\25\0\2\11"+
     "\42\0\5\7\1\41\15\7\23\0\10\7\1\42\1\7"+
     "\1\43\10\7\23\0\13\7\1\44\7\7\23\0\13\7"+
-    "\1\45\7\7\23\0\20\7\1\46\2\7\23\0\22\7"+
-    "\1\47\60\0\1\50\2\0\1\34\2\0\26\34\1\0"+
-    "\13\34\16\0\1\51\1\52\4\0\1\53\5\0\1\54"+
-    "\14\0\1\37\1\4\1\5\43\37\5\55\1\56\40\55"+
-    "\6\0\6\7\1\57\14\7\23\0\14\7\1\60\6\7"+
-    "\23\0\12\7\1\61\10\7\23\0\4\7\1\62\16\7"+
-    "\23\0\6\7\1\63\14\7\23\0\5\7\1\64\15\7"+
-    "\15\0\5\55\1\65\44\55\1\66\1\65\40\55\6\0"+
-    "\7\7\1\67\13\7\23\0\4\7\1\70\16\7\23\0"+
-    "\13\7\1\71\7\7\23\0\6\7\1\72\14\7\23\0"+
-    "\14\7\1\73\6\7\23\0\13\7\1\74\7\7\15\0"+
-    "\4\55\1\5\1\65\40\55\6\0\10\7\1\75\12\7"+
-    "\23\0\16\7\1\76\4\7\23\0\14\7\1\77\6\7"+
-    "\23\0\6\7\1\100\14\7\23\0\17\7\1\101\3\7"+
-    "\23\0\4\7\1\102\16\7\23\0\4\7\1\103\16\7"+
-    "\23\0\11\7\1\104\11\7\23\0\11\7\1\105\11\7"+
-    "\23\0\15\7\1\106\5\7\23\0\7\7\1\107\13\7"+
-    "\15\0";
+    "\1\45\7\7\23\0\15\7\1\46\2\7\1\47\2\7"+
+    "\23\0\22\7\1\50\60\0\1\51\2\0\1\34\2\0"+
+    "\26\34\1\0\13\34\16\0\1\52\1\53\4\0\1\54"+
+    "\5\0\1\55\14\0\1\37\1\4\1\5\43\37\5\56"+
+    "\1\57\40\56\6\0\6\7\1\60\14\7\23\0\14\7"+
+    "\1\61\6\7\23\0\12\7\1\62\10\7\23\0\4\7"+
+    "\1\63\16\7\23\0\6\7\1\64\14\7\23\0\7\7"+
+    "\1\65\13\7\23\0\5\7\1\66\15\7\15\0\5\56"+
+    "\1\67\44\56\1\70\1\67\40\56\6\0\7\7\1\71"+
+    "\13\7\23\0\4\7\1\72\16\7\23\0\13\7\1\73"+
+    "\7\7\23\0\6\7\1\74\14\7\23\0\14\7\1\75"+
+    "\6\7\23\0\13\7\1\76\7\7\15\0\4\56\1\5"+
+    "\1\67\40\56\6\0\10\7\1\77\12\7\23\0\16\7"+
+    "\1\100\4\7\23\0\14\7\1\101\6\7\23\0\6\7"+
+    "\1\102\14\7\23\0\17\7\1\103\3\7\23\0\4\7"+
+    "\1\104\16\7\23\0\4\7\1\105\16\7\23\0\11\7"+
+    "\1\106\11\7\23\0\11\7\1\107\11\7\23\0\15\7"+
+    "\1\110\5\7\23\0\7\7\1\111\13\7\15\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1672];
+    int [] result = new int[1710];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -322,11 +324,11 @@ public class Lexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\2\0\1\11\1\1\1\11\2\1\1\11\7\1\12\11"+
-    "\1\1\1\11\1\1\1\11\2\1\1\0\7\1\5\11"+
-    "\2\0\6\1\1\0\22\1";
+    "\1\1\1\11\1\1\1\11\2\1\1\0\10\1\5\11"+
+    "\2\0\7\1\1\0\22\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[71];
+    int [] result = new int[73];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -800,214 +802,135 @@ public class Lexer implements java_cup.runtime.Scanner {
           case 1: 
             { return symbol(sym.UNKNOWN);
             }
-          case 32: break;
+          case 33: break;
           case 2: 
             { /* ignore */
             }
-          case 33: break;
+          case 34: break;
           case 3: 
             { return symbol(sym.IDENTIFIER);
             }
-          case 34: break;
+          case 35: break;
           case 4: 
             { return symbol(sym.INTEGER_LITERAL);
             }
-          case 35: break;
+          case 36: break;
           case 5: 
             { string.setLength(0); yybegin(STRING);
             }
-          case 36: break;
+          case 37: break;
           case 6: 
             { return symbol(sym.LPAREN);
             }
-          case 37: break;
+          case 38: break;
           case 7: 
             { return symbol(sym.RPAREN);
             }
-          case 38: break;
+          case 39: break;
           case 8: 
             { return symbol(sym.LBRACE);
             }
-          case 39: break;
+          case 40: break;
           case 9: 
             { return symbol(sym.RBRACE);
             }
-          case 40: break;
+          case 41: break;
           case 10: 
             { return symbol(sym.LBRACK);
             }
-          case 41: break;
+          case 42: break;
           case 11: 
             { return symbol(sym.RBRACK);
             }
-          case 42: break;
+          case 43: break;
           case 12: 
             { return symbol(sym.SEMICOLON);
             }
-          case 43: break;
+          case 44: break;
           case 13: 
             { return symbol(sym.COMMA);
             }
-          case 44: break;
+          case 45: break;
           case 14: 
             { return symbol(sym.DOT);
             }
-          case 45: break;
+          case 46: break;
           case 15: 
             { return symbol(sym.EQ);
             }
-          case 46: break;
+          case 47: break;
           case 16: 
             { return symbol(sym.PLUS);
             }
-          case 47: break;
+          case 48: break;
           case 17: 
             { string.append( yytext() );
             }
-          case 48: break;
+          case 49: break;
           case 18: 
             { yybegin(YYINITIAL); 
                                    return symbol(sym.STRING_LITERAL, 
                                    string.toString());
             }
-          case 49: break;
+          case 50: break;
           case 19: 
             { string.append('\\');
             }
-          case 50: break;
+          case 51: break;
           case 20: 
             { return symbol(sym.IF);
             }
-          case 51: break;
+          case 52: break;
           case 21: 
             { return symbol(sym.EQEQ);
             }
-          case 52: break;
+          case 53: break;
           case 22: 
             { string.append('\t');
             }
-          case 53: break;
+          case 54: break;
           case 23: 
             { string.append('\r');
             }
-          case 54: break;
+          case 55: break;
           case 24: 
             { string.append('\n');
             }
-          case 55: break;
+          case 56: break;
           case 25: 
             { string.append('\"');
             }
-          case 56: break;
-          case 26: 
-            { return symbol(sym.ELSE);
-            }
           case 57: break;
-          case 27: 
-            { return symbol(sym.BREAK);
+          case 26: 
+            { return symbol(sym.INT);
             }
           case 58: break;
-          case 28: 
-            { return symbol(sym.CLASS);
+          case 27: 
+            { return symbol(sym.ELSE);
             }
           case 59: break;
-          case 29: 
-            { return symbol(sym.PUBLIC);
+          case 28: 
+            { return symbol(sym.BREAK);
             }
           case 60: break;
-          case 30: 
-            { return symbol(sym.BOOLEAN);
+          case 29: 
+            { return symbol(sym.CLASS);
             }
           case 61: break;
-          case 31: 
-            { return symbol(sym.ABSTRACT);
+          case 30: 
+            { return symbol(sym.PUBLIC);
             }
           case 62: break;
+          case 31: 
+            { return symbol(sym.BOOLEAN);
+            }
+          case 63: break;
+          case 32: 
+            { return symbol(sym.ABSTRACT);
+            }
+          case 64: break;
           default:
             zzScanError(ZZ_NO_MATCH);
-        }
-      }
-    }
-  }
-
-  /**
-   * Converts an int token code into the name of the
-   * token by reflection on the cup symbol class/interface sym
-   *
-   * This code was contributed by Karl Meissner <meissnersd@yahoo.com>
-   */
-  private String getTokenName(int token) {
-    try {
-      java.lang.reflect.Field [] classFields = sym.class.getFields();
-      for (int i = 0; i < classFields.length; i++) {
-        if (classFields[i].getInt(null) == token) {
-          return classFields[i].getName();
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace(System.err);
-    }
-
-    return "UNKNOWN TOKEN";
-  }
-
-  /**
-   * Same as next_token but also prints the token to standard out
-   * for debugging.
-   *
-   * This code was contributed by Karl Meissner <meissnersd@yahoo.com>
-   */
-  public java_cup.runtime.Symbol debug_next_token() throws java.io.IOException {
-    java_cup.runtime.Symbol s = next_token();
-    System.out.println( "line:" + (yyline+1) + " col:" + (yycolumn+1) + " --"+ yytext() + "--" + getTokenName(s.sym) + "--");
-    return s;
-  }
-
-  /**
-   * Runs the scanner on input files.
-   *
-   * This main method is the debugging routine for the scanner.
-   * It prints debugging information about each returned token to
-   * System.out until the end of file is reached, or an error occured.
-   *
-   * @param argv   the command line, contains the filenames to run
-   *               the scanner on.
-   */
-  public static void main(String argv[]) {
-    if (argv.length == 0) {
-      System.out.println("Usage : java Lexer [ --encoding <name> ] <inputfile(s)>");
-    }
-    else {
-      int firstFilePos = 0;
-      String encodingName = "UTF-8";
-      if (argv[0].equals("--encoding")) {
-        firstFilePos = 2;
-        encodingName = argv[1];
-        try {
-          java.nio.charset.Charset.forName(encodingName); // Side-effect: is encodingName valid? 
-        } catch (Exception e) {
-          System.out.println("Invalid encoding '" + encodingName + "'");
-          return;
-        }
-      }
-      for (int i = firstFilePos; i < argv.length; i++) {
-        Lexer scanner = null;
-        try {
-          java.io.FileInputStream stream = new java.io.FileInputStream(argv[i]);
-          java.io.Reader reader = new java.io.InputStreamReader(stream, encodingName);
-          scanner = new Lexer(reader);
-          while ( !scanner.zzAtEOF ) scanner.debug_next_token();
-        }
-        catch (java.io.FileNotFoundException e) {
-          System.out.println("File not found : \""+argv[i]+"\"");
-        }
-        catch (java.io.IOException e) {
-          System.out.println("IO error scanning file \""+argv[i]+"\"");
-          System.out.println(e);
-        }
-        catch (Exception e) {
-          System.out.println("Unexpected exception:");
-          e.printStackTrace();
         }
       }
     }

@@ -13,6 +13,7 @@ public interface sym {
   public static final int ELSE = 23;
   public static final int SEMICOLON = 20;
   public static final int PLUS = 10;
+  public static final int INT = 25;
   public static final int RBRACE = 17;
   public static final int RPAREN = 15;
   public static final int LBRACK = 18;
@@ -58,7 +59,8 @@ public interface sym {
   "COMMA",
   "DOT",
   "ELSE",
-  "CLASS"
+  "CLASS",
+  "INT"
   };
 }
 

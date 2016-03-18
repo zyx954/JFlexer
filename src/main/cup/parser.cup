@@ -2,34 +2,16 @@ package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
 
-parser code  {: 
-  public void report_error(String message, Object info) {
-    StringBuilder m = new StringBuilder("Error ");
-
-    if (info instanceof java_cup.runtime.Symbol) 
-      m.append( "("+info.toString()+")" );
-     
-    m.append(" : "+message);
-   
-    System.out.println(m);
-  }
-   
-  public void report_fatal_error(String message, Object info) {
-    report_error(message, info);
-    throw new RuntimeException("Fatal Syntax Error");
-  }
-:};
-
 terminal PUBLIC, ABSTRACT, BOOLEAN, BREAK, IDENTIFIER, INTEGER_LITERAL, 
     EQ, EQEQ, PLUS, STRING_LITERAL, UNKNOWN, IF, LPAREN,
     RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA,
-    DOT, ELSE, CLASS;
+    DOT, ELSE, CLASS, INT;
     
-non terminal expr, eof;
+non terminal expr, eof, class_expr, class_content, int_assign_expr;
 
-expr ::= PUBLIC expr | ABSTRACT expr | BOOLEAN expr | BREAK expr | IDENTIFIER expr | INTEGER_LITERAL expr | 
-    EQ expr | EQEQ expr | PLUS expr | STRING_LITERAL expr | UNKNOWN expr | IF expr | LPAREN expr |
-    RPAREN expr | LBRACE expr | RBRACE expr | LBRACK expr | RBRACK expr | SEMICOLON expr | COMMA expr |
-    DOT expr | ELSE expr | CLASS expr | eof;
-    
-eof ::= 0;
+
+class_expr ::= PUBLIC CLASS IDENTIFIER LBRACE class_content RBRACE;
+
+class_content ::= int_assign_expr;
+
+int_assign_expr ::= INT IDENTIFIER EQ INTEGER_LITERAL SEMICOLON;

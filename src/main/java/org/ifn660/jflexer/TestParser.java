@@ -7,8 +7,8 @@ public class TestParser {
         /* Start the parser */
         try {
             parser p = new parser(new Lexer(new FileReader("resources" + "/" + args[0])));
-            Object result = p.parse().value;
-            System.out.println(result);
+            //Object result = p.parse().value;
+            p.debug_parse();
         } catch (Exception e) {
             /* do cleanup here -- possibly rethrow e */
             e.printStackTrace();
