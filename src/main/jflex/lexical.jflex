@@ -63,7 +63,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
  
  
 /* literals */
-  {DecIntegerLiteral}            { return symbol(sym.INTEGER_LITERAL); }
+  {DecIntegerLiteral}            { return symbol(sym.INTEGER_LITERAL,new Integer(yytext())); }
   \"                             { string.setLength(0); yybegin(STRING); }
 
 
