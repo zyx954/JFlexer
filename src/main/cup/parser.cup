@@ -2,6 +2,12 @@ package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
 
+/* Symbol lists
+   These declarations name and supply an object type for each terminal and non-terminal symbol that appears in the grammar
+   Terminals are returned by the scanner and placed on the parse stack
+   Non-terminals replace a series of Symbol objects on the parse stack when the RHS of a production is recognised
+ */
+
 terminal PUBLIC, PRIVATE, PROTECTED, ABSTRACT, BOOLEAN, BREAK, IDENTIFIER, INTEGER_LITERAL, 
     EQ, EQEQ, PLUS, STRING_LITERAL, UNKNOWN, IF, LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, 
     SEMICOLON, COMMA, DOT, ELSE, CLASS, INT;

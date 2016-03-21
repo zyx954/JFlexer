@@ -16,7 +16,7 @@ public class TestScanner {
                 symbol = scanner.next_token(); // as CUP parser expects a next_token method instead of yylex
                 System.out.println("Read symbol: " + scanner.yytext() + "\n\t it is a " 
                         + symbol.sym + " aka (" + sym.terminalNames[symbol.sym]  + ")" + "\n\t at line " + symbol.left
-                        + " at column " + symbol.right + "\n\t value: " + symbol.value + "\n");
+                        + " at column " + symbol.right + "\n\t value: " + symbol.value + "\n"); // Puts the value of a terminal in the value instance variable
                 
                 
             } while (symbol.sym != sym.EOF);
