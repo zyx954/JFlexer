@@ -10,13 +10,13 @@ public class TestCases {
     
     @Test
     public void testPass() throws Exception {
-        String[] filenames = {"PassCase1.java", "PassCase2.java", "PassCase3.java"};
+        String[] filenames = {"TestExpressionAssignment"};
         
         final int expectedPass = filenames.length;
         int actualPass  = 0;
         
         for (String filename : filenames) {
-            parser p = new parser(new Lexer(new FileReader("resources/" + filename)));
+            parser p = new parser(new Lexer(new FileReader("resources/test/" + filename)));
             p.parse();
             actualPass++;
         }
@@ -26,14 +26,14 @@ public class TestCases {
     
     @Test
     public void testFail() {
-        String[] filenames = {"FailCase1.java", "FailCase2.java", "FailCase3.java"};
+        String[] filenames = {};
         
         final int expectedFail = filenames.length;
         int actualFail = 0;
         
         for (String filename : filenames) {
             try {
-                parser p = new parser(new Lexer(new FileReader("resources/" + filename)));
+                parser p = new parser(new Lexer(new FileReader("resources/test" + filename)));
                 p.parse();
                 Assert.fail("Grammar fail with " + filename);
             } catch (Exception e) {
