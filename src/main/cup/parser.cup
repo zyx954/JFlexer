@@ -2,11 +2,22 @@ package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
 
-terminal PUBLIC, PRIVATE, PROTECTED, ABSTRACT, BOOLEAN, BREAK, IDENTIFIER, INTEGER_LITERAL, 
-    EQ, EQEQ, PLUS, STRING_LITERAL, UNKNOWN, IF, LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, 
-    SEMICOLON, COMMA, DOT, ELSE, CLASS, INT;
+terminal 	INTEGER_LITERAL,STRING_LITERAL;
+terminal 	PUBLIC, PRIVATE,PROTECTED;
+terminal 	ABSTRACT;
+terminal 	IDENTIFIER;
+terminal 	EQ, EQEQ,PLUS;
+terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, BREAK,SEMICOLON, COMMA, DOT;
+terminal 	INT,BOOLEAN;
+terminal 	UNKNOWN;
+terminal 	CLASS;
+terminal 	IF,ELSE;
     
-non terminal expr, eof, class_expr, class_content, access_modifier, int_assign_expr, str_assign_expr;
+non terminal expr, class_expr, int_assign_expr, str_assign_expr;
+non terminal eof;
+non terminal class_content;
+non terminal access_modifier;
+
 
 
 class_expr ::= access_modifier CLASS IDENTIFIER LBRACE class_content RBRACE;
