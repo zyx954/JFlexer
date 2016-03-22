@@ -8,28 +8,6 @@ package org.ifn660.jflexer;
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
-<<<<<<< HEAD
-  public static final int RBRACK = 18;
-  public static final int ELSE = 22;
-  public static final int SEMICOLON = 19;
-  public static final int PLUS = 9;
-  public static final int INT = 23;
-  public static final int RBRACE = 16;
-  public static final int RPAREN = 14;
-  public static final int LBRACK = 17;
-  public static final int IDENTIFIER = 5;
-  public static final int TRUE = 24;
-  public static final int IF = 12;
-  public static final int LPAREN = 13;
-  public static final int LBRACE = 15;
-  public static final int STRING_LITERAL = 10;
-  public static final int BOOLEAN = 3;
-  public static final int COMMA = 20;
-  public static final int EOF = 0;
-  public static final int BREAK = 4;
-  public static final int FALSE = 25;
-  public static final int DOT = 21;
-=======
   public static final int RBRACK = 21;
   public static final int CLASS = 26;
   public static final int ELSE = 25;
@@ -52,7 +30,6 @@ public interface sym {
   public static final int EOF = 0;
   public static final int BREAK = 7;
   public static final int DOT = 24;
->>>>>>> master
   public static final int error = 1;
   public static final int EQ = 10;
   public static final int ABSTRACT = 5;
@@ -86,14 +63,8 @@ public interface sym {
   "COMMA",
   "DOT",
   "ELSE",
-<<<<<<< HEAD
-  "INT",
-  "TRUE",
-  "FALSE"
-=======
   "CLASS",
   "INT"
->>>>>>> master
   };
 }
 
