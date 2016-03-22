@@ -8,6 +8,7 @@ package org.ifn660.jflexer;
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
+<<<<<<< HEAD
   public static final int RBRACK = 18;
   public static final int ELSE = 22;
   public static final int SEMICOLON = 19;
@@ -28,15 +29,42 @@ public interface sym {
   public static final int BREAK = 4;
   public static final int FALSE = 25;
   public static final int DOT = 21;
+=======
+  public static final int RBRACK = 21;
+  public static final int CLASS = 26;
+  public static final int ELSE = 25;
+  public static final int SEMICOLON = 22;
+  public static final int PLUS = 12;
+  public static final int INT = 27;
+  public static final int RBRACE = 19;
+  public static final int RPAREN = 17;
+  public static final int PRIVATE = 3;
+  public static final int LBRACK = 20;
+  public static final int IDENTIFIER = 8;
+  public static final int IF = 15;
+  public static final int LBRACE = 18;
+  public static final int LPAREN = 16;
+  public static final int PUBLIC = 2;
+  public static final int STRING_LITERAL = 13;
+  public static final int BOOLEAN = 6;
+  public static final int COMMA = 23;
+  public static final int PROTECTED = 4;
+  public static final int EOF = 0;
+  public static final int BREAK = 7;
+  public static final int DOT = 24;
+>>>>>>> master
   public static final int error = 1;
-  public static final int EQ = 7;
-  public static final int ABSTRACT = 2;
-  public static final int INTEGER_LITERAL = 6;
-  public static final int EQEQ = 8;
-  public static final int UNKNOWN = 11;
+  public static final int EQ = 10;
+  public static final int ABSTRACT = 5;
+  public static final int INTEGER_LITERAL = 9;
+  public static final int EQEQ = 11;
+  public static final int UNKNOWN = 14;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "PUBLIC",
+  "PRIVATE",
+  "PROTECTED",
   "ABSTRACT",
   "BOOLEAN",
   "BREAK",
@@ -58,9 +86,14 @@ public interface sym {
   "COMMA",
   "DOT",
   "ELSE",
+<<<<<<< HEAD
   "INT",
   "TRUE",
   "FALSE"
+=======
+  "CLASS",
+  "INT"
+>>>>>>> master
   };
 }
 
