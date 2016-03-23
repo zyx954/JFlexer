@@ -1,0 +1,35 @@
+package org.ifn660.jflexer;
+
+import java_cup.runtime.*;
+
+terminal 	INTEGER_LITERAL,STRING_LITERAL;
+terminal 	PUBLIC, PRIVATE,PROTECTED;
+terminal 	ABSTRACT;
+terminal 	IDENTIFIER;
+terminal 	EQ, EQEQ,PLUS;
+terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, BREAK,SEMICOLON, COMMA, DOT;
+terminal 	INT,BOOLEAN;
+terminal 	UNKNOWN;
+terminal 	CLASS;
+terminal 	IF,ELSE;
+    
+non terminal expr, class_expr, int_assign_expr, str_assign_expr;
+non terminal eof;
+non terminal class_content;
+non terminal access_modifier;
+
+
+
+class_expr ::= access_modifier CLASS IDENTIFIER LBRACE class_content RBRACE;
+
+access_modifier ::= PUBLIC
+                  | /* empty */
+                  ;
+
+class_content ::= int_assign_expr class_content
+                  | str_assign_expr class_content
+                  | /* empty */
+                  ;
+
+int_assign_expr ::= INT IDENTIFIER EQ INTEGER_LITERAL SEMICOLON;
+str_assign_expr ::= IDENTIFIER IDENTIFIER EQ STRING_LITERAL SEMICOLON;

@@ -1,6 +1,6 @@
 public class Example {
-
-    int x = 0;
-    String str = "hello";
-
+	public static void main(String[] args) {
+		int x = 42;
+	}
+    
 }
