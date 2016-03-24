@@ -13,8 +13,9 @@ terminal    UNKNOWN;
 terminal    CLASS;
 terminal    IF,ELSE;
 
-non terminal leftHandSide, expressionName;
+non terminal leftHandSide, expressionName, assignment;
 
+assignment ::= leftHandSide
 
 leftHandSide ::= expressionName;
 

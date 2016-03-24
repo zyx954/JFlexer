@@ -10,7 +10,7 @@ public class TestCases {
     
     @Test
     public void testPass() throws Exception {
-        String[] filenames = {"TestExpressionAssignment"};
+        String[] filenames = {"TestExpressionAssignment.java"};
         
         final int expectedPass = filenames.length;
         int actualPass  = 0;
