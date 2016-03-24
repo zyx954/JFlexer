@@ -1,3 +1,12 @@
+<<<<<<< HEAD
 target
 *.java~
 *.classpath
+=======
+target
+*.java~
+.classpath
+Lexer.java
+sym.java
+parser.java
+>>>>>>> refs/remotes/origin/master
