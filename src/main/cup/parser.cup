@@ -2,16 +2,23 @@ package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
 
-terminal 	INTEGER_LITERAL,STRING_LITERAL;
-terminal 	PUBLIC, PRIVATE,PROTECTED;
-terminal 	ABSTRACT;
+terminal 	INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
+terminal 	ABSTRACT, CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
+terminal    VOID, NULL, STATIC;
+terminal 	IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
+terminal    RETURN;
+terminal 	PUBLIC, PRIVATE, PROTECTED;
+terminal 	ASSERT, BYTE;
+terminal    CONTINUE, DEFAULT, ENUM, FINAL, FINALLY, GOTO;
+terminal    IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE, STRICTFP;
+terminal    SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
+terminal    CATCH, TRY, THROW, THROWS;
 terminal 	IDENTIFIER;
-terminal 	EQ, EQEQ,PLUS;
-terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, BREAK,SEMICOLON, COMMA, DOT;
-terminal 	INT,BOOLEAN;
+terminal 	EQ, EQEQ, PLUS;
+terminal 	INTEGER_LITERAL, STRING_LITERAL;
+terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal 	UNKNOWN;
-terminal 	CLASS;
-terminal 	IF,ELSE;
+
     
 non terminal expr, class_expr, int_assign_expr, str_assign_expr;
 non terminal eof;
