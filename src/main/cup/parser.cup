@@ -36,7 +36,10 @@ non terminal eof;
 non terminal class_content;
 non terminal access_modifier;
 
+integral_type ::= INT
+				| CHAR
 
+floating_point_type ::= DOUBLE
 
 class_expr ::= access_modifier CLASS IDENTIFIER LBRACE class_content RBRACE;
 
