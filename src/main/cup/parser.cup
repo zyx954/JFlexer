@@ -22,24 +22,47 @@ terminal    UNKNOWN;
     
 non terminal      compilationUnit, typeDeclaration, classDeclaration;
 non terminal      normalClassDeclaration, classModifiers, classModifier, classBody;
+non terminal 	  FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType,UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
+non terminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier,MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
+non terminal 	MethodModifiers;
 
 compilationUnit ::= typeDeclaration;
-
 typeDeclaration ::= classDeclaration;
-
 classDeclaration ::= normalClassDeclaration;
-
 normalClassDeclaration ::= classModifiers CLASS IDENTIFIER classBody;
-
 classModifiers ::= classModifier classModifiers
                   | /* empty */
                   ;
                   
+                  
 classModifier ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-classBody ::= LBRACE /* zero or more ClassBodyDeclaration not yet implemented */ RBRACE;
+classBody ::= LBRACE ClassBodyDeclaration RBRACE;
 
 
+ClassBodyDeclaration::=ClassMemberDeclaration;
+ClassMemberDeclaration::=MethodDeclaration;
+MethodDeclaration::=MethodModifiers MethodHeader /*MethodBody*/;
+MethodModifiers::=MethodModifier MethodModifiers
+				|
+				;
+MethodModifier::=PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+
+
+MethodHeader::=Result MethodDeclarator;
+Result::=VOID;
+MethodDeclarator::=IDENTIFIER LPAREN FormalParameterList RPAREN;
+FormalParameterList::=FormalParameters;
+FormalParameters::=FormalParameter;
+
+FormalParameter::= UnannType VariableDeclaratorId;
+VariableDeclaratorId::=IDENTIFIER;
+UnannType::= UnannReferenceType;
+UnannReferenceType::= UnannArrayType;
+UnannArrayType::=UnannClassOrInterfaceType  Dims;
+Dims::=LBRACK RBRACK;
+UnannClassOrInterfaceType::= UnannClassType;
+UnannClassType::= IDENTIFIER;
 
 
 
