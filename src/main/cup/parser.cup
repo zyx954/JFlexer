@@ -17,7 +17,7 @@ non terminal expr, class_expr, int_assign_expr, str_assign_expr;
 non terminal eof;
 non terminal class_content;
 non terminal access_modifier;
-non terminal ();
+
 
 
 
