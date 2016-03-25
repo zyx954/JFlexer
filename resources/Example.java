@@ -1,4 +1,5 @@
-public class Example {
-    int x = 0;
-    String str = "hello";
+public class Example {    
+    public static void main (String[] args) {
+    	int x = 42;
+    }
 }

@@ -7,12 +7,35 @@ import java_cup.runtime.*;
    Terminals are returned by the scanner and placed on the parse stack
    Non-terminals replace a series of Symbol objects on the parse stack when the RHS of a production is recognised
  */
+terminal 	INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
+terminal 	ABSTRACT, CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
+terminal    VOID, NULL, STATIC;
+terminal 	IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
+terminal    RETURN;
+terminal 	PUBLIC, PRIVATE, PROTECTED;
+terminal 	ASSERT, BYTE;
+terminal    CONTINUE, DEFAULT, ENUM, FINAL, FINALLY, GOTO;
+terminal    IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE, STRICTFP;
+terminal    SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
+terminal    CATCH, TRY, THROW, THROWS;
+terminal 	IDENTIFIER;
+terminal 	OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN, OP_LAMBDA, 
+			OP_EQ_EQ, OP_GT_EQ, OP_LT_EQ, OP_NOT_EQ, OP_LOGIC_AND, OP_LOGIC_OR, OP_POS_INCR, 
+			OP_NEG_INCR, OP_PLUS, OP_MINUS, OP_MULTIPLY, OP_DIVIDE, OP_AND, OP_OR, OP_XOR, 
+			OP_MODULUS, OP_BIT_L_SHIFT, OP_BIT_R_SHIFT, OP_UNSIGN_R_SHIFT, OP_ADD_AND, OP_MINUS_AND, 
+			OP_MULTIPLY_AND, OP_DIVIDE_AND, OP_BIT_AND, OP_BIT_INCL_OP, OP_BIT_EXCL_OR, 
+			OP_MODULUS_AND, OP_L_SHIFT_AND, OP_R_SHIFT_AND, OP_UNSIGN_R_SHIFT_AND;
+terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, BREAK, SEMICOLON, COMMA, DOT;
+terminal 	INT, BOOLEAN;
+terminal 	INTEGER_LITERAL, STRING_LITERAL;
+terminal 	UNKNOWN;
 
-terminal PUBLIC, PRIVATE, PROTECTED, ABSTRACT, BOOLEAN, BREAK, IDENTIFIER, INTEGER_LITERAL, 
-    EQ, EQEQ, PLUS, STRING_LITERAL, UNKNOWN, IF, LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, 
-    SEMICOLON, COMMA, DOT, ELSE, CLASS, INT;
     
-non terminal expr, eof, class_expr, class_content, access_modifier, int_assign_expr, str_assign_expr;
+non terminal expr, class_expr, int_assign_expr, str_assign_expr;
+non terminal eof;
+non terminal class_content;
+non terminal access_modifier;
+
 
 
 class_expr ::= access_modifier CLASS IDENTIFIER LBRACE class_content RBRACE;
