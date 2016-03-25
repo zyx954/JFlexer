@@ -1,0 +1,42 @@
+package org.ifn660.jflexer;
+
+import java_cup.runtime.*;
+
+terminal 	INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
+terminal 	ABSTRACT, CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
+terminal    VOID, NULL, STATIC;
+terminal 	IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
+terminal    RETURN;
+terminal 	PUBLIC, PRIVATE, PROTECTED;
+terminal 	ASSERT, BYTE;
+terminal    CONTINUE, DEFAULT, ENUM, FINAL, FINALLY, GOTO;
+terminal    IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE, STRICTFP;
+terminal    SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
+terminal    CATCH, TRY, THROW, THROWS;
+terminal 	IDENTIFIER;
+terminal 	EQ, EQEQ, PLUS;
+terminal 	INTEGER_LITERAL, STRING_LITERAL;
+terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
+terminal 	UNKNOWN;
+
+    
+non terminal expr, class_expr, int_assign_expr, str_assign_expr;
+non terminal eof;
+non terminal class_content;
+non terminal access_modifier;
+
+
+
+class_expr ::= access_modifier CLASS IDENTIFIER LBRACE class_content RBRACE;
+
+access_modifier ::= PUBLIC
+                  | /* empty */
+                  ;
+
+class_content ::= int_assign_expr class_content
+                  | str_assign_expr class_content
+                  | /* empty */
+                  ;
+
+int_assign_expr ::= INT IDENTIFIER EQ INTEGER_LITERAL SEMICOLON;
+str_assign_expr ::= IDENTIFIER IDENTIFIER EQ STRING_LITERAL SEMICOLON;
