@@ -36,13 +36,25 @@ non terminal eof;
 non terminal class_content;
 non terminal access_modifier;
 
-integral_type ::= INT
+UnnanType ::= UnnanPrimitiveType
+			| UnnanReferenceType
+
+UnnanPrimitiveType ::= NumericType
+				| Boolean
+				
+Boolean ::= TRUE
+			| FALSE
+
+NumericType ::= IntegralType
+				| FloatingPointType
+
+IntegralType ::= INT
 				| CHAR
 				| BYTE
 				| SHORT
 				| LONG
 
-floating_point_type ::= DOUBLE
+FloatingPointType ::= DOUBLE
 					| FLOAT
 
 class_expr ::= access_modifier CLASS IDENTIFIER LBRACE class_content RBRACE;
