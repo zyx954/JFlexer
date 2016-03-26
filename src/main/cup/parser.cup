@@ -42,7 +42,7 @@ classBody ::= LBRACE ClassBodyDeclaration RBRACE;
 
 ClassBodyDeclaration::=ClassMemberDeclaration;
 ClassMemberDeclaration::= MethodDeclaration	;
-MethodDeclaration::=MethodModifiers  MethodHeader /*VOID /*IDENTIFIER LPAREN IDENTIFIER LBRACK RBRACK IDENTIFIER RPAREN /*MethodBody*/;
+MethodDeclaration::=MethodModifiers  /*MethodHeader*/ /*MethodBody*/;//Marshall, when use MethodHeader here will generate error
 MethodModifiers::=MethodModifier MethodModifiers
 				|
 				;
