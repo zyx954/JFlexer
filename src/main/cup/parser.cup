@@ -41,8 +41,8 @@ classBody ::= LBRACE ClassBodyDeclaration RBRACE;
 
 
 ClassBodyDeclaration::=ClassMemberDeclaration;
-ClassMemberDeclaration::= MethodDeclaration	;//just test here 
-MethodDeclaration::=MethodModifiers /*MethodHeader*/ /*VOID /*IDENTIFIER LPAREN IDENTIFIER LBRACK RBRACK IDENTIFIER RPAREN /*MethodBody*/;
+ClassMemberDeclaration::= MethodDeclaration	;
+MethodDeclaration::=MethodModifiers  MethodHeader /*VOID /*IDENTIFIER LPAREN IDENTIFIER LBRACK RBRACK IDENTIFIER RPAREN /*MethodBody*/;
 MethodModifiers::=MethodModifier MethodModifiers
 				|
 				;
