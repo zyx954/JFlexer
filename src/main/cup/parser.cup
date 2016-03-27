@@ -20,24 +20,24 @@ terminal    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DO
 terminal    UNKNOWN;
 
     
-non terminal      compilationUnit, typeDeclaration, classDeclaration;
-non terminal      normalClassDeclaration, classModifiers, classModifier, classBody;
+non terminal      CompilationUnit, TypeDeclaration, ClassDeclaration;
+non terminal      NormalClassDeclaration, ClassModifiers, ClassModifier, ClassBody;
 
-compilationUnit ::= typeDeclaration;
+CompilationUnit ::= TypeDeclaration;
 
-typeDeclaration ::= classDeclaration;
+TypeDeclaration ::= ClassDeclaration;
 
-classDeclaration ::= normalClassDeclaration;
+ClassDeclaration ::= NormalClassDeclaration;
 
-normalClassDeclaration ::= classModifiers CLASS IDENTIFIER classBody;
+NormalClassDeclaration ::= ClassModifiers CLASS IDENTIFIER ClassBody;
 
-classModifiers ::= classModifier classModifiers
+ClassModifiers ::= ClassModifier ClassModifiers
                   | /* empty */
                   ;
                   
-classModifier ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+ClassModifier ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-classBody ::= LBRACE /* zero or more ClassBodyDeclaration not yet implemented */ RBRACE;
+ClassBody ::= LBRACE /* zero or more ClassBodyDeclaration not yet implemented */ RBRACE;
 
 
 
