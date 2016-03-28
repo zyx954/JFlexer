@@ -20,53 +20,36 @@ terminal    SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
 terminal    CATCH, TRY, THROW, THROWS;
 terminal 	IDENTIFIER;
 terminal 	OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN, OP_LAMBDA, 
-			OP_EQ_EQ, OP_GT_EQ, OP_LT_EQ, OP_NOT_EQ, OP_LOGIC_AND, OP_LOGIC_OR, OP_POS_INCR, 
+			OP_EQ_EQ, OP_GT_EQ, OP_LT_EQ, OP_LOGIC_AND, OP_LOGIC_OR, OP_POS_INCR, 
 			OP_NEG_INCR, OP_PLUS, OP_MINUS, OP_MULTIPLY, OP_DIVIDE, OP_AND, OP_OR, OP_XOR, 
 			OP_MODULUS, OP_BIT_L_SHIFT, OP_BIT_R_SHIFT, OP_UNSIGN_R_SHIFT, OP_ADD_AND, OP_MINUS_AND, 
-			OP_MULTIPLY_AND, OP_DIVIDE_AND, OP_BIT_AND, OP_BIT_INCL_OP, OP_BIT_EXCL_OR, 
+			OP_MULTIPLY_AND, OP_DIVIDE_AND, OP_BIT_AND, OP_BIT_INCL_OR, OP_BIT_EXCL_OR, 
 			OP_MODULUS_AND, OP_L_SHIFT_AND, OP_R_SHIFT_AND, OP_UNSIGN_R_SHIFT_AND;
-terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, BREAK, SEMICOLON, COMMA, DOT;
-terminal 	INT, BOOLEAN;
+terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal 	INTEGER_LITERAL, STRING_LITERAL;
 terminal 	UNKNOWN;
 
-    
-non terminal expr, class_expr, int_assign_expr, str_assign_expr;
-non terminal eof;
-non terminal class_content;
-non terminal access_modifier;
+nonterminal UnnanType, UnnanPrimitiveType,UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
 
 UnnanType ::= UnnanPrimitiveType
-			| UnnanReferenceType
+			//| UnnanReferenceType
+			;
 
 UnnanPrimitiveType ::= NumericType
-				| Boolean
-				
-Boolean ::= TRUE
-			| FALSE
+				| BOOLEAN
+				;
 
 NumericType ::= IntegralType
 				| FloatingPointType
+				;
 
 IntegralType ::= INT
 				| CHAR
 				| BYTE
 				| SHORT
 				| LONG
+				;
 
 FloatingPointType ::= DOUBLE
 					| FLOAT
-
-class_expr ::= access_modifier CLASS IDENTIFIER LBRACE class_content RBRACE;
-
-access_modifier ::= PUBLIC
-                  | /* empty */
-                  ;
-
-class_content ::= int_assign_expr class_content
-                  | str_assign_expr class_content
-                  | /* empty */
-                  ;
-
-int_assign_expr ::= INT IDENTIFIER EQ INTEGER_LITERAL SEMICOLON;
-str_assign_expr ::= IDENTIFIER IDENTIFIER EQ STRING_LITERAL SEMICOLON;
+					;
