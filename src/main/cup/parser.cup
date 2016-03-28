@@ -34,91 +34,31 @@ typeDeclaration 		::= classDeclaration;
 
 classDeclaration 		::= normalClassDeclaration;
 
-normalClassDeclaration 	::= classModifiers CLASS Identifier classBody;// zyx: change 
+normalClassDeclaration 	::= classModifiers CLASS Identifier classBody; 
 
-Identifier				::=IDENTIFIER;//zyx: add here
+Identifier				::= IDENTIFIER;
 
 classModifiers 			::= classModifier classModifiers
                   			| /* empty */
                   			;
                   
-                  
-classModifier ::=  PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+classModifier 			::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-classBody ::= LBRACE ClassBodyDeclaration RBRACE;
-
+classBody 				::= LBRACE ClassBodyDeclaration RBRACE;
 
 
-ClassBodyDeclaration::=ClassMemberDeclaration;
-ClassMemberDeclaration::= MethodDeclaration	;
-MethodDeclaration::=MethodModifiers  MethodHeader /*MethodBody*/;//Marshall, when use MethodHeader here will generate error
-MethodModifiers::=MethodModifier MethodModifiers
-				|
-				;
-MethodModifier::=PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+
+ClassBodyDeclaration	::= ClassMemberDeclaration;
+ClassMemberDeclaration	::= MethodDeclaration	;
+MethodDeclaration		::= MethodModifiers  MethodHeader /*MethodBody*/;
+MethodModifiers			::= MethodModifier MethodModifiers
+							|
+							;
+MethodModifier			::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
 
-MethodHeader::=Result MethodDeclarator;
-Result::=VOID;
-MethodDeclarator::=Identifier LPAREN /*FormalParameterList*/ RPAREN;
-
-/*
-
-FormalParameterList::= LastFormalParameter;//FormalParameters;
-
-LastFormalParameter::=FormalParameter;
-
-FormalParameter::= UnannType VariableDeclaratorId;
-VariableDeclaratorId::=Identifier;
-
-
-UnannType::= UnannReferenceType;
-UnannReferenceType::= UnannArrayType;
-UnannArrayType::=UnannClassOrInterfaceType  Dims;
-Dims::=LBRACK RBRACK;
-UnannClassOrInterfaceType::= UnannClassType;
-UnannClassType::= Identifier;
-*/
-
-/*
-MethodBody::=Block;
-Block::={ BlockStatements };
-BlockStatements::=BlockStatement;
-BlockStatement::=Statement;
-Statement::=StatementWithoutTrailingSubstatement;
-StatementWithoutTrailingSubstatement::=ExpressionStatement;
-ExpressionStatement::=StatementExpression ";(terminal)";
-
-StatementExpression::=Assignment;
-Assignment::=LeftHandSide AssignmentOperator Expression;
-LeftHandSide::=ExpressionName;
-ExpressionName::=Identifier ;
-Identifier ::=IDENTIFIER;
-Expression::=
-
-*/
-
-
-/*
-BlockStatement::= LocalVariableDeclarationStatement;
-LocalVariableDeclarationStatement::=LocalVariableDeclaration ";"(terminal);
-LocalVariableDeclaration::=UnannType VariableDeclaratorList;
-UnannType::=UnannPrimitiveType;
-UnannPrimitiveType::=NumericType;
-NumericType::=IntegralType;
-IntegralType::=int(terminal);
-
-VariableDeclaratorList::=VariableDeclarator;
-VariableDeclarator::=VariableDeclaratorId =VariableInitializer(?);
-VariableDeclaratorId::=Identifier;
-Identifier::=IDENTIFIER;
-=VariableInitializer::=Expression;
-Expression::=AssignmentExpression;
-AssignmentExpression::=LeftHandSide Assignment Expression;
-Assignment::=AssignmentOperator;
-AssignmentOperator::= (terminal);
-LeftHandSide::=ExpressionName ;
-ExpressionName ::=Identifier;
-Identifier::=IDENTIFIER;*/
+MethodHeader			::= Result MethodDeclarator;
+Result					::= VOID;
+MethodDeclarator		::= Identifier LPAREN /*FormalParameterList*/ RPAREN;
 
 
