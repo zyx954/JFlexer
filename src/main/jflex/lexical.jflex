@@ -6,6 +6,7 @@ import java_cup.runtime.*;
 /**
  * This class is a simple example lexer.
  */
+ 
 %%
 
 %public

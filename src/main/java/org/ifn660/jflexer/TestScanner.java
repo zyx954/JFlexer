@@ -1,3 +1,4 @@
+
 package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
