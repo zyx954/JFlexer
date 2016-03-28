@@ -20,26 +20,30 @@ terminal    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DO
 terminal    UNKNOWN;
 
     
-non terminal      compilationUnit, typeDeclaration, classDeclaration;
-non terminal      normalClassDeclaration, classModifiers, classModifier, classBody;
-non terminal 	  FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType,UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
-non terminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier,MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
-non terminal 	MethodModifiers;
+nonterminal      compilationUnit, typeDeclaration, classDeclaration;
+nonterminal      normalClassDeclaration, classModifiers, classModifier, classBody;
+nonterminal 	 FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType,UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
+nonterminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier,MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
+nonterminal 	 MethodModifiers;
+nonterminal 	 Identifier;
+nonterminal      LastFormalParameter;
 
-//
-non terminal 	Identifier;
+compilationUnit 		::= typeDeclaration;
 
-compilationUnit ::= typeDeclaration;
-typeDeclaration ::= classDeclaration;
-classDeclaration ::= normalClassDeclaration;
-normalClassDeclaration ::= classModifiers CLASS Identifier classBody;// zyx: change 
-Identifier::=IDENTIFIER;//zyx: add here
-classModifiers ::= classModifier classModifiers
-                  | /* empty */
-                  ;
+typeDeclaration 		::= classDeclaration;
+
+classDeclaration 		::= normalClassDeclaration;
+
+normalClassDeclaration 	::= classModifiers CLASS Identifier classBody;// zyx: change 
+
+Identifier				::=IDENTIFIER;//zyx: add here
+
+classModifiers 			::= classModifier classModifiers
+                  			| /* empty */
+                  			;
                   
                   
-classModifier ::=  PUBLIC|STATIC ;//PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+classModifier ::=  PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
 classBody ::= LBRACE ClassBodyDeclaration RBRACE;
 
@@ -51,14 +55,14 @@ MethodDeclaration::=MethodModifiers  MethodHeader /*MethodBody*/;//Marshall, whe
 MethodModifiers::=MethodModifier MethodModifiers
 				|
 				;
-MethodModifier::=PUBLIC|STATIC ;//PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+MethodModifier::=PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
 
 MethodHeader::=Result MethodDeclarator;
 Result::=VOID;
-MethodDeclarator::=Identifier LPAREN FormalParameterList RPAREN;
-Identifier::=IDENTIFIER;//zyx: add here
+MethodDeclarator::=Identifier LPAREN /*FormalParameterList*/ RPAREN;
 
+/*
 
 FormalParameterList::= LastFormalParameter;//FormalParameters;
 
@@ -66,7 +70,7 @@ LastFormalParameter::=FormalParameter;
 
 FormalParameter::= UnannType VariableDeclaratorId;
 VariableDeclaratorId::=Identifier;
-Identifier::=IDENTIFIER;//zyx: add here
+
 
 UnannType::= UnannReferenceType;
 UnannReferenceType::= UnannArrayType;
@@ -74,8 +78,9 @@ UnannArrayType::=UnannClassOrInterfaceType  Dims;
 Dims::=LBRACK RBRACK;
 UnannClassOrInterfaceType::= UnannClassType;
 UnannClassType::= Identifier;
-Identifier::=IDENTIFIER;//zyx: add here
+*/
 
+/*
 MethodBody::=Block;
 Block::={ BlockStatements };
 BlockStatements::=BlockStatement;
@@ -90,6 +95,9 @@ LeftHandSide::=ExpressionName;
 ExpressionName::=Identifier ;
 Identifier ::=IDENTIFIER;
 Expression::=
+
+*/
+
 
 /*
 BlockStatement::= LocalVariableDeclarationStatement;
