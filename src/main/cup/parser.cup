@@ -29,7 +29,26 @@ terminal 	LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal 	INTEGER_LITERAL, STRING_LITERAL;
 terminal 	UNKNOWN;
 
-nonterminal UnnanType, UnnanPrimitiveType,UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
+nonterminal Block, BlockStatements, BlockStatement, LocalVariableDeclarationStatement, LocalVariableDeclaration, UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
+
+Block ::= LBRACE Block Statements RBRACE
+			;
+
+BlockStatements ::= BlockStatement
+					| BlockStatement BlockStatements
+					;
+
+
+BlockStatement ::= LocalVariableDeclarationStatement
+					;
+
+LocalVariableDeclarationStatement ::= LocalVariableDeclaration SEMICOLON
+									;
+
+LocalVariableDeclaration ::= /* | VariableModifier */
+						| UnnanType
+					/*	| VariableDeclaratorList */
+						;
 
 UnnanType ::= UnnanPrimitiveType
 			//| UnnanReferenceType
