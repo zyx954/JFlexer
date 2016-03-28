@@ -29,35 +29,60 @@ nonterminal      LastFormalParameter;
 
 
 
-CompilationUnit ::= TypeDeclaration;
+CompilationUnit 		::= TypeDeclaration;
 
-TypeDeclaration ::= ClassDeclaration;
+TypeDeclaration 		::= ClassDeclaration;
 
-ClassDeclaration ::= NormalClassDeclaration;
+ClassDeclaration 		::= NormalClassDeclaration;
 
-NormalClassDeclaration ::= ClassModifiers CLASS Identifier ClassBody;
+NormalClassDeclaration 	::= ClassModifiers CLASS Identifier ClassBody;
 
-ClassModifiers ::= ClassModifier ClassModifiers
-                  | /* empty */
-                  ;
+ClassModifiers 			::= ClassModifier ClassModifiers
+                  		| /* empty */
+                  		;
                   
-ClassModifier ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+ClassModifier 			::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-ClassBody ::= LBRACE ClassBodyDeclaration  RBRACE;
+ClassBody 				::= LBRACE ClassBodyDeclaration  RBRACE;
 
 Identifier				::= IDENTIFIER;
 
 ClassBodyDeclaration	::= ClassMemberDeclaration;
+
 ClassMemberDeclaration	::= MethodDeclaration	;
+
 MethodDeclaration		::= MethodModifiers  MethodHeader /*MethodBody*/;
+
 MethodModifiers			::= MethodModifier MethodModifiers
 							|
 							;
 MethodModifier			::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-
 MethodHeader			::= Result MethodDeclarator;
+
 Result					::= VOID;
-MethodDeclarator		::= Identifier LPAREN /*FormalParameterList*/ RPAREN;
+
+MethodDeclarator		::= Identifier LPAREN FormalParameterList RPAREN;
+
+FormalParameterList::= LastFormalParameter;//FormalParameters;
+
+LastFormalParameter::=FormalParameter;
+
+FormalParameter::= UnannType VariableDeclaratorId;
+
+VariableDeclaratorId::=Identifier;
+
+UnannType::= UnannReferenceType;
+
+UnannReferenceType::= UnannArrayType;
+
+UnannArrayType::=UnannClassOrInterfaceType  Dims;
+
+Dims::=LBRACK RBRACK;
+
+UnannClassOrInterfaceType::= UnannClassType;
+
+UnannClassType::= Identifier;
+
 
 
