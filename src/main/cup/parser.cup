@@ -35,6 +35,7 @@ Block ::= LBRACE Block Statements RBRACE
 			;
 
 BlockStatements ::= BlockStatement
+					| BlockStatement BlockStatement*
 					| BlockStatement BlockStatements
 					;
 
