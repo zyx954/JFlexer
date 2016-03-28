@@ -20,11 +20,12 @@ terminal    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DO
 terminal    UNKNOWN;
 
     
-non terminal      compilationUnit, typeDeclaration, classDeclaration;
-non terminal      normalClassDeclaration, classModifiers, classModifier, classBody;
-non terminal 	  FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType,UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
-non terminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier,MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
-non terminal 	MethodModifiers;
+nonterminal      compilationUnit, typeDeclaration, classDeclaration;
+nonterminal      normalClassDeclaration, classModifiers, classModifier, classBody;
+nonterminal 	  FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType,UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
+nonterminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier,MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
+nonterminal 	MethodModifiers;
+nonterminal				LastFormalParameter;
 
 //
 non terminal 	Identifier;
@@ -57,7 +58,7 @@ MethodModifier::=PUBLIC|STATIC ;//PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STAT
 MethodHeader::=Result MethodDeclarator;
 Result::=VOID;
 MethodDeclarator::=Identifier LPAREN FormalParameterList RPAREN;
-Identifier::=IDENTIFIER;//zyx: add here
+
 
 
 FormalParameterList::= LastFormalParameter;//FormalParameters;
@@ -66,7 +67,7 @@ LastFormalParameter::=FormalParameter;
 
 FormalParameter::= UnannType VariableDeclaratorId;
 VariableDeclaratorId::=Identifier;
-Identifier::=IDENTIFIER;//zyx: add here
+
 
 UnannType::= UnannReferenceType;
 UnannReferenceType::= UnannArrayType;
@@ -74,8 +75,9 @@ UnannArrayType::=UnannClassOrInterfaceType  Dims;
 Dims::=LBRACK RBRACK;
 UnannClassOrInterfaceType::= UnannClassType;
 UnannClassType::= Identifier;
-Identifier::=IDENTIFIER;//zyx: add here
 
+
+/*
 MethodBody::=Block;
 Block::={ BlockStatements };
 BlockStatements::=BlockStatement;
