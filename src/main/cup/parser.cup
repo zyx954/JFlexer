@@ -77,9 +77,10 @@ UnannClassOrInterfaceType::= UnannClassType;
 UnannClassType::= Identifier;
 
 
-/*
+
 MethodBody::=Block;
 Block::={ BlockStatements };
+/*
 BlockStatements::=BlockStatement;
 BlockStatement::=Statement;
 Statement::=StatementWithoutTrailingSubstatement;
@@ -91,9 +92,9 @@ Assignment::=LeftHandSide AssignmentOperator Expression;
 LeftHandSide::=ExpressionName;
 ExpressionName::=Identifier ;
 Identifier ::=IDENTIFIER;
-Expression::=
+Expression::=*/
 
-/*
+
 BlockStatement::= LocalVariableDeclarationStatement;
 LocalVariableDeclarationStatement::=LocalVariableDeclaration ";"(terminal);
 LocalVariableDeclaration::=UnannType VariableDeclaratorList;
@@ -103,7 +104,7 @@ NumericType::=IntegralType;
 IntegralType::=int(terminal);
 
 VariableDeclaratorList::=VariableDeclarator;
-VariableDeclarator::=VariableDeclaratorId =VariableInitializer(?);
+VariableDeclarator::=VariableDeclaratorId = VariableInitializer(?);
 VariableDeclaratorId::=Identifier;
 Identifier::=IDENTIFIER;
 =VariableInitializer::=Expression;
@@ -113,6 +114,6 @@ Assignment::=AssignmentOperator;
 AssignmentOperator::= (terminal);
 LeftHandSide::=ExpressionName ;
 ExpressionName ::=Identifier;
-Identifier::=IDENTIFIER;*/
+Identifier::=IDENTIFIER;
 
 
