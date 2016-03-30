@@ -31,7 +31,8 @@ nonterminal      LastFormalParameter;
 nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLieral, Literal;
 nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
 nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
-nonterminal      RelationalExpression, EqualityExpression;
+nonterminal      RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
+nonterminal      InclusiveOrExpression, ConditionalAndExpression, ConditionalOrExpression;
 
 
 
@@ -62,7 +63,7 @@ MethodDeclaration		::= MethodModifiers  MethodHeader MethodBody;
 
 /* MethodBody current implementation for testing purposes only,
    Needs proper implementation*/
-MethodBody ::= EqualityExpression
+MethodBody ::= ConditionalOrExpression
            | /*empty*/
            ;
 
@@ -96,6 +97,16 @@ Dims::=LBRACK RBRACK;
 UnannClassOrInterfaceType::= UnannClassType;
 
 UnannClassType::= Identifier;
+
+ConditionalOrExpression ::= ConditionalAndExpression;
+
+ConditionalAndExpression ::= InclusiveOrExpression;
+
+InclusiveOrExpression ::= ExclusiveOrExpression;
+
+ExclusiveOrExpression ::= AndExpression;
+
+AndExpression ::= EqualityExpression;
 
 EqualityExpression ::= RelationalExpression;
 
