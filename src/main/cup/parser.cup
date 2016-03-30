@@ -33,6 +33,7 @@ nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionN
 nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
 nonterminal      RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
 nonterminal      InclusiveOrExpression, ConditionalAndExpression, ConditionalOrExpression;
+nonterminal      ConditionalExpression, AssignmentExpression, Expression;
 
 
 
@@ -63,7 +64,7 @@ MethodDeclaration		::= MethodModifiers  MethodHeader MethodBody;
 
 /* MethodBody current implementation for testing purposes only,
    Needs proper implementation*/
-MethodBody ::= ConditionalOrExpression
+MethodBody ::= Expression
            | /*empty*/
            ;
 
@@ -97,6 +98,12 @@ Dims::=LBRACK RBRACK;
 UnannClassOrInterfaceType::= UnannClassType;
 
 UnannClassType::= Identifier;
+
+Expression ::= AssignmentExpression;
+
+AssignmentExpression ::= ConditionalExpression;
+
+ConditionalExpression ::= ConditionalOrExpression;
 
 ConditionalOrExpression ::= ConditionalAndExpression;
 
