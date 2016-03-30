@@ -26,7 +26,7 @@ public class TestCases {
     
     @Test
     public void testFail() {
-        String[] filenames = {"TestCompilationUnitFail.java", "TestCompilationUnitFail2.java"};
+        String[] filenames = {"TestCompilationUnitFail.java", "TestCompilationUnitFail2.java", "TestDecimalNumeralFail"};
         
         final int expectedFail = filenames.length;
         int actualFail = 0;

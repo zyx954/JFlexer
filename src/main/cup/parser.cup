@@ -21,11 +21,14 @@ terminal    UNKNOWN;
 
 nonterminal      CompilationUnit, TypeDeclaration, ClassDeclaration;
 nonterminal      NormalClassDeclaration, ClassModifiers, ClassModifier, ClassBody;
-nonterminal 	 FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType,UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
-nonterminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier,MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
+nonterminal 	 FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType;
+nonterminal      UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
+nonterminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier;
+nonterminal      MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
 nonterminal 	 MethodModifiers;
 nonterminal 	 Identifier;
 nonterminal      LastFormalParameter;
+nonterminal      DecimalNumeral;
 
 
 
@@ -51,7 +54,14 @@ ClassBodyDeclaration	::= ClassMemberDeclaration;
 
 ClassMemberDeclaration	::= MethodDeclaration	;
 
-MethodDeclaration		::= MethodModifiers  MethodHeader /*MethodBody*/;
+MethodDeclaration		::= MethodModifiers  MethodHeader MethodBody;
+
+
+/* MethodBody current implementation for testing purposes only,
+   Needs proper implementation*/
+MethodBody ::= DecimalNumeral
+           | /*empty*/
+           ;
 
 MethodModifiers			::= MethodModifier MethodModifiers
 							|
@@ -84,5 +94,6 @@ UnannClassOrInterfaceType::= UnannClassType;
 
 UnannClassType::= Identifier;
 
+DecimalNumeral ::= INTEGER_LITERAL;
 
 
