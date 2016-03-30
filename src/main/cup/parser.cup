@@ -30,7 +30,8 @@ nonterminal 	 Identifier;
 nonterminal      LastFormalParameter;
 nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLieral, Literal;
 nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
-nonterminal      UnaryExpression;
+nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
+nonterminal      RelationalExpression, EqualityExpression;
 
 
 
@@ -61,7 +62,7 @@ MethodDeclaration		::= MethodModifiers  MethodHeader MethodBody;
 
 /* MethodBody current implementation for testing purposes only,
    Needs proper implementation*/
-MethodBody ::= DecimalNumeral
+MethodBody ::= EqualityExpression
            | /*empty*/
            ;
 
@@ -95,6 +96,16 @@ Dims::=LBRACK RBRACK;
 UnannClassOrInterfaceType::= UnannClassType;
 
 UnannClassType::= Identifier;
+
+EqualityExpression ::= RelationalExpression;
+
+RelationalExpression ::= ShiftExpression;
+
+ShiftExpression ::= AdditiveExpression;
+
+AdditiveExpression ::= MultiplicativeExpression;
+
+MultiplicativeExpression ::= UnaryExpression;
 
 UnaryExpression ::= UnaryExpressionNotPlusMinus;
 
