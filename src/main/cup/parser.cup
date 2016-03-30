@@ -29,6 +29,8 @@ nonterminal 	 MethodModifiers;
 nonterminal 	 Identifier;
 nonterminal      LastFormalParameter;
 nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLieral, Literal;
+nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
+nonterminal      UnaryExpression;
 
 
 
@@ -93,6 +95,16 @@ Dims::=LBRACK RBRACK;
 UnannClassOrInterfaceType::= UnannClassType;
 
 UnannClassType::= Identifier;
+
+UnaryExpression ::= UnaryExpressionNotPlusMinus;
+
+UnaryExpressionNotPlusMinus ::= PostfixExpression;
+
+PostfixExpression ::= Primary;
+
+Primary ::= PrimaryNoNewArray;
+
+PrimaryNoNewArray ::= Literal;
 
 Literal ::= IntegerLieral;
 
