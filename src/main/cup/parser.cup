@@ -28,7 +28,7 @@ nonterminal      MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameter
 nonterminal 	 MethodModifiers;
 nonterminal 	 Identifier;
 nonterminal      LastFormalParameter;
-nonterminal      DecimalNumeral;
+nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLieral, Literal;
 
 
 
@@ -93,6 +93,12 @@ Dims::=LBRACK RBRACK;
 UnannClassOrInterfaceType::= UnannClassType;
 
 UnannClassType::= Identifier;
+
+Literal ::= IntegerLieral;
+
+IntegerLieral ::= DecimalIntegerLiteral;
+
+DecimalIntegerLiteral ::= DecimalNumeral;
 
 DecimalNumeral ::= INTEGER_LITERAL;
 

@@ -10,7 +10,8 @@ public class TestCases {
     
     @Test
     public void testPass() throws Exception {
-        String[] filenames = {"TestCompilationUnit.java", "TestCompilationUnit2.java", "TestCompilationUnit3.java"};
+        String[] filenames = {"TestCompilationUnit.java", "TestCompilationUnit2.java",
+        		"TestCompilationUnit3.java", "TestPass1.java", "TestPass2.java", "TestPass3.java"};
         
         final int expectedPass = filenames.length;
         int actualPass  = 0;
@@ -26,7 +27,8 @@ public class TestCases {
     
     @Test
     public void testFail() {
-        String[] filenames = {"TestCompilationUnitFail.java", "TestCompilationUnitFail2.java", "TestDecimalNumeralFail"};
+        String[] filenames = {"TestCompilationUnitFail.java", "TestCompilationUnitFail2.java",
+        		"TestDecimalNumeralFail.java", "TestFail1.java", "TestFail2.java", "TestFail3.java"};
         
         final int expectedFail = filenames.length;
         int actualFail = 0;
