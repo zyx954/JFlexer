@@ -14,6 +14,7 @@ terminal    IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE, STRICTFP;
 terminal    SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
 terminal    CATCH, TRY, THROW, THROWS;
 terminal    IDENTIFIER;
+terminal    TRUE, FALSE;
 terminal    EQ, EQEQ, PLUS;
 terminal    INTEGER_LITERAL, STRING_LITERAL;
 terminal    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
@@ -28,7 +29,7 @@ nonterminal      MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameter
 nonterminal 	 MethodModifiers;
 nonterminal 	 Identifier;
 nonterminal      LastFormalParameter;
-nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLieral, Literal;
+nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLiteral, Literal;
 nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
 nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
 nonterminal      RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
@@ -135,9 +136,9 @@ Primary ::= PrimaryNoNewArray;
 
 PrimaryNoNewArray ::= Literal;
 
-Literal ::= IntegerLieral;
+Literal ::= IntegerLiteral;
 
-IntegerLieral ::= DecimalIntegerLiteral;
+IntegerLiteral ::= DecimalIntegerLiteral;
 
 DecimalIntegerLiteral ::= DecimalNumeral;
 
