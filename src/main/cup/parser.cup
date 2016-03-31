@@ -56,7 +56,7 @@ UnnanType ::= UnnanPrimitiveType
 			;
 
 UnnanPrimitiveType ::= NumericType
-				| BOOLEAN
+				//| BOOLEAN
 				;
 
 NumericType ::= IntegralType
