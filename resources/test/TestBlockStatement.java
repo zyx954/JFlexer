@@ -1,5 +1,5 @@
-public class Example {
+public class TestBlockStatement {
     public static void main(String[] args) {
-        int 42;
+        int 46;
     }
 }

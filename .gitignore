@@ -5,3 +5,4 @@ Lexer.java
 sym.java
 parser.java
 bin/
+rename_bin/

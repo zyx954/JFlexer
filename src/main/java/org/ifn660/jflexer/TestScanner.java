@@ -1,4 +1,3 @@
-
 package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
@@ -18,8 +17,6 @@ public class TestScanner {
                 System.out.println("Read symbol: " + scanner.yytext() + "\n\t it is a " 
                         + symbol.sym + " aka (" + sym.terminalNames[symbol.sym]  + ")" + "\n\t at line " + symbol.left
                         + " at column " + symbol.right + "\n\t value: " + symbol.value + "\n");
-                
-                
             } while (symbol.sym != sym.EOF);
         } catch (IOException e) {
             e.printStackTrace();

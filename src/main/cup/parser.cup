@@ -2,31 +2,44 @@ package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
 
-terminal    INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
-terminal    ABSTRACT, CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
-terminal    VOID, NULL, STATIC;
-terminal    IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
-terminal    RETURN;
-terminal    PUBLIC, PRIVATE, PROTECTED;
-terminal    ASSERT, BYTE;
-terminal    CONTINUE, DEFAULT, ENUM, FINAL, FINALLY, GOTO;
-terminal    IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE, STRICTFP;
-terminal    SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
-terminal    CATCH, TRY, THROW, THROWS;
-terminal    IDENTIFIER;
-terminal    EQ, EQEQ, PLUS;
-terminal    INTEGER_LITERAL, STRING_LITERAL;
-terminal    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
-terminal    UNKNOWN;
+/* Symbol lists
+These declarations name and supply an object type for each terminal and non-terminal symbol that appears in the grammar
+Terminals are returned by the scanner and placed on the parse stack
+Non-terminals replace a series of Symbol objects on the parse stack when the RHS of a production is recognised
+*/
+
+terminal        INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
+terminal        ABSTRACT, CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
+terminal        VOID, NULL, STATIC;
+terminal        IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
+terminal        RETURN;
+terminal        PUBLIC, PRIVATE, PROTECTED;
+terminal        ASSERT, BYTE;
+terminal        CONTINUE, DEFAULT, ENUM, FINAL, FINALLY, GOTO;
+terminal        IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE, STRICTFP;
+terminal        SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
+terminal        CATCH, TRY, THROW, THROWS;
+terminal        IDENTIFIER;
+terminal        OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN, OP_LAMBDA, 
+                OP_EQ_EQ, OP_GT_EQ, OP_LT_EQ, OP_LOGIC_AND, OP_LOGIC_OR, OP_POS_INCR, 
+                OP_NEG_INCR, OP_PLUS, OP_MINUS, OP_MULTIPLY, OP_DIVIDE, OP_AND, OP_OR, OP_XOR, 
+                OP_MODULUS, OP_BIT_L_SHIFT, OP_BIT_R_SHIFT, OP_UNSIGN_R_SHIFT, OP_ADD_AND, OP_MINUS_AND, 
+                OP_MULTIPLY_AND, OP_DIVIDE_AND, OP_BIT_AND, OP_BIT_INCL_OR, OP_BIT_EXCL_OR, 
+                OP_MODULUS_AND, OP_L_SHIFT_AND, OP_R_SHIFT_AND, OP_UNSIGN_R_SHIFT_AND;
+terminal        INTEGER_LITERAL, STRING_LITERAL;
+terminal        LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
+terminal        UNKNOWN;
 
 nonterminal      CompilationUnit, TypeDeclaration, ClassDeclaration;
 nonterminal      NormalClassDeclaration, ClassModifiers, ClassModifier, ClassBody;
-nonterminal 	 FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType;
+nonterminal      FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType;
 nonterminal      UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
 nonterminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier;
-nonterminal      MethodHeader,MethodBody,Result,MethodDeclarator,FormalParameterList,FormalParameters;
-nonterminal 	 MethodModifiers;
-nonterminal 	 Identifier;
+nonterminal      MethodHeader,MethodBody,MethodModifiers,Result,MethodDeclarator,FormalParameterList,FormalParameters;
+nonterminal      Block, BlockStatements, BlockStatement;
+nonterminal      LocalVariableDeclarationStatement, LocalVariableDeclaration;
+nonterminal      UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
+nonterminal      Identifier;
 nonterminal      LastFormalParameter;
 nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLiteral, Literal;
 nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
@@ -35,112 +48,159 @@ nonterminal      RelationalExpression, EqualityExpression, AndExpression, Exclus
 nonterminal      InclusiveOrExpression, ConditionalAndExpression, ConditionalOrExpression;
 nonterminal      ConditionalExpression, AssignmentExpression, Expression;
 
+/* Compilation related grammar */
 
+CompilationUnit             ::= TypeDeclaration;
 
-CompilationUnit 		::= TypeDeclaration;
+TypeDeclaration             ::= ClassDeclaration;
 
-TypeDeclaration 		::= ClassDeclaration;
+ClassDeclaration            ::= NormalClassDeclaration;
 
-ClassDeclaration 		::= NormalClassDeclaration;
+NormalClassDeclaration      ::= ClassModifiers CLASS Identifier ClassBody;
 
-NormalClassDeclaration 	::= ClassModifiers CLASS Identifier ClassBody;
+ClassModifiers              ::= ClassModifier ClassModifiers
+                            | /* empty */
+                            ;
 
-ClassModifiers 			::= ClassModifier ClassModifiers
-                  		| /* empty */
-                  		;
-                  
-ClassModifier 			::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+ClassModifier               ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-ClassBody 				::= LBRACE ClassBodyDeclaration  RBRACE;
+ClassBody                   ::= LBRACE ClassBodyDeclaration  RBRACE;
 
-Identifier				::= IDENTIFIER;
+Identifier                  ::= IDENTIFIER;
 
-ClassBodyDeclaration	::= ClassMemberDeclaration;
+ClassBodyDeclaration        ::= ClassMemberDeclaration;
 
-ClassMemberDeclaration	::= MethodDeclaration	;
+ClassMemberDeclaration      ::= MethodDeclaration;
 
-MethodDeclaration		::= MethodModifiers  MethodHeader MethodBody;
+/* Method related grammar */
 
+MethodDeclaration           ::= MethodModifiers  MethodHeader MethodBody;
 
-/* MethodBody current implementation for testing purposes only,
-   Needs proper implementation*/
-MethodBody ::= Expression
-           | /*empty*/
-           ;
+MethodModifiers             ::= MethodModifier MethodModifiers
+                            |
+                            ;
 
-MethodModifiers			::= MethodModifier MethodModifiers
-							|
-							;
-MethodModifier			::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+MethodModifier              ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-MethodHeader			::= Result MethodDeclarator;
+MethodHeader                ::= Result MethodDeclarator;
 
-Result					::= VOID;
+Result                      ::= VOID;
 
-MethodDeclarator		::= Identifier LPAREN FormalParameterList RPAREN;
+MethodDeclarator            ::= Identifier LPAREN FormalParameterList RPAREN
+                            | Identifier LPAREN  RPAREN /* zero or 1 param list*/
+                            ;
 
-FormalParameterList::= LastFormalParameter;//FormalParameters;
+FormalParameterList         ::= LastFormalParameter;
 
-LastFormalParameter::=FormalParameter;
+LastFormalParameter         ::= FormalParameter;
 
-FormalParameter::= UnannType VariableDeclaratorId;
+FormalParameter             ::= UnannType VariableDeclaratorId;
 
-VariableDeclaratorId::=Identifier;
+VariableDeclaratorId        ::= Identifier;
 
-UnannType::= UnannReferenceType;
+UnannType                   ::= UnannReferenceType;
 
-UnannReferenceType::= UnannArrayType;
+UnannReferenceType          ::= UnannArrayType;
 
-UnannArrayType::=UnannClassOrInterfaceType  Dims;
+UnannArrayType              ::= UnannClassOrInterfaceType Dims;
 
-Dims::=LBRACK RBRACK;
+Dims                        ::= LBRACK RBRACK;
 
-UnannClassOrInterfaceType::= UnannClassType;
+UnannClassOrInterfaceType   ::= UnannClassType;
 
-UnannClassType::= Identifier;
+UnannClassType              ::= Identifier;
 
-Expression ::= AssignmentExpression;
+/* Assignment Expression related grammar */
 
-AssignmentExpression ::= ConditionalExpression;
+Expression                  ::= AssignmentExpression;
 
-ConditionalExpression ::= ConditionalOrExpression;
+AssignmentExpression        ::= ConditionalExpression;
 
-ConditionalOrExpression ::= ConditionalAndExpression;
+ConditionalExpression       ::= ConditionalOrExpression;
 
-ConditionalAndExpression ::= InclusiveOrExpression;
+ConditionalOrExpression     ::= ConditionalAndExpression;
 
-InclusiveOrExpression ::= ExclusiveOrExpression;
+ConditionalAndExpression    ::= InclusiveOrExpression;
 
-ExclusiveOrExpression ::= AndExpression;
+InclusiveOrExpression       ::= ExclusiveOrExpression;
 
-AndExpression ::= EqualityExpression;
+ExclusiveOrExpression       ::= AndExpression;
 
-EqualityExpression ::= RelationalExpression;
+AndExpression               ::= EqualityExpression;
 
-RelationalExpression ::= ShiftExpression;
+EqualityExpression          ::= RelationalExpression;
 
-ShiftExpression ::= AdditiveExpression;
+RelationalExpression        ::= ShiftExpression;
 
-AdditiveExpression ::= MultiplicativeExpression;
+ShiftExpression             ::= AdditiveExpression;
 
-MultiplicativeExpression ::= UnaryExpression;
+AdditiveExpression          ::= MultiplicativeExpression;
 
-UnaryExpression ::= UnaryExpressionNotPlusMinus;
+MultiplicativeExpression    ::= UnaryExpression;
+
+UnaryExpression             ::= UnaryExpressionNotPlusMinus;
 
 UnaryExpressionNotPlusMinus ::= PostfixExpression;
 
-PostfixExpression ::= Primary;
+PostfixExpression           ::= Primary;
 
-Primary ::= PrimaryNoNewArray;
+Primary                     ::= PrimaryNoNewArray;
 
-PrimaryNoNewArray ::= Literal;
+PrimaryNoNewArray           ::= Literal;
 
-Literal ::= IntegerLiteral;
+Literal                     ::= IntegerLiteral;
 
-IntegerLiteral ::= DecimalIntegerLiteral;
+IntegerLiteral              ::= DecimalIntegerLiteral;
 
-DecimalIntegerLiteral ::= DecimalNumeral;
+DecimalIntegerLiteral       ::= DecimalNumeral;
 
-DecimalNumeral ::= INTEGER_LITERAL;
+DecimalNumeral              ::= INTEGER_LITERAL;
 
+/* Method body related grammar */
+
+MethodBody                  ::= Block
+                            | SEMICOLON
+                            ;
+
+Block                       ::= LBRACE BlockStatements RBRACE
+                            | LBRACE RBRACE /* according to the grammar BlockStatements is 0 or 1*/
+                            ;
+
+BlockStatements             ::= BlockStatement
+                            | BlockStatement BlockStatements
+                            ;
+
+BlockStatement              ::= LocalVariableDeclarationStatement
+                            ;
+
+LocalVariableDeclarationStatement ::= LocalVariableDeclaration SEMICOLON
+                                   ;
+
+LocalVariableDeclaration    ::= UnnanType Expression /* temporary put Expression here it should be replaced with VariableDeclaratorList in the future*/
+                            /*| UnnanType VariableDeclaratorList */
+                            /*| VariableModifier UnnanType VariableDeclaratorList */
+                            ;
+
+UnnanType                   ::= UnnanPrimitiveType
+                            /*| UnnanReferenceType*/
+                            ;
+
+UnnanPrimitiveType          ::= NumericType
+                            /*| BOOLEAN*/
+                            ;
+
+NumericType                 ::= IntegralType
+                            | FloatingPointType
+                            ;
+
+IntegralType                ::= INT
+                            | CHAR
+                            | BYTE
+                            | SHORT
+                            | LONG
+                            ;
+
+FloatingPointType           ::= DOUBLE
+                            | FLOAT
+                            ;
 

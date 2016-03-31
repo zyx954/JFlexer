@@ -1,5 +1,6 @@
 
 public class TestPass3 {
-	public static void main(String[] args)
-	0
+	public static void main(String[] args) {
+	    int 0;
+	}
 }

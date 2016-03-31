@@ -1,3 +1,3 @@
-public abstract class TestCompilationUnit3 {
-	public static void main(String[] args) 100
+public abstract class TestCompilationUnit2 {
+	public static void main(String[] args) { double 100;}
 }
