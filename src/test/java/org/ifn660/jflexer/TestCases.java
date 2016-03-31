@@ -16,6 +16,7 @@ public class TestCases {
         int actualPass  = 0;
         
         for (String filename : filenames) {
+            System.out.println("File " + filename);
             parser p = new parser(new Lexer(new FileReader("resources/" + filename)));
             p.parse();
             actualPass++;
