@@ -31,7 +31,7 @@ terminal 	UNKNOWN;
 
 nonterminal Block, BlockStatements, BlockStatement, LocalVariableDeclarationStatement, LocalVariableDeclaration, UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
 
-Block ::= LBRACE Block Statements RBRACE
+Block ::= LBRACE BlockStatements RBRACE
 			;
 
 BlockStatements ::= BlockStatement
