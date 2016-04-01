@@ -1,6 +1,6 @@
 
 public class TestPass3 {
 	public static void main(String[] args) {
-	    int 0;
+	    int foo = 0;
 	}
 }

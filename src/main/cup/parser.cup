@@ -32,7 +32,9 @@ terminal        UNKNOWN;
 
 nonterminal      CompilationUnit, TypeDeclaration, ClassDeclaration;
 nonterminal      NormalClassDeclaration, ClassModifiers, ClassModifier, ClassBody;
-nonterminal      FormalParameter,UnannType,VariableDeclaratorId,UnannReferenceType;
+nonterminal      FormalParameter,UnannType,UnannReferenceType;
+nonterminal      VariableDeclaratorList, VariableDeclarators, VariableDeclarator;
+nonterminal      VariableDeclaratorId, VariableInitializer;
 nonterminal      UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
 nonterminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier;
 nonterminal      MethodHeader,MethodBody,MethodModifiers,Result,MethodDeclarator,FormalParameterList,FormalParameters;
@@ -95,8 +97,6 @@ FormalParameterList         ::= LastFormalParameter;
 LastFormalParameter         ::= FormalParameter;
 
 FormalParameter             ::= UnannType VariableDeclaratorId;
-
-VariableDeclaratorId        ::= Identifier;
 
 UnannType                   ::= UnannReferenceType;
 
@@ -176,10 +176,25 @@ BlockStatement              ::= LocalVariableDeclarationStatement
 LocalVariableDeclarationStatement ::= LocalVariableDeclaration SEMICOLON
                                    ;
 
-LocalVariableDeclaration    ::= UnnanType Expression /* temporary put Expression here it should be replaced with VariableDeclaratorList in the future*/
-                            /*| UnnanType VariableDeclaratorList */
+LocalVariableDeclaration    ::= UnnanType VariableDeclaratorList
                             /*| VariableModifier UnnanType VariableDeclaratorList */
                             ;
+
+VariableDeclaratorList      ::= VariableDeclarators;
+                            
+VariableDeclarators         ::= VariableDeclarator
+                            | VariableDeclarator COMMA VariableDeclarators
+                            ;
+                            
+VariableDeclarator          ::= VariableDeclaratorId
+                            | VariableDeclaratorId OP_EQ VariableInitializer
+                            ;
+                            
+VariableDeclaratorId        ::= Identifier
+                            | Identifier Dims
+                            ;
+
+VariableInitializer         ::= Expression;
 
 UnnanType                   ::= UnnanPrimitiveType
                             /*| UnnanReferenceType*/
