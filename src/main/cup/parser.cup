@@ -30,13 +30,13 @@ terminal        INTEGER_LITERAL, STRING_LITERAL;
 terminal        LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal        UNKNOWN;
 
-nonterminal      CompilationUnit, TypeDeclaration, ClassDeclaration;
+nonterminal      CompilationUnit, TypeDeclarations, TypeDeclaration, ClassDeclaration;
 nonterminal      NormalClassDeclaration, ClassModifiers, ClassModifier, ClassBody;
 nonterminal      FormalParameter,UnannType,UnannReferenceType;
 nonterminal      VariableDeclaratorList, VariableDeclarators, VariableDeclarator;
 nonterminal      VariableDeclaratorId, VariableInitializer;
 nonterminal      UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
-nonterminal      ClassBodyDeclaration,ClassMemberDeclaration,MethodDeclaration,MethodModifier;
+nonterminal      ClassBodyDeclaration, ClassBodyDeclarations,ClassMemberDeclaration,MethodDeclaration,MethodModifier;
 nonterminal      MethodHeader,MethodBody,MethodModifiers,Result,MethodDeclarator,FormalParameterList,FormalParameters;
 nonterminal      Block, BlockStatements, BlockStatement;
 nonterminal      LocalVariableDeclarationStatement, LocalVariableDeclaration;
@@ -49,16 +49,43 @@ nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, 
 nonterminal      RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
 nonterminal      InclusiveOrExpression, ConditionalAndExpression, ConditionalOrExpression;
 nonterminal      ConditionalExpression, AssignmentExpression, Expression;
+nonterminal      PackageDelcarations, PackageDelcaration, ImportDeclarations,ImportDeclaration;
+nonterminal      TypeParameters, TypeParameter, Superclasses, Superclass, Superinterfaces, Superinterface;
+nonterminal      Throws, Throw, VariableModifiers, VariableModifier, TypeArguments;
 
 /* Compilation related grammar */
 
-CompilationUnit             ::= TypeDeclaration;
+CompilationUnit             ::= PackageDelcarations ImportDeclarations TypeDeclarations;
+
+PackageDelcarations         ::= PackageDelcaration
+                                | /* empty */
+                                ;
+
+ImportDeclarations          ::= ImportDeclaration ImportDeclarations
+                                | /* empty */
+                                ;
+
+TypeDeclarations            ::= TypeDeclaration TypeDeclarations
+                                | /* empty */
+                                ;
 
 TypeDeclaration             ::= ClassDeclaration;
 
 ClassDeclaration            ::= NormalClassDeclaration;
 
-NormalClassDeclaration      ::= ClassModifiers CLASS Identifier ClassBody;
+NormalClassDeclaration      ::= ClassModifiers CLASS Identifier TypeParameters Superclasses Superinterfaces ClassBody;
+
+TypeParameters              ::= TypeParameter
+                               | /* empty */
+                               ;
+                               
+Superclasses                ::= Superclass
+                               | /* empty */
+                               ;
+                               
+Superinterfaces             ::= Superinterface
+                               | /* empty */
+                               ;
 
 ClassModifiers              ::= ClassModifier ClassModifiers
                             | /* empty */
@@ -66,9 +93,13 @@ ClassModifiers              ::= ClassModifier ClassModifiers
 
 ClassModifier               ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-ClassBody                   ::= LBRACE ClassBodyDeclaration  RBRACE;
+ClassBody                   ::= LBRACE ClassBodyDeclarations RBRACE;
 
 Identifier                  ::= IDENTIFIER;
+
+ClassBodyDeclarations       ::= ClassBodyDeclaration ClassBodyDeclarations
+                            | /* empty */
+                            ;
 
 ClassBodyDeclaration        ::= ClassMemberDeclaration;
 
@@ -76,27 +107,33 @@ ClassMemberDeclaration      ::= MethodDeclaration;
 
 /* Method related grammar */
 
-MethodDeclaration           ::= MethodModifiers  MethodHeader MethodBody;
+MethodDeclaration           ::= MethodModifiers MethodHeader MethodBody;
 
 MethodModifiers             ::= MethodModifier MethodModifiers
-                            |
+                            | /* empty */
                             ;
 
 MethodModifier              ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-MethodHeader                ::= Result MethodDeclarator;
+MethodHeader                ::= Result MethodDeclarator 
+                            | Result MethodDeclarator Throws
+                            ;
 
 Result                      ::= VOID;
 
 MethodDeclarator            ::= Identifier LPAREN FormalParameterList RPAREN
-                            | Identifier LPAREN  RPAREN /* zero or 1 param list*/
+                            | Identifier LPAREN RPAREN /* zero or 1 param list*/
                             ;
 
 FormalParameterList         ::= LastFormalParameter;
 
 LastFormalParameter         ::= FormalParameter;
 
-FormalParameter             ::= UnannType VariableDeclaratorId;
+FormalParameter             ::= VariableModifiers UnannType VariableDeclaratorId;
+
+VariableModifiers           ::= VariableModifier VariableModifiers
+                            | /* empty */
+                            ;
 
 UnannType                   ::= UnannReferenceType;
 
@@ -108,7 +145,9 @@ Dims                        ::= LBRACK RBRACK;
 
 UnannClassOrInterfaceType   ::= UnannClassType;
 
-UnannClassType              ::= Identifier;
+UnannClassType              ::= Identifier TypeArguments
+                            | Identifier
+                            ;
 
 /* Assignment Expression related grammar */
 
@@ -176,8 +215,7 @@ BlockStatement              ::= LocalVariableDeclarationStatement
 LocalVariableDeclarationStatement ::= LocalVariableDeclaration SEMICOLON
                                    ;
 
-LocalVariableDeclaration    ::= UnnanType VariableDeclaratorList
-                            /*| VariableModifier UnnanType VariableDeclaratorList */
+LocalVariableDeclaration    ::= VariableModifiers UnnanType VariableDeclaratorList
                             ;
 
 VariableDeclaratorList      ::= VariableDeclarators;
