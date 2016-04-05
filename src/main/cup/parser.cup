@@ -43,7 +43,7 @@ nonterminal      LocalVariableDeclarationStatement, LocalVariableDeclaration;
 nonterminal      UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
 nonterminal      Identifier;
 nonterminal      LastFormalParameter;
-nonterminal      DecimalNumeral, DecimalIntegerLiteral, IntegerLiteral, Literal;
+nonterminal      Literal;
 nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
 nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
 nonterminal      RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
@@ -187,13 +187,7 @@ Primary                     ::= PrimaryNoNewArray;
 
 PrimaryNoNewArray           ::= Literal;
 
-Literal                     ::= IntegerLiteral;
-
-IntegerLiteral              ::= DecimalIntegerLiteral;
-
-DecimalIntegerLiteral       ::= DecimalNumeral;
-
-DecimalNumeral              ::= INTEGER_LITERAL;
+Literal                     ::= INTEGER_LITERAL;
 
 /* Method body related grammar */
 
