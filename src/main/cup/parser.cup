@@ -30,15 +30,15 @@ terminal        INTEGER_LITERAL, STRING_LITERAL;
 terminal        LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal        UNKNOWN;
 
-nonterminal      CompilationUnit, TypeDeclarations, TypeDeclaration, ClassDeclaration;
-nonterminal      NormalClassDeclaration, ClassModifiers, ClassModifier, ClassBody;
-nonterminal      FormalParameter,UnannType,UnannReferenceType;
-nonterminal      VariableDeclaratorList, VariableDeclarators, VariableDeclarator;
-nonterminal      VariableDeclaratorId, VariableInitializer;
-nonterminal      UnannArrayType,UnannClassOrInterfaceType,UnannClassType,Dims;
-nonterminal      ClassBodyDeclaration, ClassBodyDeclarations,ClassMemberDeclaration,MethodDeclaration,MethodModifier;
-nonterminal      MethodHeader,MethodBody,MethodModifiers,Result,MethodDeclarator,FormalParameterList,FormalParameters;
-nonterminal      Block, BlockStatements, BlockStatement;
+nonterminal      CompilationUnit, TypeDeclaration_opt, TypeDeclaration, ClassDeclaration;
+nonterminal      NormalClassDeclaration, ClassModifier_opt, ClassModifier, ClassBody;
+nonterminal      FormalParameter, UnannType, UnannReferenceType;
+nonterminal      VariableDeclaratorList, VariableDeclarator_opt, VariableDeclarator;
+nonterminal      VariableDeclaratorId, VariableInitializer_opt, VariableInitializer;
+nonterminal      UnannArrayType, UnannClassOrInterfaceType, UnannClassType, Dims_opt, Dims;
+nonterminal      ClassBodyDeclaration_opt, ClassBodyDeclaration, ClassMemberDeclaration, MethodDeclaration;
+nonterminal      MethodHeader, MethodBody, MethodModifier_opt, MethodModifier, Result, MethodDeclarator, FormalParameterList_opt, FormalParameterList, FormalParameters;
+nonterminal      Block, BlockStatements_opt, BlockStatements, BlockStatement_opt, BlockStatement;
 nonterminal      LocalVariableDeclarationStatement, LocalVariableDeclaration;
 nonterminal      UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
 nonterminal      Identifier;
@@ -49,55 +49,55 @@ nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, 
 nonterminal      RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
 nonterminal      InclusiveOrExpression, ConditionalAndExpression, ConditionalOrExpression;
 nonterminal      ConditionalExpression, AssignmentExpression, Expression;
-nonterminal      PackageDelcarations, PackageDelcaration, ImportDeclarations,ImportDeclaration;
-nonterminal      TypeParameters, TypeParameter, Superclasses, Superclass, Superinterfaces, Superinterface;
-nonterminal      Throws, Throw, VariableModifiers, VariableModifier, TypeArguments;
+nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_opt, ImportDeclaration;
+nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
+nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
 
 /* Compilation related grammar */
 
-CompilationUnit             ::= PackageDelcarations ImportDeclarations TypeDeclarations;
+CompilationUnit             ::= PackageDelcaration_opt ImportDeclaration_opt TypeDeclaration_opt;
 
-PackageDelcarations         ::= PackageDelcaration
-                                | /* empty */
-                                ;
+PackageDelcaration_opt      ::= PackageDelcaration
+                            | /* empty */
+                            ;
 
-ImportDeclarations          ::= ImportDeclaration ImportDeclarations
-                                | /* empty */
-                                ;
+ImportDeclaration_opt       ::= ImportDeclaration_opt ImportDeclaration
+                            | /* empty */
+                            ;
 
-TypeDeclarations            ::= TypeDeclaration TypeDeclarations
-                                | /* empty */
-                                ;
+TypeDeclaration_opt         ::= TypeDeclaration_opt TypeDeclaration 
+                            | /* empty */
+                            ;
 
 TypeDeclaration             ::= ClassDeclaration;
 
 ClassDeclaration            ::= NormalClassDeclaration;
 
-NormalClassDeclaration      ::= ClassModifiers CLASS Identifier TypeParameters Superclasses Superinterfaces ClassBody;
+NormalClassDeclaration      ::= ClassModifier_opt CLASS Identifier TypeParameters_opt Superclass_opt Superinterfaces_opt ClassBody;
 
-TypeParameters              ::= TypeParameter
-                               | /* empty */
-                               ;
+TypeParameters_opt           ::= TypeParameters
+                            | /* empty */
+                            ;
                                
-Superclasses                ::= Superclass
-                               | /* empty */
-                               ;
+Superclass_opt              ::= Superclass
+                            | /* empty */
+                            ;
                                
-Superinterfaces             ::= Superinterface
-                               | /* empty */
-                               ;
+Superinterfaces_opt          ::= Superinterfaces
+                            | /* empty */
+                            ;
 
-ClassModifiers              ::= ClassModifier ClassModifiers
+ClassModifier_opt           ::= ClassModifier_opt ClassModifier
                             | /* empty */
                             ;
 
 ClassModifier               ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-ClassBody                   ::= LBRACE ClassBodyDeclarations RBRACE;
+ClassBody                   ::= LBRACE ClassBodyDeclaration_opt RBRACE;
 
 Identifier                  ::= IDENTIFIER;
 
-ClassBodyDeclarations       ::= ClassBodyDeclaration ClassBodyDeclarations
+ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration
                             | /* empty */
                             ;
 
@@ -107,31 +107,35 @@ ClassMemberDeclaration      ::= MethodDeclaration;
 
 /* Method related grammar */
 
-MethodDeclaration           ::= MethodModifiers MethodHeader MethodBody;
+MethodDeclaration           ::= MethodModifier_opt MethodHeader MethodBody;
 
-MethodModifiers             ::= MethodModifier MethodModifiers
+MethodModifier_opt          ::= MethodModifier_opt MethodModifier
                             | /* empty */
                             ;
 
 MethodModifier              ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
 
-MethodHeader                ::= Result MethodDeclarator 
-                            | Result MethodDeclarator Throws
+MethodHeader                ::= Result MethodDeclarator Throws_opt;
+
+Throws_opt                  ::= Throws
+                            | /* empty */
                             ;
 
 Result                      ::= VOID;
 
-MethodDeclarator            ::= Identifier LPAREN FormalParameterList RPAREN
-                            | Identifier LPAREN RPAREN /* zero or 1 param list*/
+MethodDeclarator            ::= Identifier LPAREN FormalParameterList_opt RPAREN;
+
+FormalParameterList_opt     ::= FormalParameterList
+                            | /* empty */
                             ;
 
 FormalParameterList         ::= LastFormalParameter;
 
 LastFormalParameter         ::= FormalParameter;
 
-FormalParameter             ::= VariableModifiers UnannType VariableDeclaratorId;
+FormalParameter             ::= VariableModifier_opt UnannType VariableDeclaratorId;
 
-VariableModifiers           ::= VariableModifier VariableModifiers
+VariableModifier_opt        ::= VariableModifier_opt VariableModifier
                             | /* empty */
                             ;
 
@@ -145,8 +149,11 @@ Dims                        ::= LBRACK RBRACK;
 
 UnannClassOrInterfaceType   ::= UnannClassType;
 
-UnannClassType              ::= Identifier TypeArguments
-                            | Identifier
+UnannClassType              ::= Identifier TypeArguments_opt
+                            ;
+
+TypeArguments_opt           ::= TypeArguments
+                            | /* empty */
                             ;
 
 /* Assignment Expression related grammar */
@@ -192,15 +199,20 @@ Literal                     ::= INTEGER_LITERAL;
 /* Method body related grammar */
 
 MethodBody                  ::= Block
-                            | SEMICOLON
                             ;
 
-Block                       ::= LBRACE BlockStatements RBRACE
-                            | LBRACE RBRACE /* according to the grammar BlockStatements is 0 or 1*/
+Block                       ::= LBRACE BlockStatements_opt RBRACE
                             ;
 
-BlockStatements             ::= BlockStatement
-                            | BlockStatement BlockStatements
+BlockStatements_opt         ::= BlockStatements
+                            | /* empty */
+                            ;
+
+BlockStatements             ::= BlockStatement BlockStatement_opt
+                            ;
+
+BlockStatement_opt          ::= BlockStatement_opt BlockStatement
+                            | /* empty */
                             ;
 
 BlockStatement              ::= LocalVariableDeclarationStatement
@@ -209,21 +221,27 @@ BlockStatement              ::= LocalVariableDeclarationStatement
 LocalVariableDeclarationStatement ::= LocalVariableDeclaration SEMICOLON
                                    ;
 
-LocalVariableDeclaration    ::= VariableModifiers UnnanType VariableDeclaratorList
+LocalVariableDeclaration    ::= VariableModifier_opt UnnanType VariableDeclaratorList
                             ;
 
-VariableDeclaratorList      ::= VariableDeclarators;
+VariableDeclaratorList      ::= VariableDeclarator VariableDeclarator_opt;
                             
-VariableDeclarators         ::= VariableDeclarator
-                            | VariableDeclarator COMMA VariableDeclarators
+VariableDeclarator_opt      ::= COMMA VariableDeclarator_opt VariableDeclarator
+                            | /* empty */
                             ;
                             
-VariableDeclarator          ::= VariableDeclaratorId
-                            | VariableDeclaratorId OP_EQ VariableInitializer
+VariableDeclarator          ::= VariableDeclaratorId VariableInitializer_opt
+                            ;
+
+VariableInitializer_opt     ::= OP_EQ VariableInitializer
+                            | /* empty */
                             ;
                             
-VariableDeclaratorId        ::= Identifier
-                            | Identifier Dims
+VariableDeclaratorId        ::= Identifier Dims_opt
+                            ;
+
+Dims_opt                    ::= Dims
+                            | /* empty */
                             ;
 
 VariableInitializer         ::= Expression;
