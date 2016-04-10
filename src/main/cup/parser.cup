@@ -155,7 +155,8 @@ Expression                  ::= AssignmentExpression;
 
 AssignmentExpression        ::= ConditionalExpression;
 
-ConditionalExpression       ::= ConditionalOrExpression;
+ConditionalExpression       ::= ConditionalOrExpression
+                            | ConditionalOrExpression OP_LOGIC_OR ConditionalAndExpression;
 
 ConditionalOrExpression     ::= ConditionalAndExpression;
 
