@@ -2,6 +2,8 @@ package org.ifn660.jflexer;
 
 import java.io.FileReader;
 
+import org.ifn660.jflexer.parser;
+
 public class TestParser {
     @SuppressWarnings("deprecation")
     public static void main(String args[]) {
