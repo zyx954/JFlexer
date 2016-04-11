@@ -9,11 +9,4 @@ public class AssignmentExpression extends Expression {
         this.rhs = rhs;
     }
 
-    @Override
-    public void printNode() {
-        lhs.printNode();
-        System.out.println(" ");
-        rhs.printNode();
-    }
-
 }

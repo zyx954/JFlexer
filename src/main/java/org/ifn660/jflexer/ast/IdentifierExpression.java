@@ -7,9 +7,4 @@ public class IdentifierExpression extends Expression {
         this.name = name;
     }
 
-    @Override
-    public void printNode() {
-        System.out.println(name);
-    }
-
 }
