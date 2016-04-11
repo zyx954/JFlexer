@@ -52,7 +52,12 @@ nonterminal      ConditionalExpression, AssignmentExpression, Expression;
 nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_opt, ImportDeclaration;
 nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
+<<<<<<< HEAD
 nonterminal      Assignment,ReferenceType;
+=======
+nonterminal      PreIncrementExpression, PreDecrementExpression;
+nonterminal      ExpressionName, PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
+>>>>>>> vthai/master
 
 /* Compilation related grammar */
 
@@ -164,7 +169,8 @@ Expression                  ::= AssignmentExpression;
 AssignmentExpression        ::= ConditionalExpression
                             |Assignment;
 
-ConditionalExpression       ::= ConditionalOrExpression;
+ConditionalExpression       ::= ConditionalOrExpression
+                            | ConditionalOrExpression OP_LOGIC_OR ConditionalAndExpression;
 
 ConditionalOrExpression     ::= ConditionalAndExpression;
                             
@@ -178,9 +184,12 @@ InclusiveOrExpression       ::= ExclusiveOrExpression
 
 ExclusiveOrExpression       ::= AndExpression;
 
-AndExpression               ::= EqualityExpression;
+AndExpression               ::= EqualityExpression
+                            | AndExpression OP_LOGIC_AND EqualityExpression;
 
-EqualityExpression          ::= RelationalExpression;
+EqualityExpression          ::= RelationalExpression
+                            | EqualityExpression OP_EQ_EQ RelationalExpression
+                            | EqualityExpression OP_NOT_EQ RelationalExpression;
 
 RelationalExpression        ::= ShiftExpression
                             |RelationalExpression OP_LT ShiftExpression 
@@ -189,7 +198,10 @@ RelationalExpression        ::= ShiftExpression
                             |RelationalExpression OP_GT_EQ ShiftExpression 
                             |RelationalExpression INSTANCEOF ReferenceType;
 
-ShiftExpression             ::= AdditiveExpression;
+ShiftExpression             ::= AdditiveExpression
+                            | ShiftExpression OP_BIT_L_SHIFT AdditiveExpression
+                            | ShiftExpression OP_BIT_R_SHIFT AdditiveExpression
+                            | ShiftExpression OP_UNSIGN_R_SHIFT AdditiveExpression;
 
 AdditiveExpression          ::= MultiplicativeExpression;
 
@@ -198,13 +210,23 @@ MultiplicativeExpression    ::= UnaryExpression
                             |MultiplicativeExpression OP_DIVIDE UnaryExpression 
                             |MultiplicativeExpression OP_MODULUS UnaryExpression;
 
-UnaryExpression             ::= UnaryExpressionNotPlusMinus;
+UnaryExpression             ::= PreIncrementExpression
+                            | PreDecrementExpression
+                            | OP_PLUS UnaryExpression
+                            | OP_MINUS UnaryExpression
+                            | UnaryExpressionNotPlusMinus;
 
 UnaryExpressionNotPlusMinus ::= PostfixExpression;
 
-PostfixExpression           ::= Primary;
+PostfixExpression           ::= Primary
+                            | ExpressionName
+                            | PostIncrementExpression
+                            | PostDecrementExpression
+                            ;
 
-Primary                     ::= PrimaryNoNewArray;
+Primary                     ::= PrimaryNoNewArray
+                            | ArrayCreationExpression
+                            ;
 
 PrimaryNoNewArray           ::= Literal;
 
