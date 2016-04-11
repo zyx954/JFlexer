@@ -54,6 +54,7 @@ nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass,
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
 nonterminal      PreIncrementExpression, PreDecrementExpression;
 nonterminal      ExpressionName, PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
+nonterminal		 CastExpression;
 
 /* Compilation related grammar */
 
@@ -173,7 +174,9 @@ ConditionalAndExpression    ::= InclusiveOrExpression;
 
 InclusiveOrExpression       ::= ExclusiveOrExpression;
 
-ExclusiveOrExpression       ::= AndExpression;
+ExclusiveOrExpression       ::= AndExpression
+							| ExclusiveOrExpression OP_XOR AndExpression
+							;
 
 AndExpression               ::= EqualityExpression
                             | AndExpression OP_LOGIC_AND EqualityExpression;
@@ -189,7 +192,10 @@ ShiftExpression             ::= AdditiveExpression
                             | ShiftExpression OP_BIT_R_SHIFT AdditiveExpression
                             | ShiftExpression OP_UNSIGN_R_SHIFT AdditiveExpression;
 
-AdditiveExpression          ::= MultiplicativeExpression;
+AdditiveExpression          ::= MultiplicativeExpression
+							| AdditiveExpression OP_PLUS MultiplicativeExpression
+							| AdditiveExpression OP_MINUS MultiplicativeExpression
+							;
 
 MultiplicativeExpression    ::= UnaryExpression;
 
@@ -199,7 +205,10 @@ UnaryExpression             ::= PreIncrementExpression
                             | OP_MINUS UnaryExpression
                             | UnaryExpressionNotPlusMinus;
 
-UnaryExpressionNotPlusMinus ::= PostfixExpression;
+UnaryExpressionNotPlusMinus ::= PostfixExpression
+							| OP_UNARY UnaryExpression
+							| OP_NOT_EQ UnaryExpression
+							| CastExpression;
 
 PostfixExpression           ::= Primary
                             | ExpressionName
