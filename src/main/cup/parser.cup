@@ -52,12 +52,9 @@ nonterminal      ConditionalExpression, AssignmentExpression, Expression;
 nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_opt, ImportDeclaration;
 nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
-<<<<<<< HEAD
 nonterminal      Assignment,ReferenceType;
-=======
 nonterminal      PreIncrementExpression, PreDecrementExpression;
 nonterminal      ExpressionName, PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
->>>>>>> vthai/master
 
 /* Compilation related grammar */
 
@@ -194,7 +191,7 @@ EqualityExpression          ::= RelationalExpression
 RelationalExpression        ::= ShiftExpression
                             |RelationalExpression OP_LT ShiftExpression 
                             |RelationalExpression OP_GT ShiftExpression 
-                            |RelationalExpression OP_LT_EQ= ShiftExpression 
+                            |RelationalExpression OP_LT_EQ ShiftExpression 
                             |RelationalExpression OP_GT_EQ ShiftExpression 
                             |RelationalExpression INSTANCEOF ReferenceType;
 
