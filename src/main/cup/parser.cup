@@ -53,7 +53,7 @@ nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_o
 nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
 nonterminal      PreIncrementExpression, PreDecrementExpression;
-nonterminal      ExpressionName, PostIncrementExpression, PostDecrementExpression;
+nonterminal      ExpressionName, PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
 
 /* Compilation related grammar */
 
@@ -207,7 +207,9 @@ PostfixExpression           ::= Primary
                             | PostDecrementExpression
                             ;
 
-Primary                     ::= PrimaryNoNewArray;
+Primary                     ::= PrimaryNoNewArray
+                            | ArrayCreationExpression
+                            ;
 
 PrimaryNoNewArray           ::= Literal;
 
