@@ -52,6 +52,7 @@ nonterminal      ConditionalExpression, AssignmentExpression, Expression;
 nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_opt, ImportDeclaration;
 nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
+nonterminal      Assignment,ReferenceType;
 
 /* Compilation related grammar */
 
@@ -160,15 +161,20 @@ TypeArguments_opt           ::= TypeArguments
 
 Expression                  ::= AssignmentExpression;
 
-AssignmentExpression        ::= ConditionalExpression;
+AssignmentExpression        ::= ConditionalExpression
+                            |Assignment;
 
 ConditionalExpression       ::= ConditionalOrExpression;
 
 ConditionalOrExpression     ::= ConditionalAndExpression;
+                            
 
-ConditionalAndExpression    ::= InclusiveOrExpression;
+ConditionalAndExpression    ::= InclusiveOrExpression
+                            |ConditionalAndExpression OP_LOGIC_AND InclusiveOrExpression;
 
-InclusiveOrExpression       ::= ExclusiveOrExpression;
+InclusiveOrExpression       ::= ExclusiveOrExpression
+                            |InclusiveOrExpression OP_OR ExclusiveOrExpression;
+                            
 
 ExclusiveOrExpression       ::= AndExpression;
 
@@ -176,13 +182,21 @@ AndExpression               ::= EqualityExpression;
 
 EqualityExpression          ::= RelationalExpression;
 
-RelationalExpression        ::= ShiftExpression;
+RelationalExpression        ::= ShiftExpression
+                            |RelationalExpression OP_LT ShiftExpression 
+                            |RelationalExpression OP_GT ShiftExpression 
+                            |RelationalExpression OP_LT_EQ= ShiftExpression 
+                            |RelationalExpression OP_GT_EQ ShiftExpression 
+                            |RelationalExpression INSTANCEOF ReferenceType;
 
 ShiftExpression             ::= AdditiveExpression;
 
 AdditiveExpression          ::= MultiplicativeExpression;
 
-MultiplicativeExpression    ::= UnaryExpression;
+MultiplicativeExpression    ::= UnaryExpression
+                            |MultiplicativeExpression OP_MULTIPLY UnaryExpression 
+                            |MultiplicativeExpression OP_DIVIDE UnaryExpression 
+                            |MultiplicativeExpression OP_MODULUS UnaryExpression;
 
 UnaryExpression             ::= UnaryExpressionNotPlusMinus;
 
