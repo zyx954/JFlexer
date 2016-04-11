@@ -7,41 +7,50 @@ import org.junit.Test;
 
 @SuppressWarnings("deprecation")
 public class TestCases {
-    
+
     @Test
     public void testPass() throws Exception {
-        String[] filenames = {"TestCompilationUnit.java", "TestCompilationUnit2.java", "TestCompilationUnit3.java"};
-        
+        String[] filenames = { "TestCompilationUnit.java",
+                "TestCompilationUnit2.java", "TestCompilationUnit3.java",
+                "TestPass1.java", "TestPass2.java", "TestPass3.java",
+                "TestPass4.java", "TestBlockStatement.java", "TestBlockStatement2.java",
+                "TestEmptyTypeDeclaration.java","TestEmptyClassBody.java"};
+
         final int expectedPass = filenames.length;
-        int actualPass  = 0;
-        
+        int actualPass = 0;
+
         for (String filename : filenames) {
-        	System.out.println(filename);
-            parser p = new parser(new Lexer(new FileReader("resources/test/" + filename)));
+            System.out.println("File " + filename);
+            parser p = new parser(new Lexer(new FileReader(
+                    "resources/test/" + filename)));
             p.parse();
             actualPass++;
         }
-        
+
         Assert.assertEquals(expectedPass, actualPass);
     }
-    
+
     @Test
     public void testFail() {
-        String[] filenames = {"TestCompilationUnitFail.java", "TestCompilationUnitFail2.java"};
-        
+        String[] filenames = { "TestCompilationUnitFail.java",
+                "TestCompilationUnitFail2.java", "TestDecimalNumeralFail.java",
+                "TestFail1.java", "TestFail2.java", "TestFail3.java",
+                "TestFail4.java", "TestFail5.java" };
+
         final int expectedFail = filenames.length;
         int actualFail = 0;
-        
+
         for (String filename : filenames) {
             try {
-                parser p = new parser(new Lexer(new FileReader("resources/test/" + filename)));
+                parser p = new parser(new Lexer(new FileReader(
+                        "resources/test/" + filename)));
                 p.parse();
                 Assert.fail("Grammar fail with " + filename);
             } catch (Exception e) {
                 actualFail++;
             }
         }
-        
+
         Assert.assertEquals(expectedFail, actualFail);
     }
 }

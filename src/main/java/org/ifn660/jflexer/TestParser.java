@@ -8,7 +8,7 @@ public class TestParser {
         /* Start the parser */
         try {
             parser p = new parser(new Lexer(new FileReader("resources/" + args[0])));
-            //Object result = p.parse().value;
+            //Object result = p.parse().value; // Parses the value of a terminal
             p.debug_parse();
         } catch (Exception e) {
             /* do cleanup here -- possibly rethrow e */
