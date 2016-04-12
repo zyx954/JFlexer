@@ -215,6 +215,8 @@ PostfixExpression           ::= Primary
                             | PostIncrementExpression
                             | PostDecrementExpression
                             ;
+                            
+ExpressionName              ::= Identifier;
 
 Primary                     ::= PrimaryNoNewArray
                             | ArrayCreationExpression
