@@ -16,7 +16,7 @@ public class TestCases {
                 "TestPass4.java", "TestBlockStatement.java", "TestBlockStatement2.java",
                 "TestEmptyTypeDeclaration.java","TestEmptyClassBody.java",
                 "TestAdditiveExpression.java", "TestPostfixPass1.java", "TestEqualityExpression.java",
-                ""TestConditionalOrExpression"};
+                "TestConditionalOrExpression"};
 
         final int expectedPass = filenames.length;
         int actualPass = 0;
