@@ -6,10 +6,4 @@ public class IntegerLiteralExpression extends Expression {
     public IntegerLiteralExpression(int value) {
         this.value = value;
     }
-
-    @Override
-    public void printNode() {
-        System.out.println(value);
-        
-    }
 }

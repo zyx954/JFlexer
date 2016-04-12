@@ -6,11 +6,5 @@ public class ExpressionStatement extends Statement {
     public ExpressionStatement(Expression expr) {
         this.expr = expr;
     }
-
-    @Override
-    public void printNode() {
-        expr.printNode();
-    }
-    
     
 }

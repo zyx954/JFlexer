@@ -166,7 +166,7 @@ Expression                  ::= AssignmentExpression;
 AssignmentExpression        ::= ConditionalExpression;
 
 ConditionalExpression       ::= ConditionalOrExpression
-                            | ConditionalOrExpression OP_LOGIC_OR ConditionalAndExpression;
+                            | ConditionalOrExpression OP_TERNARY Expression OP_LOOP_IN ConditionalExpression;
 
 ConditionalOrExpression     ::= ConditionalAndExpression;
 
@@ -215,6 +215,8 @@ PostfixExpression           ::= Primary
                             | PostIncrementExpression
                             | PostDecrementExpression
                             ;
+                            
+ExpressionName              ::= Identifier;
 
 Primary                     ::= PrimaryNoNewArray
                             | ArrayCreationExpression
