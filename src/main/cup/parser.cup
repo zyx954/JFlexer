@@ -52,7 +52,7 @@ nonterminal      ConditionalExpression, AssignmentExpression, Expression;
 nonterminal      PackageDelcarations, PackageDelcaration, ImportDeclarations,ImportDeclaration;
 nonterminal      TypeParameters, TypeParameter, Superclasses, Superclass, Superinterfaces, Superinterface;
 nonterminal      Throws, Throw, VariableModifiers, VariableModifier, TypeArguments;
-nonterminal      PreIncrementExpression, PreDecrementExpression;
+nonterminal      PreIncrementExpression, PreDecrementExpression, ExpressionName;
 
 /* Compilation related grammar */
 
@@ -157,7 +157,7 @@ Expression                  ::= AssignmentExpression;
 AssignmentExpression        ::= ConditionalExpression;
 
 ConditionalExpression       ::= ConditionalOrExpression
-                            | ConditionalOrExpression OP_LOGIC_OR ConditionalAndExpression;
+                            | ConditionalOrExpression OP_TERNARY Expression OP_LOOP_IN ConditionalExpression;
 
 ConditionalOrExpression     ::= ConditionalAndExpression;
 
@@ -193,7 +193,10 @@ UnaryExpression             ::= PreIncrementExpression
 
 UnaryExpressionNotPlusMinus ::= PostfixExpression;
 
-PostfixExpression           ::= Primary;
+PostfixExpression           ::= Primary
+                            | ExpressionName;
+                            
+ExpressionName              ::= Identifier;
 
 Primary                     ::= PrimaryNoNewArray;
 
