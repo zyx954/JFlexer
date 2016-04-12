@@ -197,7 +197,10 @@ AdditiveExpression          ::= MultiplicativeExpression
 							| AdditiveExpression OP_MINUS MultiplicativeExpression
 							;
 
-MultiplicativeExpression    ::= UnaryExpression;
+MultiplicativeExpression    ::= UnaryExpression
+                            |MultiplicativeExpression OP_MULTIPLY UnaryExpression
+                            |MultiplicativeExpression OP_DIVIDE UnaryExpression
+                            |MultiplicativeExpression OP_MODULUS UnaryExpression;
 
 UnaryExpression             ::= PreIncrementExpression
                             | PreDecrementExpression
