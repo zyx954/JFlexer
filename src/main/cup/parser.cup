@@ -54,7 +54,7 @@ nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass,
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
 nonterminal      PreIncrementExpression, PreDecrementExpression;
 nonterminal      ExpressionName, PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
-nonterminal		 CastExpression;
+nonterminal		 CastExpression, AmbiguousName;
 
 /* Compilation related grammar */
 
@@ -218,6 +218,14 @@ PostfixExpression           ::= Primary
 
 Primary                     ::= PrimaryNoNewArray
                             | ArrayCreationExpression
+                            ;
+                            
+ExpressionName              ::= Identifier
+                            | AmbiguousName DOT Identifier
+                            ;
+                            
+AmbiguousName               ::= Identifier
+                            | AmbiguousName DOT Identifier
                             ;
 
 PrimaryNoNewArray           ::= Literal;
