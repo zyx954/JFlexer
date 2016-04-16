@@ -3,11 +3,11 @@ package org.ifn660.jflexer.ast;
 public class ClassDeclaration extends Node {
 	private String name;
 	private String modifier;
-	private MethodDeclaration methodDec;
+	private ClassBody classBod;
 	
-	public ClassDeclaration (String name, String modifier, MethodDeclaration methodDec) {
+	public ClassDeclaration (String name, String modifier, ClassBody classBod) {
 		this.name = name;
 		this.modifier = modifier;
-		this.methodDec = methodDec;
+		this.classBod = classBod;
 	}
 }

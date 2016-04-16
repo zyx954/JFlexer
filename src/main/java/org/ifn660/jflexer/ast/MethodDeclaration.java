@@ -4,12 +4,13 @@ public class MethodDeclaration extends Node {
 	private String modifier;
 	private String result;
 	private String name;
-	private LocalVariableDeclarationStatement localVarDec;
+	private String parameter;
+	private MethodBody methodBod;
 	
-	public MethodDeclaration (String modifier, String result, String name, LocalVariableDeclarationStatement localVarDec) {
+	public MethodDeclaration (String modifier, String result, String name, MethodBody methodBod) {
 		this.modifier = modifier;
 		this.result = result;
 		this.name = name;
-		this.localVarDec = localVarDec;
+		this.methodBod = methodBod;
 	}
 }
