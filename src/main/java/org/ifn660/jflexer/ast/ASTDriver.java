@@ -2,13 +2,12 @@ package org.ifn660.jflexer.ast;
 
 public class ASTDriver {
     public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
-        Expression assignmentExpression = new AssignmentExpression(new IdentifierExpression("x"), new IntegerLiteralExpression(42));
+    	VariableDeclaratorId varDecId = new VariableDeclaratorId("x");
+    	Expression expression = new Expression(42);
+    	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(varDecId, expression);
+    	MethodDeclaration methodDec = new MethodDeclaration("public", "void", "main", localVarDec);
         
-        //Statement expressionStatement = new ExpressionStatement(assignmentExpression);
-        
-        Node root = new LocalVariableDeclarationStatement("int", new IdentifierExpression("x"), assignmentExpression);
-        
-        //root.printNode();
+        Node root = new ClassDeclaration("Example", "public", methodDec);
         root.printNodeReflection(0);
     }
 }

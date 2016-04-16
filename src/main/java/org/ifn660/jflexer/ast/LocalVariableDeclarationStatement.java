@@ -1,15 +1,11 @@
 package org.ifn660.jflexer.ast;
 
-public class LocalVariableDeclarationStatement extends Statement {
-    private String type; // TODO need to switch to Enum Type later??
+public class LocalVariableDeclarationStatement extends Node {
+    private VariableDeclaratorId varDecId;
+    private Expression expression;
     
-    private IdentifierExpression name;
-    
-    private Expression rhs;
-    
-    public LocalVariableDeclarationStatement(String type, IdentifierExpression name, Expression rhs) {
-        this.type = type;
-        this.name = name;
-        this.rhs = rhs;
+    public LocalVariableDeclarationStatement(VariableDeclaratorId varDecId, Expression expression) {
+        this.varDecId = varDecId;
+        this.expression = expression;
     }
 }

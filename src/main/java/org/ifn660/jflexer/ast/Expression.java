@@ -1,5 +1,9 @@
 package org.ifn660.jflexer.ast;
 
-public abstract class Expression extends Node {
-
+public class Expression extends Node {
+	private int value;
+	
+	public Expression(int value) {
+		this.value = value;
+	}
 }
