@@ -2,10 +2,10 @@ package org.ifn660.jflexer.ast;
 
 public class LocalVariableDeclarationStatement extends Node {
     private VariableDeclaratorId varDecId;
-    private Expression expression;
+    private VariableInitializer varInit;
     
-    public LocalVariableDeclarationStatement(VariableDeclaratorId varDecId, Expression expression) {
+    public LocalVariableDeclarationStatement(VariableDeclaratorId varDecId, VariableInitializer varInit) {
         this.varDecId = varDecId;
-        this.expression = expression;
+        this.varInit = varInit;
     }
 }
