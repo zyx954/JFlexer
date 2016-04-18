@@ -11,7 +11,7 @@ public class ASTDriver {
     	ArrayList<String> parameters = new ArrayList<String>();
     	parameters.add("args");
     	
-    	Expression expression = new Expression(42);
+    	IntegerLiteralExpression expression = new IntegerLiteralExpression(42);
     	VariableInitializer varInit = new VariableInitializer("=", expression);
     	VariableDeclaratorId varDecId = new VariableDeclaratorId("x");
     	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(varDecId, varInit);

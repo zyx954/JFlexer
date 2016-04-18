@@ -98,7 +98,7 @@ ClassModifier               ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC
 
 ClassBody                   ::= LBRACE ClassBodyDeclaration_opt RBRACE;
 
-Identifier                  ::= IDENTIFIER;
+Identifier                  ::= IDENTIFIER:i{:RESULT = new String(i); :};
 
 ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration
                             | /* empty */
@@ -223,7 +223,7 @@ Primary                     ::= PrimaryNoNewArray
                             | ArrayCreationExpression
                             ;
                             
-ExpressionName              ::= Identifier
+ExpressionName              ::= Identifier {:RESULT = new :}
                             | AmbiguousName DOT Identifier
                             ;
                             
