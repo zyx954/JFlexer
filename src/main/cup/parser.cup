@@ -20,10 +20,11 @@ parser code
 
 terminal        INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
 terminal        CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
-terminal        VOID, NULL, STATIC;
+terminal        String VOID;
+terminal        NULL;
 terminal        IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
 terminal        RETURN;
-terminal        String PUBLIC, PRIVATE, PROTECTED, ABSTRACT, STRICTFP, FINAL;
+terminal        String PUBLIC, PRIVATE, PROTECTED, ABSTRACT, STRICTFP, FINAL, STATIC;
 terminal        ASSERT, BYTE;
 terminal        CONTINUE, DEFAULT, ENUM, FINALLY, GOTO;
 terminal        IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE;
@@ -41,15 +42,20 @@ terminal        LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA
 terminal        UNKNOWN;
 
 nonterminal      Node CompilationUnit, TypeDeclaration_opt, TypeDeclaration, ClassDeclaration;
-nonterminal      Node NormalClassDeclaration, ClassBody;
-nonterminal		 List<String> ClassModifier_opt;
-nonterminal		 String ClassModifier;
+nonterminal      Node NormalClassDeclaration;
+nonterminal      ClassBody ClassBody, ClassBodyDeclaration, ClassBodyDeclaration_opt;
+nonterminal      List<String> ClassModifier_opt;
+nonterminal      Type Result;
+nonterminal      String ClassModifier;
 nonterminal      FormalParameter, UnannType, UnannReferenceType;
 nonterminal      VariableDeclaratorList, VariableDeclarator_opt, VariableDeclarator;
 nonterminal      VariableDeclaratorId, VariableInitializer_opt, VariableInitializer;
 nonterminal      UnannArrayType, UnannClassOrInterfaceType, UnannClassType, Dims_opt, Dims;
-nonterminal      ClassBodyDeclaration_opt, ClassBodyDeclaration, ClassMemberDeclaration, MethodDeclaration;
-nonterminal      MethodHeader, MethodBody, MethodModifier_opt, MethodModifier, Result, MethodDeclarator, FormalParameterList_opt, FormalParameterList, FormalParameters;
+nonterminal      MethodDeclaration MethodDeclaration, ClassMemberDeclaration;
+nonterminal      List<String> MethodModifier_opt;
+nonterminal      String MethodModifier;
+nonterminal      Node[] MethodHeader;
+nonterminal      MethodBody, MethodDeclarator, FormalParameterList_opt, FormalParameterList, FormalParameters;
 nonterminal      Block, BlockStatements_opt, BlockStatements, BlockStatement_opt, BlockStatement;
 nonterminal      LocalVariableDeclarationStatement, LocalVariableDeclaration;
 nonterminal      UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
@@ -88,9 +94,9 @@ TypeDeclaration             ::= ClassDeclaration;
 
 ClassDeclaration            ::= NormalClassDeclaration;
 
-NormalClassDeclaration      ::= ClassModifier_opt:c CLASS Identifier:i TypeParameters_opt Superclass_opt Superinterfaces_opt ClassBody:cb
+NormalClassDeclaration      ::= ClassModifier_opt:cmdOpt CLASS Identifier:i TypeParameters_opt Superclass_opt Superinterfaces_opt ClassBody:cb
 							{:
-								RESULT = new ClassDeclaration(i, c, new ClassBody());
+								RESULT = new ClassDeclaration(i, cmdOpt, cb);
 								parser.root = (Node)RESULT;
 							:};
 
@@ -106,12 +112,12 @@ Superinterfaces_opt          ::= Superinterfaces
                             | /* empty */
                             ;
 
-ClassModifier_opt           ::= ClassModifier_opt:cmOpt ClassModifier:cm 
+ClassModifier_opt           ::= ClassModifier_opt:cmdOpt ClassModifier:cm 
                             {: 
-                                if (cmOpt == null) {
-                                    cmOpt = new ArrayList<>();
+                                if (cmdOpt == null) {
+                                    cmdOpt = new ArrayList<>();
                                 }
-                                RESULT = cmOpt;
+                                RESULT = cmdOpt;
                                 RESULT.add(new String(cm)); 
                             :}
                             | /* empty */
@@ -119,35 +125,53 @@ ClassModifier_opt           ::= ClassModifier_opt:cmOpt ClassModifier:cm
 
 ClassModifier               ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:s {: RESULT = (String)s; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
 
-ClassBody                   ::= LBRACE ClassBodyDeclaration_opt /*{: RESULT = copt; :}*/ RBRACE;
+ClassBody                   ::= LBRACE ClassBodyDeclaration_opt:cbOpt {: RESULT = cbOpt; :} RBRACE;
 
 Identifier                  ::= IDENTIFIER:i {: RESULT = i; :};
 
-ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration /*{: RESULT =  : }*/
+ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration:cb 
+                            {: 
+                                RESULT = cb;
+                            :}
                             | /* empty */
                             ;
 
-ClassBodyDeclaration        ::= ClassMemberDeclaration;
+ClassBodyDeclaration        ::= ClassMemberDeclaration:cmd {: RESULT = new ClassBody(cmd); :};
 
-ClassMemberDeclaration      ::= MethodDeclaration;
+ClassMemberDeclaration      ::= MethodDeclaration:md {: RESULT = md; :};
 
 /* Method related grammar */
 
-MethodDeclaration           ::= MethodModifier_opt MethodHeader MethodBody;
+MethodDeclaration           ::= MethodModifier_opt:mmOpt MethodHeader:mh MethodBody:MethodBody
+                            {: 
+                                RESULT = new MethodDeclaration(mmOpt, (Result)mh[0], null, null, null);
+                            :};
 
-MethodModifier_opt          ::= MethodModifier_opt MethodModifier
+MethodModifier_opt          ::= MethodModifier_opt:mmOpt MethodModifier:mm
+                            {:
+                                if (mmOpt == null) {
+                                    mmOpt = new ArrayList<>();
+                                }
+                                RESULT = mmOpt;
+                                RESULT.add(mm);
+                            :}
                             | /* empty */
                             ;
 
-MethodModifier              ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+MethodModifier              ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:p {: RESULT = p; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
 
-MethodHeader                ::= Result MethodDeclarator Throws_opt;
+MethodHeader                ::= Result:i MethodDeclarator:md Throws_opt
+                            {:
+                                RESULT = new Node[2];
+                                RESULT[0] = new Result(i);
+                                RESULT[1] = null; /* TODO expand in the future */
+                            :};
 
 Throws_opt                  ::= Throws
                             | /* empty */
                             ;
 
-Result                      ::= VOID;
+Result                      ::= VOID:v {: RESULT = new NamedType(v); :};
 
 MethodDeclarator            ::= Identifier LPAREN FormalParameterList_opt RPAREN;
 

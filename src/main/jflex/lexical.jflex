@@ -97,7 +97,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "throws"             { return symbol(sym.THROWS); }
 <YYINITIAL> "transient"          { return symbol(sym.TRANSIENT); }
 <YYINITIAL> "try"                { return symbol(sym.TRY); }
-<YYINITIAL> "void"               { return symbol(sym.VOID); }
+<YYINITIAL> "void"               { return symbol(sym.VOID, yytext()); }
 <YYINITIAL> "volatile"           { return symbol(sym.VOLATILE); }
 <YYINITIAL> "while"              { return symbol(sym.WHILE); }
 
