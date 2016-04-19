@@ -12,4 +12,9 @@ public class ClassDeclaration extends Node {
 		this.modifiers = modifiers;
 		this.classBody = classBody;
 	}
+	
+	// TODO this is for testing only
+	public ClassDeclaration(String test) {
+		this.name = test;
+	}
 }

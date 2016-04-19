@@ -6,4 +6,8 @@ public class ClassBody extends Node {
 	public ClassBody(MethodDeclaration methodDec) {
 		this.methodDec = methodDec;
 	}
+	
+	public ClassBody() {
+		// TODO test only
+	}
 }

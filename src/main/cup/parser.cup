@@ -1,12 +1,22 @@
 package org.ifn660.jflexer;
 
 import java_cup.runtime.*;
+import org.ifn660.jflexer.ast.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 /* Symbol lists
 These declarations name and supply an object type for each terminal and non-terminal symbol that appears in the grammar
 Terminals are returned by the scanner and placed on the parse stack
 Non-terminals replace a series of Symbol objects on the parse stack when the RHS of a production is recognised
 */
+
+parser code 
+{:
+	public Node root;
+:}
 
 terminal        INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
 terminal        ABSTRACT, CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
@@ -30,8 +40,10 @@ terminal        INTEGER_LITERAL, STRING_LITERAL;
 terminal        LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal        UNKNOWN;
 
-nonterminal      CompilationUnit, TypeDeclaration_opt, TypeDeclaration, ClassDeclaration;
-nonterminal      NormalClassDeclaration, ClassModifier_opt, ClassModifier, ClassBody;
+nonterminal      Node CompilationUnit, TypeDeclaration_opt, TypeDeclaration, ClassDeclaration;
+nonterminal      Node NormalClassDeclaration, ClassBody;
+nonterminal		 List<String> ClassModifier_opt;
+nonterminal		 String ClassModifier;
 nonterminal      FormalParameter, UnannType, UnannReferenceType;
 nonterminal      VariableDeclaratorList, VariableDeclarator_opt, VariableDeclarator;
 nonterminal      VariableDeclaratorId, VariableInitializer_opt, VariableInitializer;
@@ -41,7 +53,7 @@ nonterminal      MethodHeader, MethodBody, MethodModifier_opt, MethodModifier, R
 nonterminal      Block, BlockStatements_opt, BlockStatements, BlockStatement_opt, BlockStatement;
 nonterminal      LocalVariableDeclarationStatement, LocalVariableDeclaration;
 nonterminal      UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
-nonterminal      Identifier;
+nonterminal      String Identifier;
 nonterminal      LastFormalParameter;
 nonterminal      Literal;
 nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
@@ -76,7 +88,11 @@ TypeDeclaration             ::= ClassDeclaration;
 
 ClassDeclaration            ::= NormalClassDeclaration;
 
-NormalClassDeclaration      ::= ClassModifier_opt CLASS Identifier TypeParameters_opt Superclass_opt Superinterfaces_opt ClassBody;
+NormalClassDeclaration      ::= ClassModifier_opt:c CLASS Identifier:i TypeParameters_opt Superclass_opt Superinterfaces_opt ClassBody:cb
+							{:
+								RESULT = new ClassDeclaration(i, c, new ClassBody());
+								parser.root = (Node)RESULT;
+							:};
 
 TypeParameters_opt           ::= TypeParameters
                             | /* empty */
@@ -90,17 +106,17 @@ Superinterfaces_opt          ::= Superinterfaces
                             | /* empty */
                             ;
 
-ClassModifier_opt           ::= ClassModifier_opt ClassModifier
+ClassModifier_opt           ::= ClassModifier_opt:cmOpt ClassModifier:cm {: List<String> modifiers = new ArrayList<>(); RESULT = cmOpt; RESULT.add(new String(cm)); :}
                             | /* empty */
                             ;
 
-ClassModifier               ::= PUBLIC | PROTECTED | PRIVATE | ABSTRACT | STATIC | FINAL | STRICTFP;
+ClassModifier               ::= PUBLIC:p {: System.out.println("wht is p?" + p); RESULT = new String(p.toString());:} ;
 
-ClassBody                   ::= LBRACE ClassBodyDeclaration_opt RBRACE;
+ClassBody                   ::= LBRACE ClassBodyDeclaration_opt /*{: RESULT = copt; :}*/ RBRACE;
 
-Identifier                  ::= IDENTIFIER:i{:RESULT = new String(i); :};
+Identifier                  ::= IDENTIFIER:i {: RESULT = i.toString(); :};
 
-ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration
+ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration /*{: RESULT =  : }*/
                             | /* empty */
                             ;
 
@@ -223,7 +239,7 @@ Primary                     ::= PrimaryNoNewArray
                             | ArrayCreationExpression
                             ;
                             
-ExpressionName              ::= Identifier {:RESULT = new :}
+ExpressionName              ::= Identifier
                             | AmbiguousName DOT Identifier
                             ;
                             

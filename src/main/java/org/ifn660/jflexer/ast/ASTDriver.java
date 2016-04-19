@@ -9,21 +9,28 @@ public class ASTDriver {
     	modifiers.add("public");
     	modifiers.add("static");
     	
-    	ArrayList<String> parameters = new ArrayList<String>();
-    	parameters.add("args");
+    	ElementType elementtype = new ElementType("String");
+    	Type atype = new ArrayType(elementtype);
+    	List<Parameter> parameters = new ArrayList<Parameter>();
+    	Parameter parameter = new Parameter(atype, "args");
+    	parameters.add(parameter);
     	
     	IntegerLiteralExpression expression = new IntegerLiteralExpression(42);
-    	VariableInitializer varInit = new VariableInitializer("=", expression);
+    	VariableInitializer varInit = new VariableInitializer(expression);
     	VariableDeclaratorId varDecId = new VariableDeclaratorId("x");
-    	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(varDecId, varInit);
+    	Type itype = new NamedType("int");
+    	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(itype, varDecId, varInit);
     	MethodBody methodBod = new MethodBody(localVarDec);
-    	MethodDeclaration methodDec = new MethodDeclaration(modifiers, "void", "main", parameters, methodBod);
-    	ClassBody classBod = new ClassBody(methodDec);
+    	
+    	Type type = new NamedType("void");
+    	Result result = new Result(type);
+    	MethodDeclaration methodDec = new MethodDeclaration(modifiers, result, "main", parameters, methodBod);
+    	ClassBody classBody = new ClassBody(methodDec);
     	
     	List<String> modifiersForClass = new ArrayList<String>();
     	modifiersForClass.add("public");
     	
-        Node root = new ClassDeclaration("Example", modifiersForClass, classBod);
+        Node root = new ClassDeclaration("Example", modifiersForClass, classBody);
         root.printNodeReflection(0);
     }
 }

@@ -1,6 +1,7 @@
 package org.ifn660.jflexer.ast;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public abstract class Node {
     
@@ -29,6 +30,9 @@ public abstract class Node {
                 } else {
                     // if not then just print that attribute's value
                     //Node.indent(identSize + 1);
+//                	if (field.getType().equals(ArrayList.class)) {
+//                		for ()
+//                	}
                     System.out.println(field.getName() + ": " + field.get(this));
                 }
             }
