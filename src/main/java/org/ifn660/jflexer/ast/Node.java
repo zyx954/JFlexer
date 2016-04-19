@@ -49,6 +49,9 @@ public abstract class Node {
                             for(Node node : nodes) {
                                 node.printNodeReflection(identSize + 3);
                             }
+                        } else if (String.class.isAssignableFrom(genericType)) {
+                            Node.indent(identSize + 1);
+                            System.out.println(field.getName() + ": " + field.get(this));
                         }
                     } else {
                         Node.indent(identSize + 1);
