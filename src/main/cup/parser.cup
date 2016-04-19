@@ -19,17 +19,17 @@ parser code
 :}
 
 terminal        INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
-terminal        ABSTRACT, CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
+terminal        CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
 terminal        VOID, NULL, STATIC;
 terminal        IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
 terminal        RETURN;
-terminal        PUBLIC, PRIVATE, PROTECTED;
+terminal        String PUBLIC, PRIVATE, PROTECTED, ABSTRACT, STRICTFP, FINAL;
 terminal        ASSERT, BYTE;
-terminal        CONTINUE, DEFAULT, ENUM, FINAL, FINALLY, GOTO;
-terminal        IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE, STRICTFP;
+terminal        CONTINUE, DEFAULT, ENUM, FINALLY, GOTO;
+terminal        IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE;
 terminal        SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
 terminal        CATCH, TRY, THROW, THROWS;
-terminal        IDENTIFIER;
+terminal        String IDENTIFIER;
 terminal        OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN, OP_LAMBDA, 
                 OP_EQ_EQ, OP_GT_EQ, OP_LT_EQ, OP_LOGIC_AND, OP_LOGIC_OR, OP_POS_INCR, 
                 OP_NEG_INCR, OP_PLUS, OP_MINUS, OP_MULTIPLY, OP_DIVIDE, OP_AND, OP_OR, OP_XOR, 
@@ -106,15 +106,22 @@ Superinterfaces_opt          ::= Superinterfaces
                             | /* empty */
                             ;
 
-ClassModifier_opt           ::= ClassModifier_opt:cmOpt ClassModifier:cm {: List<String> modifiers = new ArrayList<>(); RESULT = cmOpt; RESULT.add(new String(cm)); :}
+ClassModifier_opt           ::= ClassModifier_opt:cmOpt ClassModifier:cm 
+                            {: 
+                                if (cmOpt == null) {
+                                    cmOpt = new ArrayList<>();
+                                }
+                                RESULT = cmOpt;
+                                RESULT.add(new String(cm)); 
+                            :}
                             | /* empty */
                             ;
 
-ClassModifier               ::= PUBLIC:p {: System.out.println("wht is p?" + p); RESULT = new String(p.toString());:} ;
+ClassModifier               ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:s {: RESULT = (String)s; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
 
 ClassBody                   ::= LBRACE ClassBodyDeclaration_opt /*{: RESULT = copt; :}*/ RBRACE;
 
-Identifier                  ::= IDENTIFIER:i {: RESULT = i.toString(); :};
+Identifier                  ::= IDENTIFIER:i {: RESULT = i; :};
 
 ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration /*{: RESULT =  : }*/
                             | /* empty */

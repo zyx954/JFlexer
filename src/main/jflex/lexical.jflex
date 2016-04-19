@@ -50,7 +50,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 
 /* keywords */
-<YYINITIAL> "abstract"           { return symbol(sym.ABSTRACT); }
+<YYINITIAL> "abstract"           { return symbol(sym.ABSTRACT, yytext()); }
 <YYINITIAL> "assert"             { return symbol(sym.ASSERT); }
 <YYINITIAL> "boolean"            { return symbol(sym.BOOLEAN); }
 <YYINITIAL> "break"              { return symbol(sym.BREAK); }
@@ -67,7 +67,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "else"               { return symbol(sym.ELSE); }
 <YYINITIAL> "enum"               { return symbol(sym.ENUM); }
 <YYINITIAL> "extends"            { return symbol(sym.EXTENDS); }
-<YYINITIAL> "final"              { return symbol(sym.FINAL); }
+<YYINITIAL> "final"              { return symbol(sym.FINAL, yytext()); }
 <YYINITIAL> "finally"            { return symbol(sym.FINALLY); }
 <YYINITIAL> "float"              { return symbol(sym.FLOAT); }
 <YYINITIAL> "for"                { return symbol(sym.FOR); }
@@ -82,13 +82,13 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "native"             { return symbol(sym.NATIVE); }
 <YYINITIAL> "new"                { return symbol(sym.NEW); }
 <YYINITIAL> "package"            { return symbol(sym.PACKAGE); }
-<YYINITIAL> "private"            { return symbol(sym.PRIVATE); }
-<YYINITIAL> "protected"          { return symbol(sym.PROTECTED); }
-<YYINITIAL> "public"             { return symbol(sym.PUBLIC); }
+<YYINITIAL> "private"            { return symbol(sym.PRIVATE, yytext()); }
+<YYINITIAL> "protected"          { return symbol(sym.PROTECTED, yytext()); }
+<YYINITIAL> "public"             { return symbol(sym.PUBLIC, yytext()); }
 <YYINITIAL> "return"             { return symbol(sym.RETURN); }
 <YYINITIAL> "short"              { return symbol(sym.SHORT); }
-<YYINITIAL> "static"             { return symbol(sym.STATIC); }
-<YYINITIAL> "strictfp"           { return symbol(sym.STRICTFP); }
+<YYINITIAL> "static"             { return symbol(sym.STATIC, yytext()); }
+<YYINITIAL> "strictfp"           { return symbol(sym.STRICTFP, yytext()); }
 <YYINITIAL> "super"              { return symbol(sym.SUPER); }
 <YYINITIAL> "switch"             { return symbol(sym.SWITCH); }
 <YYINITIAL> "synchronized"       { return symbol(sym.SYNCHRONIZED); }
@@ -105,7 +105,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> {
 
 /* identifiers */ 
-  {Identifier}                   { return symbol(sym.IDENTIFIER); }
+  {Identifier}                   { return symbol(sym.IDENTIFIER, yytext()); }
  
  
 /* literals */

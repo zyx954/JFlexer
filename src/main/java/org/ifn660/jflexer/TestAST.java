@@ -9,7 +9,7 @@ public class TestAST {
         try {
             parser p = new parser(new Lexer(new FileReader("resources/" + args[0])));
             //Object result = p.parse().value; // Parses the value of a terminal
-            p.debug_parse();
+            p.parse();
             p.root.printNodeReflection(0);
         } catch (Exception e) {
             /* do cleanup here -- possibly rethrow e */
