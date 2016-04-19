@@ -1,13 +1,15 @@
 package org.ifn660.jflexer.ast;
 
+import java.util.List;
+
 public class ClassDeclaration extends Node {
 	private String name;
-	private String modifier;
-	private ClassBody classBod;
+	private List<String> modifiers;
+	private ClassBody classBody;
 	
-	public ClassDeclaration (String name, String modifier, ClassBody classBod) {
+	public ClassDeclaration (String name, List<String> modifiers, ClassBody classBody) {
 		this.name = name;
-		this.modifier = modifier;
-		this.classBod = classBod;
+		this.modifiers = modifiers;
+		this.classBody = classBody;
 	}
 }

@@ -1,6 +1,7 @@
 package org.ifn660.jflexer.ast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ASTDriver {
     public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
@@ -18,9 +19,11 @@ public class ASTDriver {
     	MethodBody methodBod = new MethodBody(localVarDec);
     	MethodDeclaration methodDec = new MethodDeclaration(modifiers, "void", "main", parameters, methodBod);
     	ClassBody classBod = new ClassBody(methodDec);
-  
     	
-        Node root = new ClassDeclaration("Example", "public", classBod);
+    	List<String> modifiersForClass = new ArrayList<String>();
+    	modifiersForClass.add("public");
+    	
+        Node root = new ClassDeclaration("Example", modifiersForClass, classBod);
         root.printNodeReflection(0);
     }
 }
