@@ -15,11 +15,12 @@ public class ASTDriver {
     	Parameter parameter = new Parameter(atype, "args");
     	parameters.add(parameter);
     	
-    	IntegerLiteralExpression expression = new IntegerLiteralExpression(42);
-    	VariableInitializer varInit = new VariableInitializer(expression);
-    	VariableDeclaratorId varDecId = new VariableDeclaratorId("x");
     	Type itype = new NamedType("int");
-    	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(itype, varDecId, varInit);
+    	IntegerLiteralExpression expression = new IntegerLiteralExpression(42);
+    	VariableDeclaratorId varDecId = new VariableDeclaratorId("x");
+    	VariableInitializer varInit = new VariableInitializer(varDecId,expression);
+    	
+    	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(itype,varInit);
     	MethodBody methodBod = new MethodBody(localVarDec);
     	
     	Type type = new NamedType("void");
