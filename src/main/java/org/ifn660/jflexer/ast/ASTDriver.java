@@ -18,9 +18,9 @@ public class ASTDriver {
     	Type itype = new NamedType("int");
     	IntegerLiteralExpression expression = new IntegerLiteralExpression(42);
     	VariableDeclaratorId varDecId = new VariableDeclaratorId("x");
-    	VariableInitializer varInit = new VariableInitializer(varDecId,expression);
+    	VariableInitializer varInit = new VariableInitializer(expression);
     	
-    	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(itype,varInit);
+    	LocalVariableDeclarationStatement localVarDec = new LocalVariableDeclarationStatement(itype,varDecId,varInit);
     	MethodBody methodBod = new MethodBody(localVarDec);
     	
     	Type type = new NamedType("void");
