@@ -20,7 +20,8 @@ parser code
 
 terminal        INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
 terminal        CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
-terminal        String VOID;
+terminal        String VOID;// vthai: Terminal needs a type as well  //vthai:If we are using a terminal's value inside the CUP action, remember we need to add it in the scanner first
+                //zyx: further information to see the JFlexers.
 terminal        NULL;
 terminal        IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
 terminal        RETURN;
@@ -44,7 +45,7 @@ terminal        UNKNOWN;
 nonterminal      Node CompilationUnit, TypeDeclaration_opt, TypeDeclaration, ClassDeclaration;
 nonterminal      Node NormalClassDeclaration;
 nonterminal      ClassBody ClassBody, ClassBodyDeclaration, ClassBodyDeclaration_opt;
-nonterminal      List<String> ClassModifier_opt;
+nonterminal      List<String> ClassModifier_opt;// vthai: Non terminal needs to be declare with a correct AST class type!
 nonterminal      Type Result;
 nonterminal      String ClassModifier;
 nonterminal      FormalParameter, UnannType, UnannReferenceType;
@@ -122,6 +123,8 @@ ClassModifier_opt           ::= ClassModifier_opt:cmdOpt ClassModifier:cm
                             :}
                             | /* empty */
                             ;
+                            //vthai: This should be the common template for doing a recursive capture, unless somebody find a better way
+                            // zyx : s
 
 ClassModifier               ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:s {: RESULT = (String)s; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
 
