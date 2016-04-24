@@ -30,7 +30,8 @@ public class ASTDriver {
     	List<String> modifiersForClass = new ArrayList<String>();
     	modifiersForClass.add("public");
     	
-        Node root = new ClassDeclaration("Example", modifiersForClass, classBody);
+        //Node root = new ClassDeclaration("Example", modifiersForClass, classBody);
+        Node root = new ClassDeclaration("Example");
         root.printNodeReflection(0);
     }
 }

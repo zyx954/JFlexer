@@ -21,7 +21,6 @@ parser code
 terminal        INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
 terminal        CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
 terminal        String VOID;// vthai: Terminal needs a type as well  //vthai:If we are using a terminal's value inside the CUP action, remember we need to add it in the scanner first
-                //zyx: further information to see the JFlexers.
 terminal        NULL;
 terminal        IF, ELSE, DO, WHILE, FOR, CASE, SWITCH, BREAK;
 terminal        RETURN;
@@ -95,9 +94,19 @@ TypeDeclaration             ::= ClassDeclaration;
 
 ClassDeclaration            ::= NormalClassDeclaration;
 
+
+
 NormalClassDeclaration      ::= ClassModifier_opt:cmdOpt CLASS Identifier:i TypeParameters_opt Superclass_opt Superinterfaces_opt ClassBody:cb
 							{:
-								RESULT = new ClassDeclaration(i, cmdOpt, cb);
+								RESULT = new ClassDeclaration(i, cmdOpt, cb);//zyx :for the identifier. It is  a non termianl so here we new one class to pass the value from scanner to the class we built. 
+//zyx: because this is the top of the AST.so ths can only get the name of the tree structure for the befinning part.
+//like hte identifier is nontermial there no value here; the deviation tree built here will  drive to the bottom which is 
+//zyx : Identifier::= IDENTIFIER. here is terminal. so the scanner will pass the a value called IDENTIFIER to there .and the cup will catch this value pass to the i, THEN i pass to RESULT, THEN give to the up laver  which is here .and this value will  pass to i here the nwe use i as class parameter to pass to a class we built before.(the valus passed here is "Example")
+//zyx : the top is the value pass prosure. it seems we need all the sequence to pass the value to the top. THEN that is possible to let the coresponding node to get the value
+//zyx : but before get value we need to pass the value to the top throgh that tree.looks long 
+//zyx:but the place we need to creat class instance is just the place in the AST.which is the class hierarchyu we creat.
+//zyx:by the way if I want to use the terminal I need to state in the Jflexe.and give the correspinding type. 
+//zyx : for the nonterminal we need to git the type as well. 
 								parser.root = (Node)RESULT;
 							:};
 
@@ -113,7 +122,7 @@ Superinterfaces_opt          ::= Superinterfaces
                             | /* empty */
                             ;
 
-ClassModifier_opt           ::= ClassModifier_opt:cmdOpt ClassModifier:cm 
+ClassModifier_opt           ::= ClassModifier_opt :cmdOpt ClassModifier:cm 
                             {: 
                                 if (cmdOpt == null) {
                                     cmdOpt = new ArrayList<>();
@@ -124,22 +133,23 @@ ClassModifier_opt           ::= ClassModifier_opt:cmdOpt ClassModifier:cm
                             | /* empty */
                             ;
                             //vthai: This should be the common template for doing a recursive capture, unless somebody find a better way
-                            // zyx : s
+                            // zyx : this is the way to realize the options 
 
 ClassModifier               ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:s {: RESULT = (String)s; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
 
-ClassBody                   ::= LBRACE ClassBodyDeclaration_opt:cbOpt {: RESULT = cbOpt; :} RBRACE;
+ClassBody                   ::= LBRACE ClassBodyDeclaration_opt:cbOpt {: RESULT = cbOpt; :} RBRACE;//zyx: there no corresponding class here so just pass the value from the bottom.
+//zyx : here should be one clss here .but not ,it just get from the bottom. here is a option which means have a lot options .
 
-Identifier                  ::= IDENTIFIER:i {: RESULT = i; :};
+Identifier                  ::= IDENTIFIER:i {: RESULT = i; :};//zyx : this whole struture is just bulit for the termianl from scanner , this is the first termail we get from sanner, here add one RESULT=i; "i" is a kind of sign for the termianl and nonterminal.'
 
-ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration:cb 
+ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration:cb //zyx:zyx: there no corresponding class here so just pass the value from the bottom.
                             {: 
                                 RESULT = cb;
                             :}
                             | /* empty */
                             ;
 
-ClassBodyDeclaration        ::= ClassMemberDeclaration:cmd {: RESULT = new ClassBody(cmd); :};
+ClassBodyDeclaration        ::= ClassMemberDeclaration:cmd {: RESULT = new ClassBody(cmd); :};// zyx : here new one class which means the ClassBodyDeclaration is hte classbody type
 
 ClassMemberDeclaration      ::= MethodDeclaration:md {: RESULT = md; :};
 
