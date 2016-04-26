@@ -76,7 +76,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "implements"         { return symbol(sym.IMPLEMENTS); }
 <YYINITIAL> "import"             { return symbol(sym.IMPORT); }
 <YYINITIAL> "instanceof"         { return symbol(sym.INSTANCEOF); }
-<YYINITIAL> "int"                { return symbol(sym.INT); }
+<YYINITIAL> "int"                { return symbol(sym.INT, yytext()); }
 <YYINITIAL> "interface"          { return symbol(sym.INTERFACE); }
 <YYINITIAL> "long"               { return symbol(sym.LONG); }
 <YYINITIAL> "native"             { return symbol(sym.NATIVE); }

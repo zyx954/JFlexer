@@ -1,9 +1,11 @@
 package org.ifn660.jflexer.ast;
 
+import java.util.List;
+
 public class MethodBody extends Node {
-	private LocalVariableDeclarationStatement localVarDec;
+	private List <Statement> statements;
 	
-	public MethodBody(LocalVariableDeclarationStatement localVarDec) {
-		this.localVarDec = localVarDec;
+	public MethodBody(List <Statement> localVarDec) {
+		this.statements = localVarDec;
 	}
 }

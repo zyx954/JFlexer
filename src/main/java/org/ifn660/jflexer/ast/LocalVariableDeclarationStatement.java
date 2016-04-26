@@ -1,12 +1,12 @@
 package org.ifn660.jflexer.ast;
 
-public class LocalVariableDeclarationStatement extends Node {
-    private VariableDeclaratorId varDecId;
+public class LocalVariableDeclarationStatement extends Statement {
+	private Type type;
+	private IdentifierNode identifiernode;
     private VariableInitializer varInit;
-    private Type type;
     
-    public LocalVariableDeclarationStatement(Type type, VariableDeclaratorId varDecId, VariableInitializer varInit) {
-        this.varDecId = varDecId;
+    public LocalVariableDeclarationStatement(Type type, IdentifierNode identifiernode, VariableInitializer varInit) {
+        this.identifiernode = identifiernode;
         this.varInit = varInit;
         this.type = type;
     }

@@ -1,9 +1,9 @@
 package org.ifn660.jflexer.ast;
 
 public class ElementType extends Type {
-	private String elementtype;
+	private IdentifierNode elementtype;
 
-	public ElementType(String elementtype) {
+	public ElementType(IdentifierNode elementtype) {
 		this.elementtype = elementtype;
 	}
 	

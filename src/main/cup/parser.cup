@@ -18,7 +18,8 @@ parser code
 	public Node root;
 :}
 
-terminal        INT, BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
+terminal        String INT; 
+terminal        BOOLEAN, CHAR, CONST, DOUBLE, FLOAT, LONG, SHORT;
 terminal        CLASS, SUPER, INTERFACE, EXTENDS, IMPLEMENTS;
 terminal        String VOID;
 terminal        NULL;
@@ -47,20 +48,28 @@ nonterminal      ClassBody ClassBody, ClassBodyDeclaration, ClassBodyDeclaration
 nonterminal      List<String> ClassModifier_opt;
 nonterminal      Type Result;
 nonterminal      String ClassModifier;
-nonterminal      FormalParameter, UnannType, UnannReferenceType;
-nonterminal      VariableDeclaratorList, VariableDeclarator_opt, VariableDeclarator;
-nonterminal      VariableDeclaratorId, VariableInitializer_opt, VariableInitializer;
-nonterminal      UnannArrayType, UnannClassOrInterfaceType, UnannClassType, Dims_opt, Dims;
+nonterminal      TempWrapper VariableDeclaratorList, VariableDeclarator; 
+nonterminal      VariableDeclarator_opt;
+nonterminal      VariableInitializer_opt, VariableInitializer;
+nonterminal      Dims_opt, Dims;
 nonterminal      MethodDeclaration MethodDeclaration, ClassMemberDeclaration;
 nonterminal      List<String> MethodModifier_opt;
 nonterminal      String MethodModifier;
-nonterminal      Node[] MethodHeader;
-nonterminal      MethodBody, MethodDeclarator, FormalParameterList_opt, FormalParameterList, FormalParameters;
-nonterminal      Block, BlockStatements_opt, BlockStatements, BlockStatement_opt, BlockStatement;
-nonterminal      LocalVariableDeclarationStatement, LocalVariableDeclaration;
-nonterminal      UnnanType, UnnanPrimitiveType, UnnanReferenceType, NumericType, IntegralType, FloatingPointType;
-nonterminal      String Identifier;
-nonterminal      LastFormalParameter;
+nonterminal      TempWrapper MethodHeader;
+nonterminal      MethodBody MethodBody;
+nonterminal      TempWrapper MethodDeclarator; 
+nonterminal      List<Parameter> FormalParameterList_opt, FormalParameterList;
+nonterminal      Parameter LastFormalParameter;
+nonterminal      Parameter FormalParameter;
+nonterminal      List<Statement> Block, BlockStatements, BlockStatement_opt; 
+nonterminal      Statement BlockStatement;
+nonterminal      LocalVariableDeclarationStatement LocalVariableDeclarationStatement, LocalVariableDeclaration;
+nonterminal      Type UnannType; 
+nonterminal      Type UnannPrimitiveType; 
+nonterminal      Type UnannReferenceType; 
+nonterminal      ElementType UnannClassOrInterfaceType, UnannClassType, UnannArrayType;
+nonterminal      Type NumericType, IntegralType, FloatingPointType;
+nonterminal      IdentifierNode Identifier, VariableDeclaratorId;
 nonterminal      Literal;
 nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
 nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
@@ -118,7 +127,7 @@ ClassModifier_opt           ::= ClassModifier_opt:cmdOpt ClassModifier:cm
                                     cmdOpt = new ArrayList<>();
                                 }
                                 RESULT = cmdOpt;
-                                RESULT.add(new String(cm)); 
+                                RESULT.add (cm); 
                             :}
                             | /* empty */
                             ;
@@ -127,7 +136,7 @@ ClassModifier               ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESU
 
 ClassBody                   ::= LBRACE ClassBodyDeclaration_opt:cbOpt {: RESULT = cbOpt; :} RBRACE;
 
-Identifier                  ::= IDENTIFIER:i {: RESULT = i; :};
+Identifier                  ::= IDENTIFIER:i {: RESULT = new IdentifierNode(i); :};
 
 ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration:cb 
                             {: 
@@ -142,9 +151,10 @@ ClassMemberDeclaration      ::= MethodDeclaration:md {: RESULT = md; :};
 
 /* Method related grammar */
 
-MethodDeclaration           ::= MethodModifier_opt:mmOpt MethodHeader:mh MethodBody:MethodBody
+MethodDeclaration           ::= MethodModifier_opt:mmOpt MethodHeader:mh MethodBody:mb
                             {: 
-                                RESULT = new MethodDeclaration(mmOpt, (Result)mh[0], null, null, null);
+                                RESULT = new MethodDeclaration(mmOpt, mh.result, mh.identifiernode, mh.parameters, mb);
+                                
                             :};
 
 MethodModifier_opt          ::= MethodModifier_opt:mmOpt MethodModifier:mm
@@ -162,9 +172,10 @@ MethodModifier              ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESU
 
 MethodHeader                ::= Result:i MethodDeclarator:md Throws_opt
                             {:
-                                RESULT = new Node[2];
-                                RESULT[0] = new Result(i);
-                                RESULT[1] = null; /* TODO expand in the future */
+                                RESULT = new TempWrapper();
+                                RESULT.result = new Result(i);
+                                RESULT.identifiernode = md.identifiernode; /* TODO expand in the future */
+                                RESULT.parameters = md.parameters;
                             :};
 
 Throws_opt                  ::= Throws
@@ -173,33 +184,70 @@ Throws_opt                  ::= Throws
 
 Result                      ::= VOID:v {: RESULT = new NamedType(v); :};
 
-MethodDeclarator            ::= Identifier LPAREN FormalParameterList_opt RPAREN;
+MethodDeclarator            ::= Identifier:id LPAREN FormalParameterList_opt:fpl_opt RPAREN
+                            {:
+                                RESULT = new TempWrapper();                                
+                                RESULT.identifiernode = id;
+                                RESULT.parameters = fpl_opt;
+                                
+                            :}
+                            ;
 
-FormalParameterList_opt     ::= FormalParameterList
+FormalParameterList_opt     ::= FormalParameterList:fpl
+                            {:
+                                RESULT = fpl;
+                            :}
                             | /* empty */
                             ;
 
-FormalParameterList         ::= LastFormalParameter;
+FormalParameterList         ::= LastFormalParameter:lfp
+                            {:
+                                RESULT = new ArrayList<>();
+                                RESULT.add (lfp);
+                            :}
+                            ;
 
-LastFormalParameter         ::= FormalParameter;
+LastFormalParameter         ::= FormalParameter:fp
+                            {:
+                                 RESULT = fp;
+                            :}
+                            ;
 
-FormalParameter             ::= VariableModifier_opt UnannType VariableDeclaratorId;
+FormalParameter             ::= VariableModifier_opt UnannType:ut VariableDeclaratorId:vdi
+                            {:
+                                 RESULT = new Parameter (ut, vdi);
+                            :}
+                            ;
 
 VariableModifier_opt        ::= VariableModifier_opt VariableModifier
                             | /* empty */
                             ;
 
-UnannType                   ::= UnannReferenceType;
 
-UnannReferenceType          ::= UnannArrayType;
+UnannReferenceType          ::= UnannArrayType:uat
+                            {:
+                                 RESULT = new ArrayType(uat);
+                            :}
+                            ;
 
-UnannArrayType              ::= UnannClassOrInterfaceType Dims;
+UnannArrayType              ::= UnannClassOrInterfaceType:ucoit Dims
+                            {:
+                                 RESULT = ucoit;
+                            :}
+                            ;
 
 Dims                        ::= LBRACK RBRACK;
 
-UnannClassOrInterfaceType   ::= UnannClassType;
+UnannClassOrInterfaceType   ::= UnannClassType:uct
+                            {:
+                                 RESULT = uct;
+                            :}
+                            ;
 
-UnannClassType              ::= Identifier TypeArguments_opt
+UnannClassType              ::= Identifier:id TypeArguments_opt
+                            {:
+                                 RESULT = new ElementType(id);
+                            :}
                             ;
 
 TypeArguments_opt           ::= TypeArguments
@@ -284,46 +332,86 @@ Literal                     ::= INTEGER_LITERAL;
 
 /* Method body related grammar */
 
-MethodBody                  ::= Block
+MethodBody                  ::= Block:b
+                            {:
+                                 RESULT = new MethodBody(b);
+                            :}
                             ;
 
-Block                       ::= LBRACE BlockStatements_opt RBRACE
+Block                       ::= LBRACE BlockStatements:bss RBRACE
+                            {:
+                                 RESULT = bss;
+                            :}
                             ;
 
-BlockStatements_opt         ::= BlockStatements
+BlockStatements             ::= BlockStatement:bs BlockStatement_opt: bs_opt
+                            {:
+                                RESULT = new ArrayList<>();
+                                RESULT.add(bs);
+                                if (bs_opt != null) {
+                                	RESULT.addAll(bs_opt);
+                                }
+                            :}
+                            ;
+
+BlockStatement_opt          ::= BlockStatement_opt:bs_opt BlockStatement:bs
+                            {:
+                            	if (bs_opt == null) {
+                            		bs_opt = new ArrayList<>();
+                            	}
+                            	RESULT = bs_opt;
+                                RESULT.add(bs);
+                            :}
                             | /* empty */
                             ;
 
-BlockStatements             ::= BlockStatement BlockStatement_opt
+BlockStatement              ::= LocalVariableDeclarationStatement:lvds
+                            {:
+                                 RESULT = lvds;
+                            :}
                             ;
 
-BlockStatement_opt          ::= BlockStatement_opt BlockStatement
-                            | /* empty */
+LocalVariableDeclarationStatement ::= LocalVariableDeclaration:lvd SEMICOLON
+                                  {:
+                                       RESULT = lvd;
+                                  :}
+                                  ;
+
+LocalVariableDeclaration    ::= VariableModifier_opt UnannType:ut VariableDeclaratorList:vdl
+                            {:
+                                 RESULT = new LocalVariableDeclarationStatement(ut, vdl.variabledeclaratorid, vdl.variableinitializer);
+                            :}
                             ;
 
-BlockStatement              ::= LocalVariableDeclarationStatement
+VariableDeclaratorList      ::= VariableDeclarator:vd VariableDeclarator_opt
+                            {:
+                                 RESULT = vd;   
+                                 //RESULT = vd_opt;
+                            :}
                             ;
-
-LocalVariableDeclarationStatement ::= LocalVariableDeclaration SEMICOLON
-                                   ;
-
-LocalVariableDeclaration    ::= VariableModifier_opt UnnanType VariableDeclaratorList
-                            ;
-
-VariableDeclaratorList      ::= VariableDeclarator VariableDeclarator_opt;
                             
-VariableDeclarator_opt      ::= COMMA VariableDeclarator_opt VariableDeclarator
+VariableDeclarator_opt      ::= COMMA VariableDeclarator_opt VariableDeclarator:vd
+                            {:
+                                 RESULT = vd;
+                            :}
                             | /* empty */
                             ;
                             
-VariableDeclarator          ::= VariableDeclaratorId VariableInitializer_opt
+VariableDeclarator          ::= VariableDeclaratorId:vdi VariableInitializer_opt:vi_opt
+                            {:
+                                 RESULT = new TempWrapper();
+                                 RESULT.variabledeclaratorid = vdi;
+                            :}
                             ;
 
 VariableInitializer_opt     ::= OP_EQ VariableInitializer
                             | /* empty */
                             ;
                             
-VariableDeclaratorId        ::= Identifier Dims_opt
+VariableDeclaratorId        ::= Identifier:id Dims_opt
+                            {:
+                                 RESULT = id;
+                            :}
                             ;
 
 Dims_opt                    ::= Dims
@@ -332,19 +420,35 @@ Dims_opt                    ::= Dims
 
 VariableInitializer         ::= Expression;
 
-UnnanType                   ::= UnnanPrimitiveType
-                            /*| UnnanReferenceType*/
+UnannType                   ::= UnannPrimitiveType:upt
+                            {:
+                                 RESULT = upt;
+                            :}
+                            
+                            | UnannReferenceType:urt
+                            {:
+                                 RESULT = urt;
+                            :}
                             ;
 
-UnnanPrimitiveType          ::= NumericType
+UnannPrimitiveType          ::= NumericType:nt
+                            {:
+                                 RESULT = nt;
+                            :}
                             /*| BOOLEAN*/
                             ;
 
-NumericType                 ::= IntegralType
+NumericType                 ::= IntegralType:it
+                            {:
+                                 RESULT = it;
+                            :}
                             | FloatingPointType
                             ;
 
-IntegralType                ::= INT
+IntegralType                ::= INT:i
+                            {:
+                                 RESULT = new NamedType(i);
+                            :}
                             | CHAR
                             | BYTE
                             | SHORT
