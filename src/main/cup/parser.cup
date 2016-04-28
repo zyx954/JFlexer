@@ -403,7 +403,7 @@ PrimaryNoNewArray           ::= Literal:l
 
 Literal                     ::= INTEGER_LITERAL:il
                             {:
-                                RESULT = 42;
+                                RESULT = il;
                             :}
                             ;
 
