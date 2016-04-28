@@ -38,7 +38,8 @@ terminal        OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN
                 OP_MODULUS, OP_BIT_L_SHIFT, OP_BIT_R_SHIFT, OP_UNSIGN_R_SHIFT, OP_ADD_AND, OP_MINUS_AND, 
                 OP_MULTIPLY_AND, OP_DIVIDE_AND, OP_BIT_AND, OP_BIT_INCL_OR, OP_BIT_EXCL_OR, 
                 OP_MODULUS_AND, OP_L_SHIFT_AND, OP_R_SHIFT_AND, OP_UNSIGN_R_SHIFT_AND;
-terminal        INTEGER_LITERAL, STRING_LITERAL;
+terminal        int INTEGER_LITERAL;
+terminal        STRING_LITERAL;
 terminal        LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal        UNKNOWN;
 
@@ -50,7 +51,7 @@ nonterminal      Type Result;
 nonterminal      String ClassModifier;
 nonterminal      TempWrapper VariableDeclaratorList, VariableDeclarator; 
 nonterminal      VariableDeclarator_opt;
-nonterminal      VariableInitializer_opt, VariableInitializer;
+nonterminal      VariableInitializer VariableInitializer_opt, VariableInitializer;
 nonterminal      Dims_opt, Dims;
 nonterminal      MethodDeclaration MethodDeclaration, ClassMemberDeclaration;
 nonterminal      List<String> MethodModifier_opt;
@@ -70,12 +71,13 @@ nonterminal      Type UnannReferenceType;
 nonterminal      ElementType UnannClassOrInterfaceType, UnannClassType, UnannArrayType;
 nonterminal      Type NumericType, IntegralType, FloatingPointType;
 nonterminal      IdentifierNode Identifier, VariableDeclaratorId;
-nonterminal      Literal;
-nonterminal      PrimaryNoNewArray, Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
-nonterminal      UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
-nonterminal      RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
-nonterminal      InclusiveOrExpression, ConditionalAndExpression, ConditionalOrExpression;
-nonterminal      ConditionalExpression, AssignmentExpression, Expression;
+nonterminal      int Literal;
+nonterminal      IntegerLiteralExpression PrimaryNoNewArray;
+nonterminal      Expression Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
+nonterminal      Expression UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
+nonterminal      Expression RelationalExpression, EqualityExpression, AndExpression, ExclusiveOrExpression;
+nonterminal      Expression InclusiveOrExpression, ConditionalAndExpression, ConditionalOrExpression;
+nonterminal      Expression ConditionalExpression, AssignmentExpression, Expression;
 nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_opt, ImportDeclaration;
 nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
@@ -256,43 +258,97 @@ TypeArguments_opt           ::= TypeArguments
 
 /* Assignment Expression related grammar */
 
-Expression                  ::= AssignmentExpression;
+Expression                  ::= AssignmentExpression:a
+                            {:
+                                RESULT = a;
+                            :}
+                            ;
 
-AssignmentExpression        ::= ConditionalExpression;
+AssignmentExpression        ::= ConditionalExpression:ce
+                            {:
+                                RESULT = ce;
+                            :}
+                            ;
 
-ConditionalExpression       ::= ConditionalOrExpression
-                            | ConditionalOrExpression OP_TERNARY Expression OP_LOOP_IN ConditionalExpression;
+ConditionalExpression       ::= ConditionalOrExpression:coe
+                            {:
+                                RESULT = coe;
+                            :}
+                            | ConditionalOrExpression OP_TERNARY Expression OP_LOOP_IN ConditionalExpression
+                           // {:
+                                //RESULT = a;
+//zyx : how to add 
+//zyx : do we have this class hierarchy?
+//zyx : what is this to express.
+//zyx : int y = x == 42 ? 1 : 0;
+                          //  :}
+//zyx : here need to extend the class 
+//zyx : need to condider how to build "int y = x == 42 ? 1 : 0;" this data structure.
+;
 
-ConditionalOrExpression     ::= ConditionalAndExpression;
+ConditionalOrExpression     ::= ConditionalAndExpression:cae
+                            {:
+                                RESULT = cae;
+                            :}
+                            ;
 
-ConditionalAndExpression    ::= InclusiveOrExpression;
+ConditionalAndExpression    ::= InclusiveOrExpression:ioe
+                            {:
+                                RESULT = ioe;
+                            :}
+                            ;
 
-InclusiveOrExpression       ::= ExclusiveOrExpression;
+InclusiveOrExpression       ::= ExclusiveOrExpression:eoe
+                            {:
+                                RESULT = eoe;
+                            :}
+                            ;
 
-ExclusiveOrExpression       ::= AndExpression
+ExclusiveOrExpression       ::= AndExpression:ae
+                            {:
+                                RESULT = ae;
+                            :}
 							| ExclusiveOrExpression OP_XOR AndExpression
 							;
 
-AndExpression               ::= EqualityExpression
+AndExpression               ::= EqualityExpression:ee
+                            {:
+                                RESULT = ee;
+                            :}
                             | AndExpression OP_LOGIC_AND EqualityExpression;
 
-EqualityExpression          ::= RelationalExpression
+EqualityExpression          ::= RelationalExpression:re
+                            {:
+                                RESULT = re;
+                            :}
                             | EqualityExpression OP_EQ_EQ RelationalExpression
                             | EqualityExpression OP_NOT_EQ RelationalExpression;
 
-RelationalExpression        ::= ShiftExpression;
+RelationalExpression        ::= ShiftExpression:se
+                            {:
+                                RESULT = se;
+                            :};
 
-ShiftExpression             ::= AdditiveExpression
+ShiftExpression             ::= AdditiveExpression:ae
+                            {:
+                                RESULT = ae;
+                            :}
                             | ShiftExpression OP_BIT_L_SHIFT AdditiveExpression
                             | ShiftExpression OP_BIT_R_SHIFT AdditiveExpression
                             | ShiftExpression OP_UNSIGN_R_SHIFT AdditiveExpression;
 
-AdditiveExpression          ::= MultiplicativeExpression
+AdditiveExpression          ::= MultiplicativeExpression:me
+                            {:
+                                RESULT = me;
+                            :}
 							| AdditiveExpression OP_PLUS MultiplicativeExpression
 							| AdditiveExpression OP_MINUS MultiplicativeExpression
 							;
 
-MultiplicativeExpression    ::= UnaryExpression
+MultiplicativeExpression    ::= UnaryExpression:ue
+                            {:
+                                RESULT = ue;
+                            :}
                             |MultiplicativeExpression OP_MULTIPLY UnaryExpression
                             |MultiplicativeExpression OP_DIVIDE UnaryExpression
                             |MultiplicativeExpression OP_MODULUS UnaryExpression;
@@ -301,20 +357,33 @@ UnaryExpression             ::= PreIncrementExpression
                             | PreDecrementExpression
                             | OP_PLUS UnaryExpression
                             | OP_MINUS UnaryExpression
-                            | UnaryExpressionNotPlusMinus;
+                            | UnaryExpressionNotPlusMinus:unp
+                            {:
+                                RESULT = unp;
+                            :}
+                            ;
 
-UnaryExpressionNotPlusMinus ::= PostfixExpression
+UnaryExpressionNotPlusMinus ::= PostfixExpression:pe
+                            {:
+                                RESULT = pe;
+                            :}
 							| OP_UNARY UnaryExpression
 							| OP_NOT_EQ UnaryExpression
 							| CastExpression;
 
-PostfixExpression           ::= Primary
+PostfixExpression           ::= Primary:p
+                            {:
+                                RESULT = p;
+                            :}
                             | ExpressionName
                             | PostIncrementExpression
                             | PostDecrementExpression
                             ;
 
-Primary                     ::= PrimaryNoNewArray
+Primary                     ::= PrimaryNoNewArray:pna
+                            {:
+                                RESULT = pna;
+                            :}
                             | ArrayCreationExpression
                             ;
                             
@@ -326,9 +395,17 @@ AmbiguousName               ::= Identifier
                             | AmbiguousName DOT Identifier
                             ;
 
-PrimaryNoNewArray           ::= Literal;
+PrimaryNoNewArray           ::= Literal:l
+                            {:
+                                RESULT = new IntegerLiteralExpression(l);
+                            :}
+                            ;
 
-Literal                     ::= INTEGER_LITERAL;
+Literal                     ::= INTEGER_LITERAL:il
+                            {:
+                                RESULT = 42;
+                            :}
+                            ;
 
 /* Method body related grammar */
 
@@ -344,24 +421,30 @@ Block                       ::= LBRACE BlockStatements:bss RBRACE
                             :}
                             ;
 
-BlockStatements             ::= BlockStatement:bs BlockStatement_opt: bs_opt
+BlockStatements             ::= BlockStatement:bs BlockStatement_opt: bs_opt  //zyx : here _oprt in java SPEC is BlockStatements ::=BlockStatement {BlockStatement} //here means one or more
+//zyx : this grammar decide  how many state inside the method.
+//zyx : eg : int x= 4 ; int y =4;
                             {:
-                                RESULT = new ArrayList<>();
+                                RESULT = new ArrayList<>();//zyx: 
                                 RESULT.add(bs);
-                                if (bs_opt != null) {
-                                	RESULT.addAll(bs_opt);
+                                if (bs_opt != null) {//zyx : cause this is one or many. so  check if the bs_opt is null or not . (null )just ignore  (!null) need add all the statement .
+// use the {blockstatemet} is quite usual. cause  normally with in the method body there are always many statemetn. 
+                                	RESULT.addAll(bs_opt);//here is the ArrayList<> function addall :
+//form Java spec: .addAll: Appends all of the elements in the specified collection to the end of this list, in the order that they are returned by the specified collection's iterator (optional operation).
                                 }
                             :}
                             ;
 
-BlockStatement_opt          ::= BlockStatement_opt:bs_opt BlockStatement:bs
+BlockStatement_opt          ::= BlockStatement_opt:bs_opt BlockStatement:bs//zyx : this si the way we used to express the {BlockStatement}t this is not in the spec.
+//zyx : here is the way we used to express one or many blockstatement. 
+//zyx the action here we use  list to add the all hte possible statamet.
                             {:
-                            	if (bs_opt == null) {
+                            	if (bs_opt == null) {//zyx: to check if this is the first time to work through BlockStatement_opt. if this is the first time just creat a new ArrayList<>().if not just get the pass the BlockStatement_opt to the BlockStatement_opt then add the BlockStatement to the ArrayList<>()
                             		bs_opt = new ArrayList<>();
                             	}
                             	RESULT = bs_opt;
                                 RESULT.add(bs);
-                            :}
+                            :}//
                             | /* empty */
                             ;
 
@@ -377,35 +460,51 @@ LocalVariableDeclarationStatement ::= LocalVariableDeclaration:lvd SEMICOLON
                                   :}
                                   ;
 
-LocalVariableDeclaration    ::= VariableModifier_opt UnannType:ut VariableDeclaratorList:vdl
+LocalVariableDeclaration    ::= VariableModifier_opt UnannType:ut VariableDeclaratorList:vdl//zyx : we did not use VariableModifier_opt here . not sure why ? what kind of side effeft will have here? 
+// the UnannType will get the statemet type eg: int.
                             {:
                                  RESULT = new LocalVariableDeclarationStatement(ut, vdl.variabledeclaratorid, vdl.variableinitializer);
                             :}
                             ;
 
-VariableDeclaratorList      ::= VariableDeclarator:vd VariableDeclarator_opt
+VariableDeclaratorList      ::= VariableDeclarator:vd  VariableDeclarator_opt
+//zyx : here the {,VariableDeclarator} decde the if we can have "int x,y =3" this kind of old fation style.
+//zyx : we do not do this . 
+//zyx : so  in this cup we can resolve the "int x,y =3" .
+
                             {:
                                  RESULT = vd;   
                                  //RESULT = vd_opt;
                             :}
                             ;
                             
-VariableDeclarator_opt      ::= COMMA VariableDeclarator_opt VariableDeclarator:vd
-                            {:
-                                 RESULT = vd;
-                            :}
+VariableDeclarator_opt      ::= COMMA VariableDeclarator_opt VariableDeclarator//:vd
+                           // {:
+                            //     RESULT = vd;
+                            //:}
                             | /* empty */
+//zyx : I think I can comment the action here. cause  we did not plan to pass ""int x,y =3" "
                             ;
                             
 VariableDeclarator          ::= VariableDeclaratorId:vdi VariableInitializer_opt:vi_opt
+//zyx : in java spec VariableDeclarator::= VariableDeclaratorId [=VariableInitializer].
+//zyx : so here VariableInitializer_opt means one or 0.
+//zyx : from the bottom defination we can see this 1/0 feature.
                             {:
                                  RESULT = new TempWrapper();
                                  RESULT.variabledeclaratorid = vdi;
+                                 RESULT.variabledeclaratorid = vi_opt;
                             :}
                             ;
 
-VariableInitializer_opt     ::= OP_EQ VariableInitializer
+VariableInitializer_opt     ::= OP_EQ VariableInitializer:vi//zyx : here is that 1/0 featuer.
+//zyx  : we need this 
+                            {:
+                                RESULT = vi;
+//zyx: how to pass 0 here ? 
+                            :}
                             | /* empty */
+                            //zyx : when it is zero it means : only "int x;"
                             ;
                             
 VariableDeclaratorId        ::= Identifier:id Dims_opt
@@ -418,7 +517,11 @@ Dims_opt                    ::= Dims
                             | /* empty */
                             ;
 
-VariableInitializer         ::= Expression;
+VariableInitializer         ::= Expression:e
+                            {:
+                                RESULT = e;
+                            :}
+                            ;
 
 UnannType                   ::= UnannPrimitiveType:upt
                             {:
