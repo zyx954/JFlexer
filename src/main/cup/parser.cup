@@ -38,7 +38,7 @@ terminal        OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN
                 OP_MODULUS, OP_BIT_L_SHIFT, OP_BIT_R_SHIFT, OP_UNSIGN_R_SHIFT, OP_ADD_AND, OP_MINUS_AND, 
                 OP_MULTIPLY_AND, OP_DIVIDE_AND, OP_BIT_AND, OP_BIT_INCL_OR, OP_BIT_EXCL_OR, 
                 OP_MODULUS_AND, OP_L_SHIFT_AND, OP_R_SHIFT_AND, OP_UNSIGN_R_SHIFT_AND;
-terminal        int INTEGER_LITERAL;
+terminal        Integer INTEGER_LITERAL;
 terminal        STRING_LITERAL;
 terminal        LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK, SEMICOLON, COMMA, DOT;
 terminal        UNKNOWN;
@@ -71,7 +71,7 @@ nonterminal      Type UnannReferenceType;
 nonterminal      ElementType UnannClassOrInterfaceType, UnannClassType, UnannArrayType;
 nonterminal      Type NumericType, IntegralType, FloatingPointType;
 nonterminal      IdentifierNode Identifier, VariableDeclaratorId;
-nonterminal      int Literal;
+nonterminal      Integer Literal;
 nonterminal      IntegerLiteralExpression PrimaryNoNewArray;
 nonterminal      Expression Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
 nonterminal      Expression UnaryExpression, MultiplicativeExpression, AdditiveExpression, ShiftExpression;
@@ -403,7 +403,7 @@ PrimaryNoNewArray           ::= Literal:l
 
 Literal                     ::= INTEGER_LITERAL:il
                             {:
-                                RESULT = il;
+                                RESULT = new Integer(il);
                             :}
                             ;
 
@@ -493,7 +493,7 @@ VariableDeclarator          ::= VariableDeclaratorId:vdi VariableInitializer_opt
                             {:
                                  RESULT = new TempWrapper();
                                  RESULT.variabledeclaratorid = vdi;
-                                 RESULT.variabledeclaratorid = vi_opt;
+                                 RESULT.variableinitializer = vi_opt;
                             :}
                             ;
 
@@ -519,7 +519,7 @@ Dims_opt                    ::= Dims
 
 VariableInitializer         ::= Expression:e
                             {:
-                                RESULT = e;
+                                RESULT = new VariableInitializer(e);
                             :}
                             ;
 
