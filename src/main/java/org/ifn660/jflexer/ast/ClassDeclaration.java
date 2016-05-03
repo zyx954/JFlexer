@@ -2,7 +2,7 @@ package org.ifn660.jflexer.ast;
 
 import java.util.List;
 
-public class ClassDeclaration extends Node {
+public class ClassDeclaration extends Node implements Declaration {
 	private IdentifierNode classname;
 	private List<String> modifiers;
 	private ClassBody classBody;

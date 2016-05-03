@@ -6,6 +6,11 @@ public class ArrayType extends Type {
 	public ArrayType(ElementType elementtype) {
 		this.elementtype = elementtype;
 	}
+
+    @Override
+    public boolean resolveName(LexicalScope scope) {
+        return true;
+    }
 	
 	
 }

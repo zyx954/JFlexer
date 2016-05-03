@@ -1,6 +1,6 @@
 package org.ifn660.jflexer.ast;
 
-public class LocalVariableDeclarationStatement extends Statement {
+public class LocalVariableDeclarationStatement extends Statement implements Declaration {
 	private Type type;
 	private IdentifierNode identifiernode;
     private VariableInitializer varInit;

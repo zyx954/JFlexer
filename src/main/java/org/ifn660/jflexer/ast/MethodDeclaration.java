@@ -2,7 +2,7 @@ package org.ifn660.jflexer.ast;
 
 import java.util.List;
 
-public class MethodDeclaration extends Node {
+public class MethodDeclaration extends Node implements Declaration {
 	private List<String> modifiers;
 	private Result result;
 	private IdentifierNode methodname;
