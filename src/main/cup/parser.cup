@@ -32,7 +32,7 @@ terminal        IMPORT, INSTANCEOF, NATIVE, NEW, PACKAGE;
 terminal        SYNCHRONIZED, THIS, TRANSIENT, VOLATILE;
 terminal        CATCH, TRY, THROW, THROWS;
 terminal        String IDENTIFIER;
-terminal        OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN, OP_LAMBDA, 
+terminal        String OP_EQ, OP_GT, OP_LT, OP_NOT_EQ, OP_UNARY, OP_TERNARY, OP_LOOP_IN, OP_LAMBDA, 
                 OP_EQ_EQ, OP_GT_EQ, OP_LT_EQ, OP_LOGIC_AND, OP_LOGIC_OR, OP_POS_INCR, 
                 OP_NEG_INCR, OP_PLUS, OP_MINUS, OP_MULTIPLY, OP_DIVIDE, OP_AND, OP_OR, OP_XOR, 
                 OP_MODULUS, OP_BIT_L_SHIFT, OP_BIT_R_SHIFT, OP_UNSIGN_R_SHIFT, OP_ADD_AND, OP_MINUS_AND, 
@@ -63,7 +63,7 @@ nonterminal      List<Parameter> FormalParameterList_opt, FormalParameterList;
 nonterminal      Parameter LastFormalParameter;
 nonterminal      Parameter FormalParameter;
 nonterminal      List<Statement> Block, BlockStatements, BlockStatement_opt; 
-nonterminal      Statement BlockStatement;
+nonterminal      Statement BlockStatement, Statement, StatementWithoutTrailingSubstatement, ExpressionStatement, StatementExpression;
 nonterminal      LocalVariableDeclarationStatement LocalVariableDeclarationStatement, LocalVariableDeclaration;
 nonterminal      Type UnannType; 
 nonterminal      Type UnannPrimitiveType; 
@@ -71,6 +71,7 @@ nonterminal      Type UnannReferenceType;
 nonterminal      ElementType UnannClassOrInterfaceType, UnannClassType, UnannArrayType;
 nonterminal      Type NumericType, IntegralType, FloatingPointType;
 nonterminal      IdentifierNode Identifier, VariableDeclaratorId;
+nonterminal      IdentifierExpression ExpressionName, LeftHandSide;
 nonterminal      Integer Literal;
 nonterminal      IntegerLiteralExpression PrimaryNoNewArray;
 nonterminal      Expression Primary, PostfixExpression, UnaryExpressionNotPlusMinus;
@@ -82,8 +83,10 @@ nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_o
 nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
 nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
 nonterminal      PreIncrementExpression, PreDecrementExpression;
-nonterminal      ExpressionName, PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
+nonterminal      PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
 nonterminal		 CastExpression, AmbiguousName;
+nonterminal      AssignmentExpression Assignment;
+nonterminal      AssignmentOperator AssignmentOperator;
 
 /* Compilation related grammar */
 
@@ -258,9 +261,9 @@ TypeArguments_opt           ::= TypeArguments
 
 /* Assignment Expression related grammar */
 
-Expression                  ::= AssignmentExpression:a
+Expression                  ::= AssignmentExpression:ae
                             {:
-                                RESULT = a;
+                                RESULT = ae;
                             :}
                             ;
 
@@ -268,6 +271,39 @@ AssignmentExpression        ::= ConditionalExpression:ce
                             {:
                                 RESULT = ce;
                             :}
+                            | Assignment:ass
+                            {:
+                                 RESULT = ass;
+                            :}
+                            ;
+                            
+Assignment                  ::= LeftHandSide:lhs AssignmentOperator:ao Expression:e
+                            {:
+                                 RESULT = new AssignmentExpression(lhs, ao, e);
+                            :}
+                            ;
+                            
+LeftHandSide                ::= ExpressionName:en
+                            {:
+                                 RESULT = en;
+                            :}
+                            ;
+                            
+AssignmentOperator          ::= OP_EQ:eq
+                            {:
+                                 RESULT = new AssignmentOperator(eq);
+                            :}
+                            | OP_MULTIPLY_AND
+                            | OP_DIVIDE_AND
+                            | OP_MODULUS_AND
+                            | OP_ADD_AND
+                            | OP_MINUS_AND
+                            | OP_L_SHIFT_AND
+                            | OP_R_SHIFT_AND
+                            | OP_UNSIGN_R_SHIFT_AND
+                            | OP_BIT_AND
+                            | OP_BIT_EXCL_OR
+                            | OP_BIT_INCL_OR
                             ;
 
 ConditionalExpression       ::= ConditionalOrExpression:coe
@@ -341,7 +377,10 @@ AdditiveExpression          ::= MultiplicativeExpression:me
                             {:
                                 RESULT = me;
                             :}
-							| AdditiveExpression OP_PLUS MultiplicativeExpression
+							| AdditiveExpression:lhs OP_PLUS:op MultiplicativeExpression:rhs
+							{:
+							    RESULT = new BinaryExpression(lhs, rhs, new BinaryOperator (op));
+							:}
 							| AdditiveExpression OP_MINUS MultiplicativeExpression
 							;
 
@@ -362,7 +401,7 @@ UnaryExpression             ::= PreIncrementExpression
                                 RESULT = unp;
                             :}
                             ;
-
+                            
 UnaryExpressionNotPlusMinus ::= PostfixExpression:pe
                             {:
                                 RESULT = pe;
@@ -375,7 +414,10 @@ PostfixExpression           ::= Primary:p
                             {:
                                 RESULT = p;
                             :}
-                            | ExpressionName
+                            | ExpressionName:en
+                            {:
+                                 RESULT = en;
+                            :}
                             | PostIncrementExpression
                             | PostDecrementExpression
                             ;
@@ -387,7 +429,10 @@ Primary                     ::= PrimaryNoNewArray:pna
                             | ArrayCreationExpression
                             ;
                             
-ExpressionName              ::= Identifier
+ExpressionName              ::= Identifier:id
+                            {:
+                                 RESULT = new IdentifierExpression(id);
+                            :}
                             | AmbiguousName DOT Identifier
                             ;
                             
@@ -451,6 +496,38 @@ BlockStatement_opt          ::= BlockStatement_opt:bs_opt BlockStatement:bs//zyx
 BlockStatement              ::= LocalVariableDeclarationStatement:lvds
                             {:
                                  RESULT = lvds;
+                            :}
+                            | Statement:s
+                            {:
+                                 RESULT = s;
+                            :}
+                            ;
+                            
+Statement                   ::= StatementWithoutTrailingSubstatement:swts
+                            {:
+                                 RESULT = swts;
+                            :}
+                            ;
+                            
+StatementWithoutTrailingSubstatement ::= Block:b
+                                     {:
+                                          RESULT = new StatementWithoutTrailingSubstatement(b);
+                                     :}
+                                     | ExpressionStatement:es
+                                     {:
+                                          RESULT = es;
+                                     :}
+                                     ;
+                                     
+ExpressionStatement         ::= StatementExpression:se SEMICOLON
+                            {:
+                                 RESULT = se;
+                            :}
+                            ;
+                            
+StatementExpression         ::= Assignment:ass
+                            {:
+                                 RESULT = new ExpressionStatement(ass);
                             :}
                             ;
 

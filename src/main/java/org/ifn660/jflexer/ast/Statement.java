@@ -1,5 +1,7 @@
 package org.ifn660.jflexer.ast;
 
-public abstract class Statement extends Node {
+import java.util.List;
 
+public abstract class Statement extends Node {
+	
 }

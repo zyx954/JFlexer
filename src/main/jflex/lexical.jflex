@@ -126,44 +126,44 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 
   /* operators */
-  "="                            { return symbol(sym.OP_EQ); }
-  ">"                            { return symbol(sym.OP_GT); }
-  "<"                            { return symbol(sym.OP_LT); }
-  "!"                            { return symbol(sym.OP_NOT_EQ); }
-  "~"                            { return symbol(sym.OP_UNARY); } //INVERTS BITS
-  "?"                            { return symbol(sym.OP_TERNARY); } // BOOLEAN STATEMENT EVALUATION
-  ":"                            { return symbol(sym.OP_LOOP_IN); } // FOR LOOP OPERATOR, i.e. FOR EACH ELEMENT E "IN" ELEMENTS
-  "->"                           { return symbol(sym.OP_LAMBDA); }
-  "=="                           { return symbol(sym.OP_EQ_EQ); }
-  ">="                           { return symbol(sym.OP_GT_EQ); }
-  "<="                           { return symbol(sym.OP_LT_EQ); }
-  "!="                           { return symbol(sym.OP_NOT_EQ); }
-  "&&"                           { return symbol(sym.OP_LOGIC_AND); }
-  "||"                           { return symbol(sym.OP_LOGIC_OR); }
-  "++"                           { return symbol(sym.OP_POS_INCR); }
-  "--"                           { return symbol(sym.OP_NEG_INCR); }
-  "+"                            { return symbol(sym.OP_PLUS); }
-  "-"                            { return symbol(sym.OP_MINUS); } // note: this will need to be differentiated from a negative value
-  "*"                            { return symbol(sym.OP_MULTIPLY); }
-  "/"                            { return symbol(sym.OP_DIVIDE); }
-  "&"                            { return symbol(sym.OP_AND); }
-  "|"                            { return symbol(sym.OP_OR); }
-  "^"                            { return symbol(sym.OP_XOR); }
-  "%"                            { return symbol(sym.OP_MODULUS); }
-  "<<"                           { return symbol(sym.OP_BIT_L_SHIFT); }
-  ">>"                           { return symbol(sym.OP_BIT_R_SHIFT); }
-  ">>>"                          { return symbol(sym.OP_UNSIGN_R_SHIFT); }
-  "+="                           { return symbol(sym.OP_ADD_AND); }
-  "-="                           { return symbol(sym.OP_MINUS_AND); }
-  "*="                           { return symbol(sym.OP_MULTIPLY_AND); }
-  "/="                           { return symbol(sym.OP_DIVIDE_AND); }
-  "&="                           { return symbol(sym.OP_BIT_AND); }
-  "|="                           { return symbol(sym.OP_BIT_INCL_OR); } // BITWISE INCLUSIVE OR
-  "^="                           { return symbol(sym.OP_BIT_EXCL_OR); }
-  "%="                           { return symbol(sym.OP_MODULUS_AND); }
-  "<<="                          { return symbol(sym.OP_L_SHIFT_AND); }
-  ">>="                          { return symbol(sym.OP_R_SHIFT_AND); }
-  ">>>="                         { return symbol(sym.OP_UNSIGN_R_SHIFT_AND); }
+  "="                            { return symbol(sym.OP_EQ, yytext()); }
+  ">"                            { return symbol(sym.OP_GT, yytext()); }
+  "<"                            { return symbol(sym.OP_LT, yytext()); }
+  "!"                            { return symbol(sym.OP_NOT_EQ, yytext()); }
+  "~"                            { return symbol(sym.OP_UNARY, yytext()); } //INVERTS BITS
+  "?"                            { return symbol(sym.OP_TERNARY, yytext()); } // BOOLEAN STATEMENT EVALUATION
+  ":"                            { return symbol(sym.OP_LOOP_IN, yytext()); } // FOR LOOP OPERATOR, i.e. FOR EACH ELEMENT E "IN" ELEMENTS
+  "->"                           { return symbol(sym.OP_LAMBDA, yytext()); }
+  "=="                           { return symbol(sym.OP_EQ_EQ, yytext()); }
+  ">="                           { return symbol(sym.OP_GT_EQ, yytext()); }
+  "<="                           { return symbol(sym.OP_LT_EQ, yytext()); }
+  "!="                           { return symbol(sym.OP_NOT_EQ, yytext()); }
+  "&&"                           { return symbol(sym.OP_LOGIC_AND, yytext()); }
+  "||"                           { return symbol(sym.OP_LOGIC_OR, yytext()); }
+  "++"                           { return symbol(sym.OP_POS_INCR, yytext()); }
+  "--"                           { return symbol(sym.OP_NEG_INCR, yytext()); }
+  "+"                            { return symbol(sym.OP_PLUS, yytext()); }
+  "-"                            { return symbol(sym.OP_MINUS, yytext()); } // note: this will need to be differentiated from a negative value
+  "*"                            { return symbol(sym.OP_MULTIPLY, yytext()); }
+  "/"                            { return symbol(sym.OP_DIVIDE, yytext()); }
+  "&"                            { return symbol(sym.OP_AND, yytext()); }
+  "|"                            { return symbol(sym.OP_OR, yytext()); }
+  "^"                            { return symbol(sym.OP_XOR, yytext()); }
+  "%"                            { return symbol(sym.OP_MODULUS, yytext()); }
+  "<<"                           { return symbol(sym.OP_BIT_L_SHIFT, yytext()); }
+  ">>"                           { return symbol(sym.OP_BIT_R_SHIFT, yytext()); }
+  ">>>"                          { return symbol(sym.OP_UNSIGN_R_SHIFT, yytext()); }
+  "+="                           { return symbol(sym.OP_ADD_AND, yytext()); }
+  "-="                           { return symbol(sym.OP_MINUS_AND, yytext()); }
+  "*="                           { return symbol(sym.OP_MULTIPLY_AND, yytext()); }
+  "/="                           { return symbol(sym.OP_DIVIDE_AND, yytext()); }
+  "&="                           { return symbol(sym.OP_BIT_AND, yytext()); }
+  "|="                           { return symbol(sym.OP_BIT_INCL_OR, yytext()); } // BITWISE INCLUSIVE OR
+  "^="                           { return symbol(sym.OP_BIT_EXCL_OR, yytext()); }
+  "%="                           { return symbol(sym.OP_MODULUS_AND, yytext()); }
+  "<<="                          { return symbol(sym.OP_L_SHIFT_AND, yytext()); }
+  ">>="                          { return symbol(sym.OP_R_SHIFT_AND, yytext()); }
+  ">>>="                         { return symbol(sym.OP_UNSIGN_R_SHIFT_AND, yytext()); }
 
   /* comments */
   {Comment}                      { /* ignore */ }

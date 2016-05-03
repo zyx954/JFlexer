@@ -67,6 +67,7 @@
             </executions>
             <configuration>
                <outputDirectory>src/main/java</outputDirectory>
+               <expectedConflicts>10</expectedConflicts>
             </configuration>
          </plugin>
       </plugins>

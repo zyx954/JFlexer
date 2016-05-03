@@ -27,14 +27,15 @@ public abstract class Node {
 
                 
 
-                if (Node.class.isAssignableFrom(field.getType())) {
+                if (Node.class.isAssignableFrom(field.getType())) { // TODO Remove VarInit if not used
                     // if it is an attribute of type inherited from Node
                     // then print out the attribute's name first
                     Node.indent(identSize + 1);
                     System.out.println(field.getName() + ":");
                     // then recursively call the printNodeRelfection on this
                     // attribute
-                    ((Node) field.get(this)).printNodeReflection(identSize + 2);
+                    if (field.get(this) != null) 
+                    { ((Node) field.get(this)).printNodeReflection(identSize + 2);}
                 } else {
                     // if not then just print that attribute's value
                     // Node.indent(identSize + 1);
