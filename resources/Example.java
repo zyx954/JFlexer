@@ -4,6 +4,7 @@ public class Example {
         int y;
         x = 42;
         y = x + 4;
-
+        
+        int m = 87;
     }
 }
