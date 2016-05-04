@@ -6,5 +6,11 @@ public class Example {
         y = x + 4;
         
         int m = 87;
+        if(x<10)
+        {
+            int z;
+            z=4+x;
+        }
+         
     }
 }

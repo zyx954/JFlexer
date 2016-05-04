@@ -63,7 +63,7 @@ nonterminal      List<Parameter> FormalParameterList_opt, FormalParameterList;
 nonterminal      Parameter LastFormalParameter;
 nonterminal      Parameter FormalParameter;
 nonterminal      List<Statement> Block, BlockStatements, BlockStatement_opt; 
-nonterminal      Statement BlockStatement, Statement, StatementWithoutTrailingSubstatement, ExpressionStatement, StatementExpression;
+nonterminal      Statement BlockStatement, Statement, StatementWithoutTrailingSubstatement, ExpressionStatement, StatementExpression,IfThenStatement;
 nonterminal      LocalVariableDeclarationStatement LocalVariableDeclarationStatement, LocalVariableDeclaration;
 nonterminal      Type UnannType; 
 nonterminal      Type UnannPrimitiveType; 
@@ -355,7 +355,28 @@ EqualityExpression          ::= RelationalExpression:re
 RelationalExpression        ::= ShiftExpression:se
                             {:
                                 RESULT = se;
-                            :};
+                            :}
+                            |RelationalExpression:re OP_LT:ol ShiftExpression:se 
+                            {:
+                                RESULT = new RelationalExpression(re,new RelationalOperator(ol),se);
+                            :}
+                            |RelationalExpression:re OP_GT:og ShiftExpression:se 
+                            {:
+                            RESULT = new RelationalExpression(re,new RelationalOperator(og),se);
+                            :}
+                            |RelationalExpression:re OP_GT_EQ:oge ShiftExpression:se 
+                            {:
+                            RESULT = new RelationalExpression(re,new RelationalOperator(oge),se);
+                            :}
+                            
+                            |RelationalExpression:re OP_LT_EQ:ole ShiftExpression:se 
+                            {:
+                            RESULT = new RelationalExpression(re,new RelationalOperator(ole),se);
+                            
+                            :}
+                           // |RelationalExpression instanceof ReferenceType
+                            
+                            ;
 
 ShiftExpression             ::= AdditiveExpression:ae
                             {:
@@ -493,7 +514,17 @@ Statement                   ::= StatementWithoutTrailingSubstatement:swts
                             {:
                                  RESULT = swts;
                             :}
+                            |IfThenStatement:its
+                            {:
+                                 RESULT = its;
+                            :}                             
                             ;
+IfThenStatement             ::= IF LPAREN Expression:e RPAREN Statement:s
+                            {:
+                                 RESULT = new IfThenStatement(e,s);
+                            :}    
+                            ;
+                           
                             
 StatementWithoutTrailingSubstatement ::= Block:b
                                      {:
