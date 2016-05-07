@@ -311,15 +311,7 @@ ConditionalExpression       ::= ConditionalOrExpression:coe
                                 RESULT = coe;
                             :}
                             | ConditionalOrExpression OP_TERNARY Expression OP_LOOP_IN ConditionalExpression
-                           // {:
-                                //RESULT = a;
-//zyx : how to add 
-//zyx : do we have this class hierarchy?
-//zyx : what is this to express.
-//zyx : int y = x == 42 ? 1 : 0;
-                          //  :}
-//zyx : here need to extend the class 
-//zyx : need to condider how to build "int y = x == 42 ? 1 : 0;" this data structure.
+
 ;
 
 ConditionalOrExpression     ::= ConditionalAndExpression:cae
@@ -466,25 +458,19 @@ Block                       ::= LBRACE BlockStatements:bss RBRACE
                             :}
                             ;
 
-BlockStatements             ::= BlockStatement:bs BlockStatement_opt: bs_opt  //zyx : here _oprt in java SPEC is BlockStatements ::=BlockStatement {BlockStatement} //here means one or more
-//zyx : this grammar decide  how many state inside the method.
-//zyx : eg : int x= 4 ; int y =4;
+BlockStatements             ::= BlockStatement:bs BlockStatement_opt: bs_opt  
                             {:
                                 RESULT = new ArrayList<>();//zyx: 
                                 RESULT.add(bs);
-                                if (bs_opt != null) {//zyx : cause this is one or many. so  check if the bs_opt is null or not . (null )just ignore  (!null) need add all the statement .
-// use the {blockstatemet} is quite usual. cause  normally with in the method body there are always many statemetn. 
-                                	RESULT.addAll(bs_opt);//here is the ArrayList<> function addall :
-//form Java spec: .addAll: Appends all of the elements in the specified collection to the end of this list, in the order that they are returned by the specified collection's iterator (optional operation).
+                                if (bs_opt != null) {
+                                	RESULT.addAll(bs_opt);
                                 }
                             :}
                             ;
 
-BlockStatement_opt          ::= BlockStatement_opt:bs_opt BlockStatement:bs//zyx : this si the way we used to express the {BlockStatement}t this is not in the spec.
-//zyx : here is the way we used to express one or many blockstatement. 
-//zyx the action here we use  list to add the all hte possible statamet.
+BlockStatement_opt          ::= BlockStatement_opt:bs_opt BlockStatement:bs
                             {:
-                            	if (bs_opt == null) {//zyx: to check if this is the first time to work through BlockStatement_opt. if this is the first time just creat a new ArrayList<>().if not just get the pass the BlockStatement_opt to the BlockStatement_opt then add the BlockStatement to the ArrayList<>()
+                            	if (bs_opt == null) {
                             		bs_opt = new ArrayList<>();
                             	}
                             	RESULT = bs_opt;
@@ -537,36 +523,27 @@ LocalVariableDeclarationStatement ::= LocalVariableDeclaration:lvd SEMICOLON
                                   :}
                                   ;
 
-LocalVariableDeclaration    ::= VariableModifier_opt UnannType:ut VariableDeclaratorList:vdl//zyx : we did not use VariableModifier_opt here . not sure why ? what kind of side effeft will have here? 
-// the UnannType will get the statemet type eg: int.
+LocalVariableDeclaration    ::= VariableModifier_opt UnannType:ut VariableDeclaratorList:vdl
+
                             {:
                                  RESULT = new LocalVariableDeclarationStatement(ut, vdl.variabledeclaratorid, vdl.variableinitializer);
                             :}
                             ;
 
 VariableDeclaratorList      ::= VariableDeclarator:vd  VariableDeclarator_opt
-//zyx : here the {,VariableDeclarator} decde the if we can have "int x,y =3" this kind of old fation style.
-//zyx : we do not do this . 
-//zyx : so  in this cup we can resolve the "int x,y =3" .
+
 
                             {:
                                  RESULT = vd;   
-                                 //RESULT = vd_opt;
+                                 
                             :}
                             ;
                             
-VariableDeclarator_opt      ::= COMMA VariableDeclarator_opt VariableDeclarator//:vd
-                           // {:
-                            //     RESULT = vd;
-                            //:}
+VariableDeclarator_opt      ::= COMMA VariableDeclarator_opt VariableDeclarator
                             | /* empty */
-//zyx : I think I can comment the action here. cause  we did not plan to pass ""int x,y =3" "
                             ;
                             
 VariableDeclarator          ::= VariableDeclaratorId:vdi VariableInitializer_opt:vi_opt
-//zyx : in java spec VariableDeclarator::= VariableDeclaratorId [=VariableInitializer].
-//zyx : so here VariableInitializer_opt means one or 0.
-//zyx : from the bottom defination we can see this 1/0 feature.
                             {:
                                  RESULT = new TempWrapper();
                                  RESULT.variabledeclaratorid = vdi;
@@ -574,14 +551,11 @@ VariableDeclarator          ::= VariableDeclaratorId:vdi VariableInitializer_opt
                             :}
                             ;
 
-VariableInitializer_opt     ::= OP_EQ VariableInitializer:vi//zyx : here is that 1/0 featuer.
-//zyx  : we need this 
+VariableInitializer_opt     ::= OP_EQ VariableInitializer:vi
                             {:
                                 RESULT = vi;
-//zyx: how to pass 0 here ? 
                             :}
                             | /* empty */
-                            //zyx : when it is zero it means : only "int x;"
                             ;
                             
 VariableDeclaratorId        ::= Identifier:id Dims_opt
