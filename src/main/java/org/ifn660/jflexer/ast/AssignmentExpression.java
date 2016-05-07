@@ -12,5 +12,9 @@ public class AssignmentExpression extends Expression {
         this.expression = expression;
     }
     
-    
+    @Override
+    public void resolveNames(LexicalScope scope) {
+        leftHandSide.resolveNames(scope);
+        expression.resolveNames(scope);
+    }
 }

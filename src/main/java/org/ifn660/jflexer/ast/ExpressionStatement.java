@@ -7,4 +7,8 @@ public class ExpressionStatement extends Statement {
         this.expression = expression;
     }
     
+    @Override
+    public void resolveNames(LexicalScope scope) {
+        expression.resolveNames(scope);
+    }
 }

@@ -2,7 +2,7 @@ package org.ifn660.jflexer.ast;
 
 import java.util.List;
 
-public class MethodDeclaration extends Node implements Declaration {
+public class MethodDeclaration extends Node {
 	private List<String> modifiers;
 	private Result result;
 	private IdentifierNode methodname;
@@ -15,5 +15,10 @@ public class MethodDeclaration extends Node implements Declaration {
 		this.methodname = name;
 		this.parameters = parameters;
 		this.methodBod = methodBod;
+	}
+	
+	@Override
+	public void resolveNames(LexicalScope scope) {
+	    methodBod.resolveNames(scope);
 	}
 }

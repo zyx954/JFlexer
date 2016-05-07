@@ -6,4 +6,9 @@ public class ClassBody extends Node {
 	public ClassBody(MethodDeclaration methodDec) {
 		this.methodDec = methodDec;
 	}
+	
+	public void resolveNames(LexicalScope scope) {
+	    // TODO field declaration needs to be resolve here in the future
+	    methodDec.resolveNames(scope);
+	}
 }

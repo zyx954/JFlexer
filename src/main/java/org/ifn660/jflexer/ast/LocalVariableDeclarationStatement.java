@@ -10,4 +10,14 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
         this.varInit = varInit;
         this.type = type;
     }
+    
+    @Override
+    public void resolveNames(LexicalScope scope) {
+        type.resolveNames(scope);
+    }
+
+    @Override
+    public String getName() {
+        return identifiernode.value;
+    }
 }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LexicalScope {
-    private LexicalScope parentScope;
+    LexicalScope parentScope;
     Map<String, Declaration> symbolTable;
     
     public LexicalScope() {

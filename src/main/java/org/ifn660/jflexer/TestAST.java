@@ -10,6 +10,7 @@ public class TestAST {
             parser p = new parser(new Lexer(new FileReader("resources/" + args[0])));
             //Object result = p.parse().value; // Parses the value of a terminal
             p.parse();
+            p.root.resolveNames(null);
             p.root.printNodeReflection(0);
         } catch (Exception e) {
             /* do cleanup here -- possibly rethrow e */
