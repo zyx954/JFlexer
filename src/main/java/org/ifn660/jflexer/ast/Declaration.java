@@ -9,5 +9,5 @@ package org.ifn660.jflexer.ast;
  *
  */
 public interface Declaration {
-    String getName();
+    String getName();//zyx : Java.lang.Class.getName() Method Example   The java.lang.Class.getName() returns the name of the entity (class, interface, array class, primitive type, or void) represented by this Class object, as a String.
 }

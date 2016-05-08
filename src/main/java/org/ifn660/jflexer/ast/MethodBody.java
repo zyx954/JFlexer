@@ -22,7 +22,7 @@ public class MethodBody extends Node {
 	        // check if this is the statement belongs to declaration type
 	        // currently there are only two candidiates : 
 	        // LocalVariableDeclarationStatement and FieldDeclaration
-	        if (statement instanceof Declaration) {
+	        if (statement instanceof Declaration) {//zyx: The instanceof keyword can be used to test if an object is of a specified type.
 	            Declaration declaration = (Declaration) statement;
 	            // if this is true, then record that declaration in the symbol table
 	            this.scope.symbolTable.put(declaration.getName(), declaration);

@@ -527,7 +527,7 @@ LocalVariableDeclaration    ::= VariableModifier_opt UnannType:ut VariableDeclar
 
                             {:
                                  RESULT = new LocalVariableDeclarationStatement(ut, vdl.variabledeclaratorid, vdl.variableinitializer);
-                            :}
+                            :}//zyx  : the grammar structure will fit the tree structure .
                             ;
 
 VariableDeclaratorList      ::= VariableDeclarator:vd  VariableDeclarator_opt

@@ -56,12 +56,12 @@ public abstract class Node {
                             Node.indent(identSize + 1);
                             System.out.println(field.getName() + ": " + field.get(this));
                         }
-                    } else if (field.getType().equals(Declaration.class)) {
+                    } else if (field.getType().equals(Declaration.class)) {//zyx: getType(): Returns a Class object that identifies the declared type for the field represented by this Field object.
                         Node.indent(identSize + 1);
-                        System.out.println("declaration reference : [" + field.get(this).hashCode() + "]");
-                    } else if (!field.getType().equals(LexicalScope.class)) {
+                        System.out.println("declaration reference : [" + field.get(this).hashCode() + "]");//declaration reference:----------
+                    } else if (!field.getType().equals(LexicalScope.class)) {//zyx : euqal: Indicates whether some other object is "equal to" this one. 
                         Node.indent(identSize + 1);
-                        System.out.println(field.getName() + ": " + field.get(this));
+                        System.out.println(field.getName() + ": " + field.get(this));//zyx: eg : x=42
                     } 
                 }
             }
