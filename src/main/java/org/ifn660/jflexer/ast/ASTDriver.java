@@ -27,7 +27,9 @@ public class ASTDriver {
     	Type type = new NamedType("void");
     	Result result = new Result(type);
     	MethodDeclaration methodDec = new MethodDeclaration(modifiers, result,new IdentifierNode("main"), parameters, methodBod);
-    	ClassBody classBody = new ClassBody(methodDec);
+    	List<Declaration> declarationlist = new ArrayList<Declaration>();
+    	declarationlist.add(methodDec);
+    	ClassBody classBody = new ClassBody(declarationlist);
     	
     	List<String> modifiersForClass = new ArrayList<String>();
     	modifiersForClass.add("public");

@@ -1,9 +1,11 @@
 package org.ifn660.jflexer.ast;
 
+import java.util.List;
+
 public class ClassBody extends Node {
-	private Declaration methodDec;
+	private List<Declaration> declaration;
 	
-	public ClassBody(Declaration methodDec) {
-		this.methodDec = methodDec;
+	public ClassBody(List<Declaration> methodDec) {
+		this.declaration = methodDec;
 	}
 }
