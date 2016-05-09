@@ -45,7 +45,9 @@ terminal        UNKNOWN;
 
 nonterminal      Node CompilationUnit, TypeDeclaration_opt, TypeDeclaration, ClassDeclaration;
 nonterminal      Node NormalClassDeclaration;
-nonterminal      ClassBody ClassBody, ClassBodyDeclaration, ClassBodyDeclaration_opt;
+nonterminal      ClassBody ClassBody;
+nonterminal      List<Declaration> ClassBodyDeclaration_opt; 
+nonterminal      Declaration ClassBodyDeclaration;
 nonterminal      List<String> ClassModifier_opt;
 nonterminal      Type Result;
 nonterminal      String ClassModifier;
@@ -53,9 +55,10 @@ nonterminal      TempWrapper VariableDeclaratorList, VariableDeclarator;
 nonterminal      VariableDeclarator_opt;
 nonterminal      VariableInitializer VariableInitializer_opt, VariableInitializer;
 nonterminal      Dims_opt, Dims;
-nonterminal      MethodDeclaration MethodDeclaration, ClassMemberDeclaration;
-nonterminal      List<String> MethodModifier_opt;
-nonterminal      String MethodModifier;
+nonterminal      MethodDeclaration MethodDeclaration;
+nonterminal      Declaration  ClassMemberDeclaration;
+nonterminal      List<String> Modifier_opt;
+nonterminal      String Modifier;
 nonterminal      TempWrapper MethodHeader;
 nonterminal      MethodBody MethodBody;
 nonterminal      TempWrapper MethodDeclarator; 
@@ -81,12 +84,13 @@ nonterminal      Expression InclusiveOrExpression, ConditionalAndExpression, Con
 nonterminal      Expression ConditionalExpression, AssignmentExpression, Expression;
 nonterminal      PackageDelcaration_opt, PackageDelcaration, ImportDeclaration_opt, ImportDeclaration;
 nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass, Superinterfaces_opt, Superinterfaces;
-nonterminal      Throws_opt, Throws, VariableModifier_opt, VariableModifier, TypeArguments_opt, TypeArguments;
+nonterminal      Throws_opt, Throws, TypeArguments_opt, TypeArguments;
 nonterminal      PreIncrementExpression, PreDecrementExpression;
 nonterminal      PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
 nonterminal		 CastExpression, AmbiguousName;
 nonterminal      AssignmentExpression Assignment;
 nonterminal      AssignmentOperator AssignmentOperator;
+nonterminal      FieldDeclaration FieldDeclaration;
 
 /* Compilation related grammar */
 
@@ -139,30 +143,51 @@ ClassModifier_opt           ::= ClassModifier_opt:cmdOpt ClassModifier:cm
 
 ClassModifier               ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:s {: RESULT = (String)s; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
 
-ClassBody                   ::= LBRACE ClassBodyDeclaration_opt:cbOpt {: RESULT = cbOpt; :} RBRACE;
+ClassBody                   ::= LBRACE ClassBodyDeclaration_opt:cbOpt 
+                            {: 
+                                 RESULT = new ClassBody(cbOpt); 
+                            :} RBRACE
+                            ;
 
 Identifier                  ::= IDENTIFIER:i {: RESULT = new IdentifierNode(i); :};
 
-ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration:cb 
+ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt:cbd_opt ClassBodyDeclaration:cb 
                             {: 
-                                RESULT = cb;
+                            if (cbd_opt == null) {
+                                    cbd_opt = new ArrayList<>();
+                                }
+                                RESULT = cbd_opt;
+                                RESULT.add (cb); 
                             :}
                             | /* empty */
                             ;
 
-ClassBodyDeclaration        ::= ClassMemberDeclaration:cmd {: RESULT = new ClassBody(cmd); :};
+ClassBodyDeclaration        ::= ClassMemberDeclaration:cmd {: RESULT = cmd; :};
 
-ClassMemberDeclaration      ::= MethodDeclaration:md {: RESULT = md; :};
+ClassMemberDeclaration      ::= FieldDeclaration:fd
+                            {:
+                                 RESULT = fd;
+                            :}
+                             |MethodDeclaration:md {: RESULT = md; :}
+                             |SEMICOLON
+                            ;
+                            
+FieldDeclaration            ::= Modifier_opt:mm_opt UnannType:ut VariableDeclaratorList:vdl SEMICOLON
+                            {:
+                                RESULT = new FieldDeclaration(mm_opt, ut, vdl.variabledeclaratorid, vdl.variableinitializer);
+                            :}
+                            ;
+
 
 /* Method related grammar */
 
-MethodDeclaration           ::= MethodModifier_opt:mmOpt MethodHeader:mh MethodBody:mb
+MethodDeclaration           ::= Modifier_opt:mmOpt MethodHeader:mh MethodBody:mb
                             {: 
                                 RESULT = new MethodDeclaration(mmOpt, mh.result, mh.identifiernode, mh.parameters, mb);
                                 
                             :};
 
-MethodModifier_opt          ::= MethodModifier_opt:mmOpt MethodModifier:mm
+Modifier_opt          ::= Modifier_opt:mmOpt Modifier:mm
                             {:
                                 if (mmOpt == null) {
                                     mmOpt = new ArrayList<>();
@@ -173,7 +198,7 @@ MethodModifier_opt          ::= MethodModifier_opt:mmOpt MethodModifier:mm
                             | /* empty */
                             ;
 
-MethodModifier              ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:p {: RESULT = p; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
+Modifier                    ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESULT = p; :} | PRIVATE:p {: RESULT = p; :} | ABSTRACT:p {: RESULT = p; :} | STATIC:p {: RESULT = p; :} | FINAL:p {: RESULT = p; :} | STRICTFP:p {: RESULT = p; :};
 
 MethodHeader                ::= Result:i MethodDeclarator:md Throws_opt
                             {:
@@ -218,16 +243,11 @@ LastFormalParameter         ::= FormalParameter:fp
                             :}
                             ;
 
-FormalParameter             ::= VariableModifier_opt UnannType:ut VariableDeclaratorId:vdi
+FormalParameter             ::= Modifier_opt UnannType:ut VariableDeclaratorId:vdi
                             {:
                                  RESULT = new Parameter (ut, vdi);
                             :}
                             ;
-
-VariableModifier_opt        ::= VariableModifier_opt VariableModifier
-                            | /* empty */
-                            ;
-
 
 UnannReferenceType          ::= UnannArrayType:uat
                             {:
@@ -523,8 +543,7 @@ LocalVariableDeclarationStatement ::= LocalVariableDeclaration:lvd SEMICOLON
                                   :}
                                   ;
 
-LocalVariableDeclaration    ::= VariableModifier_opt UnannType:ut VariableDeclaratorList:vdl
-
+LocalVariableDeclaration    ::= Modifier_opt UnannType:ut VariableDeclaratorList:vdl
                             {:
                                  RESULT = new LocalVariableDeclarationStatement(ut, vdl.variabledeclaratorid, vdl.variableinitializer);
                             :}
