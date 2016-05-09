@@ -53,7 +53,8 @@ nonterminal      TempWrapper VariableDeclaratorList, VariableDeclarator;
 nonterminal      VariableDeclarator_opt;
 nonterminal      VariableInitializer VariableInitializer_opt, VariableInitializer;
 nonterminal      Dims_opt, Dims;
-nonterminal      MethodDeclaration MethodDeclaration, ClassMemberDeclaration;
+nonterminal      MethodDeclaration MethodDeclaration;
+nonterminal      Declaration  ClassMemberDeclaration;
 nonterminal      List<String> MethodModifier_opt;
 nonterminal      String MethodModifier;
 nonterminal      TempWrapper MethodHeader;
@@ -87,6 +88,10 @@ nonterminal      PostIncrementExpression, PostDecrementExpression, ArrayCreation
 nonterminal		 CastExpression, AmbiguousName;
 nonterminal      AssignmentExpression Assignment;
 nonterminal      AssignmentOperator AssignmentOperator;
+nonterminal      FieldDeclaration FieldDeclaration;
+//nonterminal      List<String>  FieldModifier_opt;
+nonterminal      String FieldModifier_opt;
+nonterminal      String FieldModifier;
 
 /* Compilation related grammar */
 
@@ -152,7 +157,31 @@ ClassBodyDeclaration_opt    ::= ClassBodyDeclaration_opt ClassBodyDeclaration:cb
 
 ClassBodyDeclaration        ::= ClassMemberDeclaration:cmd {: RESULT = new ClassBody(cmd); :};
 
-ClassMemberDeclaration      ::= MethodDeclaration:md {: RESULT = md; :};
+ClassMemberDeclaration      ::= FieldDeclaration 
+                             |MethodDeclaration//:md {: RESULT = md; :}
+                             |SEMICOLON
+                            ;
+                            
+FieldDeclaration            ::= FieldModifier_opt UnannType VariableDeclaratorList SEMICOLON
+                           // {:
+                              //  RESULT = new FieldDeclaration(ut,vdl.variabledeclaratorid, vdl.variableinitializer);
+                           // :}
+                            ;
+
+FieldModifier_opt           ::=   FieldModifier FieldModifier_opt
+                            /*{: 
+                                if (fm_opt == null) {
+                                    fm_opt = new ArrayList<>();
+                                }
+                                RESULT = fm_opt;
+                                RESULT.add (fm); 
+                            :}*/
+                           // {:RESULT = fm;:}
+                           |/*Empty*/
+                           ;
+
+FieldModifier              ::=PUBLIC | STATIC|PROTECTED|PRIVATE|FINAL|TRANSIENT|VOLATILE;
+
 
 /* Method related grammar */
 
