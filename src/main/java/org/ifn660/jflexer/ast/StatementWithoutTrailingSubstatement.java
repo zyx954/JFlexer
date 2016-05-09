@@ -9,4 +9,11 @@ public class StatementWithoutTrailingSubstatement extends Statement {
         this.statements = statements;
     }
     
+    @Override
+    public void resolveNames(LexicalScope scope) {
+        for(Statement statement : statements) {
+            statement.resolveNames(scope);
+        }
+    }
+    
 }

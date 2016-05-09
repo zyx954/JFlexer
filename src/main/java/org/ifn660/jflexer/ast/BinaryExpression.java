@@ -11,5 +11,9 @@ public class BinaryExpression extends Expression {
         this.rightHandSide = rightHandSide;
     }
     
-    
+    @Override
+    public void resolveNames(LexicalScope scope) {
+        leftHandSide.resolveNames(scope);
+        rightHandSide.resolveNames(scope);
+    }
 }

@@ -13,4 +13,9 @@ public class ClassDeclaration extends Node {
 		this.classBody = classBody;
 	}
 	
+	@Override
+	public void resolveNames(LexicalScope scope) {
+	    classBody.resolveNames(scope);
+	}
+	
 }
