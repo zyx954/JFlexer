@@ -10,7 +10,6 @@ public class FieldDeclaration extends Node implements Declaration {
     
     public FieldDeclaration( List<String> fieldmodifier, Type type,IdentifierNode identifiernode, VariableInitializer varInit) 
     {
-        
         this.fieldmodifier = fieldmodifier;
         this.type = type;
         this.identifiernode = identifiernode;
@@ -19,10 +18,11 @@ public class FieldDeclaration extends Node implements Declaration {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return identifiernode.value;
 	}
-    
-    
- 
+	
+	@Override
+    public void resolveNames(LexicalScope scope) {
+        type.resolveNames(scope);
+    }
 }

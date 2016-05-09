@@ -10,4 +10,10 @@ public class RelationalExpression extends Expression{
         this.relationalOperator = relationalOperator;
         this.rhs = rhs;
     }
+    
+    @Override
+    public void resolveNames(LexicalScope scope) {
+        lhs.resolveNames(scope);
+        rhs.resolveNames(scope);
+    }
 }
