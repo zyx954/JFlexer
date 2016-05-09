@@ -45,7 +45,7 @@ public abstract class Node {
                         ParameterizedType genericTypes = (ParameterizedType) field.getGenericType();
                         Class<?> genericType = (Class<?>) genericTypes.getActualTypeArguments()[0];
 
-                        if (Node.class.isAssignableFrom(genericType)) {
+                        if (Node.class.isAssignableFrom(genericType) || Declaration.class.isAssignableFrom(genericType)) {
                             Node.indent(identSize + 1);
                             System.out.println(field.getName() + ":");
                             List<Node> nodes = (List<Node>) field.get(this);
