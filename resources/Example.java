@@ -8,10 +8,14 @@
         
         int m = 87;
         
-        if(x<10)
+        if(x>10)
         {
             int z;
             z=4+x;
+        } else if(x<10) {
+            x=10;
+        } else {
+            x=100;
         }
         z = 3;
     }

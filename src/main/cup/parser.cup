@@ -66,7 +66,7 @@ nonterminal      List<Parameter> FormalParameterList_opt, FormalParameterList;
 nonterminal      Parameter LastFormalParameter;
 nonterminal      Parameter FormalParameter;
 nonterminal      List<Statement> Block, BlockStatements, BlockStatement_opt; 
-nonterminal      Statement BlockStatement, Statement, StatementWithoutTrailingSubstatement, ExpressionStatement, StatementExpression,IfThenStatement;
+nonterminal      Statement BlockStatement, Statement, StatementWithoutTrailingSubstatement, ExpressionStatement, StatementExpression,IfThenStatement,ElseIfStatement,ElseStatement;
 nonterminal      LocalVariableDeclarationStatement LocalVariableDeclarationStatement, LocalVariableDeclaration;
 nonterminal      Type UnannType; 
 nonterminal      Type UnannPrimitiveType; 
@@ -537,14 +537,31 @@ Statement                   ::= StatementWithoutTrailingSubstatement:swts
                             |IfThenStatement:its
                             {:
                                  RESULT = its;
-                            :}                             
+                            :}
+                            |ElseIfStatement:eits
+                            {:
+                                 RESULT = eits;
+                            :}
+                            |ElseStatement:ets
+                            {:
+                                 RESULT = ets;
+                            :}                              
                             ;
 IfThenStatement             ::= IF LPAREN Expression:e RPAREN Statement:s
                             {:
                                  RESULT = new IfThenStatement(e,s);
                             :}    
                             ;
-                           
+ElseIfStatement             ::= ELSE IF LPAREN Expression:e RPAREN Statement:s
+                            {:
+                                 RESULT = new ElseIfStatement(e,s);
+                            :}    
+                            ; 
+ElseStatement               ::= ELSE Statement:s
+                            {:
+                                 RESULT = new ElseStatement(s);
+                            :}    
+                            ; 
                             
 StatementWithoutTrailingSubstatement ::= Block:b
                                      {:
