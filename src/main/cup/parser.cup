@@ -376,25 +376,25 @@ RelationalExpression        ::= ShiftExpression:se
                             {:
                                 RESULT = se;
                             :}
-                            |RelationalExpression:re OP_LT:ol ShiftExpression:se 
+                            |RelationalExpression:re OP_LT:ol ShiftExpression:se 
                             {:
                                 RESULT = new RelationalExpression(re,new RelationalOperator(ol),se);
                             :}
-                            |RelationalExpression:re OP_GT:og ShiftExpression:se 
+                            |RelationalExpression:re OP_GT:og ShiftExpression:se 
                             {:
                             RESULT = new RelationalExpression(re,new RelationalOperator(og),se);
                             :}
-                            |RelationalExpression:re OP_GT_EQ:oge ShiftExpression:se 
+                            |RelationalExpression:re OP_GT_EQ:oge ShiftExpression:se 
                             {:
                             RESULT = new RelationalExpression(re,new RelationalOperator(oge),se);
                             :}
                             
-                            |RelationalExpression:re OP_LT_EQ:ole ShiftExpression:se 
+                            |RelationalExpression:re OP_LT_EQ:ole ShiftExpression:se 
                             {:
                             RESULT = new RelationalExpression(re,new RelationalOperator(ole),se);
                             
                             :}
-                           // |RelationalExpression instanceof ReferenceType
+                           // |RelationalExpression instanceof ReferenceType
                             
                             ;
 
@@ -545,19 +545,19 @@ Statement                   ::= StatementWithoutTrailingSubstatement:swts
                             |ElseStatement:ets
                             {:
                                  RESULT = ets;
-                            :}                              
+                            :}
                             ;
-IfThenStatement             ::= IF LPAREN Expression:e RPAREN Statement:s
+IfThenStatement             ::= IF LPAREN Expression:e RPAREN Statement:s
                             {:
                                  RESULT = new IfThenStatement(e,s);
                             :}    
                             ;
-ElseIfStatement             ::= ELSE IF LPAREN Expression:e RPAREN Statement:s
+ElseIfStatement             ::= ELSE IF LPAREN Expression:e RPAREN Statement:s
                             {:
                                  RESULT = new ElseIfStatement(e,s);
                             :}    
                             ; 
-ElseStatement               ::= ELSE Statement:s
+ElseStatement               ::= ELSE Statement:s
                             {:
                                  RESULT = new ElseStatement(s);
                             :}    
