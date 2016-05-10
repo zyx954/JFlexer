@@ -32,3 +32,9 @@ Command line: https://git-scm.com/downloads
 http://rogerdudler.github.io/git-guide/
 
 https://www.atlassian.com/git/tutorials/
+
+## CIL
+
+https://en.wikipedia.org/wiki/List_of_CIL_instructions
+https://en.wikibooks.org/wiki/Computer_Programming/Hello_world#CIL
+
