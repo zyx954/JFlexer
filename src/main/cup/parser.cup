@@ -145,7 +145,9 @@ ClassModifier               ::= PUBLIC:p {: RESULT = p; :} | PROTECTED:p {: RESU
 
 ClassBody                   ::= LBRACE ClassBodyDeclaration_opt:cbOpt 
                             {: 
-                                 RESULT = new ClassBody(cbOpt); 
+                                 RESULT = new ClassBody(cbOpt); //zyx: here change the classBody as a List<Declaration> cause in the ClassMemberDeclaration we have two Declaration . and we need to collect these both.
+//zyx:these idea can be used within the methodDeclaration. 
+//zyx: witht in  methodDeclaration there are many different kinds of statements and conditions .
                             :} RBRACE
                             ;
 
@@ -493,13 +495,24 @@ MethodBody                  ::= Block:b
                             :}
                             ;
 
-Block                       ::= LBRACE BlockStatements:bss RBRACE
+Block                       ::= LBRACE BlockStatements:bss RBRACE//zyx :  here should be one or zero. 
+//zyx : in grammar     Block: { [BlockStatements] }
+//zyx : here we assume with in the mehtod there are some variable or statment.
+
                             {:
                                  RESULT = bss;
                             :}
                             ;
 
-BlockStatements             ::= BlockStatement:bs BlockStatement_opt: bs_opt  
+BlockStatements             ::= BlockStatement:bs BlockStatement_opt: bs_opt  //zyx : here the key to add differnet statement or differnet variable . the "int x ;" will be one blockStatement and "int y=4;" will be another block statemetn
+//zyx : the grammar here is BlockStatements:BlockStatement {BlockStatement}
+//zyx : the blockStatement is 0-many.
+//zyx : then the if (){} will be one statment cause 
+// BlockStatement:
+//LocalVariableDeclarationStatement  
+// ClassDeclaration 
+//Statement
+//
                             {:
                                 RESULT = new ArrayList<>();//zyx: 
                                 RESULT.add(bs);
@@ -577,10 +590,14 @@ LocalVariableDeclarationStatement ::= LocalVariableDeclaration:lvd SEMICOLON
 LocalVariableDeclaration    ::= Modifier_opt UnannType:ut VariableDeclaratorList:vdl
                             {:
                                  RESULT = new LocalVariableDeclarationStatement(ut, vdl.variabledeclaratorid, vdl.variableinitializer);
-                            :}//zyx  : the grammar structure will fit the tree structure .
+                            :}
                             ;
 
-VariableDeclaratorList      ::= VariableDeclarator:vd  VariableDeclarator_opt
+VariableDeclaratorList      ::= VariableDeclarator:vd  VariableDeclarator_opt//zyx : here we did not use  VariableDeclarator_opt 
+// zyx : here is the grammar in spec VariableDeclaratorList:VariableDeclarator {, VariableDeclarator}
+//zyx : this grammar will show the x,y=4;
+//zyx : we assume we only have x=3;this style
+
 
 
                             {:

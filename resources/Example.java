@@ -5,7 +5,7 @@
         int y;
         x = 42;
         y = x + 4;
-        
+        x=y=3;
         int m = 87;
         
         if(x<10)
