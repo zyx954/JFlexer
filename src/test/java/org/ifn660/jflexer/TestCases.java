@@ -20,6 +20,7 @@ public class TestCases {
 
         final int expectedPass = filenames.length;
         int actualPass = 0;
+        System.out.println("%%%%%%%%%%:"+expectedPass);
 
         for (String filename : filenames) {
             System.out.println("File " + filename);
@@ -27,8 +28,9 @@ public class TestCases {
                     "resources/test/" + filename)));
             p.parse();
             actualPass++;
+            System.out.println("########:"+actualPass);
         }
-
+        System.out.println("%%%%%%%%%%:"+actualPass);
         Assert.assertEquals(expectedPass, actualPass);
     }
 

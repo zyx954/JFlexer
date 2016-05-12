@@ -1,4 +1,5 @@
-public class Example {
+ public class Example {
+    public static int z;
     public static void main(String[] args) {
         int x;
         int y;
@@ -6,5 +7,12 @@ public class Example {
         y = x + 4;
         
         int m = 87;
+        
+        if(x<10)
+        {
+            int z;
+            z=4+x;
+        }
+        z = 3;
     }
 }
