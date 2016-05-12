@@ -369,7 +369,10 @@ EqualityExpression          ::= RelationalExpression:re
                             {:
                                 RESULT = re;
                             :}
-                            | EqualityExpression OP_EQ_EQ RelationalExpression
+                            | EqualityExpression:ee OP_EQ_EQ:oee RelationalExpression:re
+                            {:
+                            	RESULT = new BinaryExpression(ee,re, new BinaryOperator(oee));
+                            :}
                             | EqualityExpression OP_NOT_EQ RelationalExpression;
 
 RelationalExpression        ::= ShiftExpression:se
