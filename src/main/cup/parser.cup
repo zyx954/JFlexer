@@ -363,7 +363,11 @@ AndExpression               ::= EqualityExpression:ee
                             {:
                                 RESULT = ee;
                             :}
-                            | AndExpression OP_LOGIC_AND EqualityExpression;
+                            | AndExpression:ae OP_LOGIC_AND:ola EqualityExpression:ee
+                            {:
+                            	RESULT = new BinaryExpression(ae,ee,new BinaryOperator(ola));
+                            :}
+                            ;
 
 EqualityExpression          ::= RelationalExpression:re
                             {:
