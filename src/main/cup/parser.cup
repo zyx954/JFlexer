@@ -373,8 +373,11 @@ EqualityExpression          ::= RelationalExpression:re
                             {:
                             	RESULT = new BinaryExpression(ee,re, new BinaryOperator(oee));
                             :}
-                            | EqualityExpression OP_NOT_EQ RelationalExpression;
-
+                            | EqualityExpression:ee OP_NOT_EQ:noteq RelationalExpression:re
+                            {:
+                            	RESULT = new BinaryExpression(ee,re,new BinaryOperator(noteq));
+                            :}
+							;
 RelationalExpression        ::= ShiftExpression:se
                             {:
                                 RESULT = se;
