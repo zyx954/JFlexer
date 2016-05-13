@@ -381,20 +381,20 @@ RelationalExpression        ::= ShiftExpression:se
                             :}
                             |RelationalExpression:re OP_LT:ol ShiftExpression:se 
                             {:
-                                RESULT = new RelationalExpression(re,new RelationalOperator(ol),se);
+                                RESULT = new BinaryExpression(re,se,new BinaryOperator(ol));
                             :}
                             |RelationalExpression:re OP_GT:og ShiftExpression:se 
                             {:
-                            RESULT = new RelationalExpression(re,new RelationalOperator(og),se);
+                            RESULT = new BinaryExpression(re,se,new BinaryOperator(og));
                             :}
                             |RelationalExpression:re OP_GT_EQ:oge ShiftExpression:se 
                             {:
-                            RESULT = new RelationalExpression(re,new RelationalOperator(oge),se);
+                            RESULT = new BinaryExpression(re,se,new BinaryOperator(oge));
                             :}
                             
                             |RelationalExpression:re OP_LT_EQ:ole ShiftExpression:se 
                             {:
-                            RESULT = new RelationalExpression(re,new RelationalOperator(ole),se);
+                            RESULT = new BinaryExpression(re,se,new BinaryOperator(ole));
                             
                             :}
                            // |RelationalExpression instanceof ReferenceType
