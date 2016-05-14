@@ -412,8 +412,14 @@ ShiftExpression             ::= AdditiveExpression:ae
                             {:
                                 RESULT = ae;
                             :}
-                            | ShiftExpression OP_BIT_L_SHIFT AdditiveExpression
-                            | ShiftExpression OP_BIT_R_SHIFT AdditiveExpression
+                            | ShiftExpression:se OP_BIT_L_SHIFT:obls AdditiveExpression:ae
+                            {:
+                            	RESULT = new BinaryExpression(se,ae, new BinaryOperator(obls));
+                            :}
+                            | ShiftExpression:se OP_BIT_R_SHIFT:obrs AdditiveExpression:ae
+                            {:
+                            	RESULT = new BinaryExpression(se,ae,new BinaryOperator(obrs));
+                            :}
                             | ShiftExpression OP_UNSIGN_R_SHIFT AdditiveExpression;
 
 AdditiveExpression          ::= MultiplicativeExpression:me
