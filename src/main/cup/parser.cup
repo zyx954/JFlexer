@@ -437,9 +437,18 @@ MultiplicativeExpression    ::= UnaryExpression:ue
                             {:
                                 RESULT = ue;
                             :}
-                            |MultiplicativeExpression OP_MULTIPLY UnaryExpression
-                            |MultiplicativeExpression OP_DIVIDE UnaryExpression
-                            |MultiplicativeExpression OP_MODULUS UnaryExpression;
+                            |MultiplicativeExpression:me OP_MULTIPLY:om UnaryExpression:ue
+                            {:
+                            	RESULT = new BinaryExpression(me,ue, new BinaryOperator(om));
+                            :}
+                            |MultiplicativeExpression:me OP_DIVIDE:od UnaryExpression:ue
+                            {:
+                            	RESULT = new BinaryExpression(me,ue,new BinaryOperator(od));
+                            :}
+                            |MultiplicativeExpression:me OP_MODULUS:om UnaryExpression:ue
+                            {:
+                            	RESULT = new BinaryExpression(me,ue,new BinaryOperator(om));
+                            :};
 
 UnaryExpression             ::= PreIncrementExpression
                             | PreDecrementExpression

@@ -3,6 +3,9 @@
     public static void main(String[] args) {
         int x;
         int y;
+        int s;
+        int d;
+        int r;
         x = 42;
         y = x + 4;
         
@@ -34,5 +37,10 @@
         
         y = y >> 2;
    
+        s = x * y;
+        
+        d = x / 6;
+        
+        r = x % 5;
     }
 }
