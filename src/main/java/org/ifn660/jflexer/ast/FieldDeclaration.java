@@ -8,12 +8,16 @@ public class FieldDeclaration extends Node implements Declaration {
     private IdentifierNode identifiernode;
     private VariableInitializer varInit;
     
+    private int cilLocalVarIndex;
+    
     public FieldDeclaration( List<String> fieldmodifier, Type type,IdentifierNode identifiernode, VariableInitializer varInit) 
     {
         this.fieldmodifier = fieldmodifier;
         this.type = type;
         this.identifiernode = identifiernode;
         this.varInit = varInit;
+        
+        this.cilLocalVarIndex = INDEX_COUNT++;
     }
 
 	@Override
@@ -24,5 +28,10 @@ public class FieldDeclaration extends Node implements Declaration {
 	@Override
     public void resolveNames(LexicalScope scope) {
         type.resolveNames(scope);
+    }
+
+    @Override
+    public int getCilLocalVarIndex() {
+        return cilLocalVarIndex;
     }
 }

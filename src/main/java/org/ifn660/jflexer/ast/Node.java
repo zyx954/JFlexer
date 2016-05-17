@@ -1,28 +1,36 @@
 package org.ifn660.jflexer.ast;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.ifn660.jflexer.cil.CILOption;
+
 public abstract class Node {
+
+    public static int INDEX_COUNT = 0;
 
     public void resolveNames(LexicalScope scope) {
     }
-    
-    public void codeGeneration (Path path) throws IOException {};
+
+    public void codeGeneration(Path path, CILOption cilOption) throws IOException {
+    }
 
     public void printNodeReflection(int identSize) {
 
         Node.indent(identSize);
-        System.out.println(this.getClass().getSimpleName()); // print the object itself first
+        System.out.println(this.getClass().getSimpleName()); // print the object
+                                                             // itself first
 
         Node.indent(identSize);
         System.out.println("{");
 
-        Field[] fields = this.getClass().getDeclaredFields(); // get all the attributes inside this object
+        Field[] fields = this.getClass().getDeclaredFields(); // get all the
+                                                              // attributes
+                                                              // inside this
+                                                              // object
 
         try {
             // if this a declaration statement, print the declaration object id
@@ -30,7 +38,7 @@ public abstract class Node {
                 Node.indent(identSize + 1);
                 System.out.println("declaration id: [" + ((Declaration) this).hashCode() + "]");
             }
-            
+
             for (Field field : fields) { // iterate through each field
                 field.setAccessible(true); // make private method accessible
 
@@ -67,7 +75,7 @@ public abstract class Node {
                     } else if (!field.getType().equals(LexicalScope.class)) {
                         Node.indent(identSize + 1);
                         System.out.println(field.getName() + ": " + field.get(this));
-                    } 
+                    }
                 }
             }
         } catch (Exception e) {
@@ -84,11 +92,10 @@ public abstract class Node {
             System.out.print("   ");
         }
     }
-    
-    public void iterateModifiers(StringBuilder msg, List<String> modifiers){
-		for (String modifier:modifiers){
-			
-			msg.append(" " + modifier);
-		}
+
+    public void iterateModifiers(StringBuilder msg, List<String> modifiers) {
+        for (String modifier : modifiers) {
+            msg.append(" " + modifier);
+        }
     }
 }

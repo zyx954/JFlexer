@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.ifn660.jflexer.cil.CILOption;
+
 public class ClassBody extends Node {
 	private List<Declaration> declarations;
 	
@@ -31,10 +33,10 @@ public class ClassBody extends Node {
     }
 	
 	@Override
-	public void codeGeneration (Path path) throws IOException {
+	public void codeGeneration (Path path, CILOption cilOption) throws IOException {
 		 for (Declaration declaration : declarations) {
 	            Node node = (Node) declaration;
-	            node.codeGeneration(path);
+	            node.codeGeneration(path, cilOption);
 		 }
 	}
 }

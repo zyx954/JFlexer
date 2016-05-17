@@ -7,5 +7,7 @@ public class BinaryOperator extends Node {
         this.operator = operator;
     }
     
-    
+    public String getOperator() {
+        return operator;
+    }
 }

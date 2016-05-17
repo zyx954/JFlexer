@@ -5,10 +5,14 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
 	private IdentifierNode identifiernode;
     private VariableInitializer varInit;
     
+    int cilLocalVarIndex;
+    
     public LocalVariableDeclarationStatement(Type type, IdentifierNode identifiernode, VariableInitializer varInit) {
         this.identifiernode = identifiernode;
         this.varInit = varInit;
         this.type = type;
+        
+        this.cilLocalVarIndex = INDEX_COUNT++; 
     }
     
     @Override
@@ -19,5 +23,10 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
     @Override
     public String getName() {
         return identifiernode.value;
+    }
+    
+    @Override
+    public int getCilLocalVarIndex() {
+        return this.cilLocalVarIndex;
     }
 }

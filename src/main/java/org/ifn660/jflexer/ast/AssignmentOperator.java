@@ -6,6 +6,4 @@ public class AssignmentOperator extends Node {
     public AssignmentOperator(String operator) {
         this.operator = operator;
     }
-    
-    
 }

@@ -1,5 +1,11 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.security.cert.PKIXRevocationChecker.Option;
+
+import org.ifn660.jflexer.cil.CILOption;
+
 public class AssignmentExpression extends Expression {
     private IdentifierExpression leftHandSide;
     private AssignmentOperator assignmentOperator;
@@ -16,5 +22,11 @@ public class AssignmentExpression extends Expression {
     public void resolveNames(LexicalScope scope) {
         leftHandSide.resolveNames(scope);
         expression.resolveNames(scope);
+    }
+    
+    @Override
+    public void codeGeneration(Path path, CILOption cilOption) throws IOException {
+        expression.codeGeneration(path, cilOption);
+        leftHandSide.codeGeneration(path, CILOption.LEFT_HAND_SIDE);
     }
 }

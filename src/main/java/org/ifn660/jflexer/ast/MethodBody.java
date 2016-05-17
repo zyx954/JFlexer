@@ -1,6 +1,10 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+
+import org.ifn660.jflexer.cil.CILOption;
 
 public class MethodBody extends Node {
 	private List <Statement> statements;
@@ -31,6 +35,13 @@ public class MethodBody extends Node {
 	    
 	    for(Statement statement : statements) {
 	        statement.resolveNames(this.scope);
+	    }
+	}
+	
+	@Override
+	public void codeGeneration(Path path, CILOption cilOption) throws IOException {
+	    for (Statement statement : statements) {
+	        statement.codeGeneration(path, cilOption);
 	    }
 	}
 }

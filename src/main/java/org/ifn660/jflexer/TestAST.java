@@ -24,7 +24,7 @@ public class TestAST {
     			file.createNewFile();
     			}
     		
-            p.root.codeGeneration(Paths.get("file.il"));
+            p.root.codeGeneration(Paths.get("file.il"), null);
         } catch (Exception e) {
             /* do cleanup here -- possibly rethrow e */
             e.printStackTrace();
