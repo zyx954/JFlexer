@@ -1,6 +1,10 @@
 package org.ifn660.jflexer;
 
+import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class TestAST {
 
@@ -12,6 +16,15 @@ public class TestAST {
             p.parse();
             p.root.resolveNames(null);
             p.root.printNodeReflection(0);
+    		File file = new File ("file.il");
+    		if (file.exists()){
+    			file.delete();
+    		}
+    		else { 
+    			file.createNewFile();
+    			}
+    		
+            p.root.codeGeneration(Paths.get("file.il"));
         } catch (Exception e) {
             /* do cleanup here -- possibly rethrow e */
             e.printStackTrace();

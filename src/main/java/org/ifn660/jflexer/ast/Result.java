@@ -7,5 +7,8 @@ public class Result extends Node {
 		this.type = type;
 	}
 	
-	
+	public String getNameType() {
+		
+		return type.getNameType();
+	}
 }

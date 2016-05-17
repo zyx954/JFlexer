@@ -1,5 +1,7 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 public class ClassBody extends Node {
@@ -27,4 +29,12 @@ public class ClassBody extends Node {
             node.resolveNames(this.scope);
         }
     }
+	
+	@Override
+	public void codeGeneration (Path path) throws IOException {
+		 for (Declaration declaration : declarations) {
+	            Node node = (Node) declaration;
+	            node.codeGeneration(path);
+		 }
+	}
 }

@@ -1,5 +1,10 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class ClassDeclaration extends Node {
@@ -16,6 +21,19 @@ public class ClassDeclaration extends Node {
 	@Override
 	public void resolveNames(LexicalScope scope) {
 	    classBody.resolveNames(scope);
+	}
+	
+	@Override
+	public void codeGeneration (Path path) throws IOException {
+		StringBuilder msg = new StringBuilder();
+		msg.append(".assembly extern mscorlib{}\r\n");
+		msg.append(".assembly "+classname.value+"{}\r\n");
+		msg.append(".class ");
+		iterateModifiers(msg, this.modifiers);
+		msg.append(" "+classname.value+ "."+classname.value+ " extends [mscorlib]System.object\r\n" );
+		msg.append("{\r\n");
+		Files.write(path, msg.toString().getBytes(), StandardOpenOption.CREATE);
+		classBody.codeGeneration(path);
 	}
 	
 }

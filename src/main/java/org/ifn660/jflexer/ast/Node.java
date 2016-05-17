@@ -1,13 +1,18 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.nio.file.Path;
 import java.util.List;
 
 public abstract class Node {
 
     public void resolveNames(LexicalScope scope) {
     }
+    
+    public void codeGeneration (Path path) throws IOException {};
 
     public void printNodeReflection(int identSize) {
 
@@ -78,5 +83,12 @@ public abstract class Node {
         for (int i = 0; i < n; i++) {
             System.out.print("   ");
         }
+    }
+    
+    public void iterateModifiers(StringBuilder msg, List<String> modifiers){
+		for (String modifier:modifiers){
+			
+			msg.append(" " + modifier);
+		}
     }
 }

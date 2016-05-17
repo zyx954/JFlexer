@@ -1,5 +1,9 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class MethodDeclaration extends Node implements Declaration {
@@ -27,4 +31,17 @@ public class MethodDeclaration extends Node implements Declaration {
 		// TODO Auto-generated method stub
 		return methodname.value;
 	}
+	
+	@Override
+	public void codeGeneration (Path path) throws IOException {
+		StringBuilder msg = new StringBuilder();
+		msg.append(".method");
+		iterateModifiers(msg, this.modifiers);
+		msg.append(" " +result.getNameType()+ " " +methodname.value+ "(string[] args) \r\n");
+		msg.append("{\r\n");
+		
+		Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+	}
+	
+	//.method private static void  Main(string[] args)
 }

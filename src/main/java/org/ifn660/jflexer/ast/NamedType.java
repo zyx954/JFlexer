@@ -7,4 +7,8 @@ public class NamedType extends Type {
 		this.nametype = nametype;
 	}
 	
+	public String getNameType() {
+		
+		return nametype;
+	}
 }
