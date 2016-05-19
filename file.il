@@ -5,7 +5,7 @@
    .method public static void main(string[] args) 
    {
       // Expression statement x=local[0], y=local[1], y = x + 2;
-      ldc.i4.s   4
+      ldc.i4   4
       ldloc.0
       add
       stloc.1
