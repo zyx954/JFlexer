@@ -18,6 +18,8 @@ public class CIL {
     
     public static final String TWO_IDENT = "      ";
     
+    public static final String THREE_IDENT = "          ";
+    
     public static String getBinaryOperator(BinaryOperator operator) {
         String cilOperator = "";
         

@@ -28,9 +28,12 @@ public class NamedType extends Type {
 
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        StringBuilder msg = new StringBuilder(CIL.ONE_IDENT);
+        StringBuilder msg = new StringBuilder(" ");
         if (nametype.equals("int"))
-        {msg.append(nametype+"32");}
+        {msg.append(nametype+"32");
+        msg.append(" ");
+        
+        }
         //TODO: zyx: need add more constion like double , float etc...
         //TODO: zyx : need add codeGeneration() method to the ElementType() for UnannReferenceType
             

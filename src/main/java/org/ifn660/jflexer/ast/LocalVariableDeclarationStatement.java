@@ -40,14 +40,20 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        StringBuilder msg = new StringBuilder(CIL.ONE_IDENT);
+        
+        StringBuilder msg = new StringBuilder(" ");
+        
         msg.append("[");
         msg.append(this.getCilLocalVarIndex());
         msg.append("]");
         Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
         type.codeGeneration(path, cilOption);
+        StringBuilder msg2 = new StringBuilder();
+        msg2.append(this.getName());
+        //msg2.append(",");
+        msg.append(" ");
         //msg.append("\r\n");
-        //Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+        Files.write(path, msg2.toString().getBytes(), StandardOpenOption.APPEND);
 
     }
 }
