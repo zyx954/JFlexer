@@ -1,6 +1,13 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
+
+import org.ifn660.jflexer.cil.CIL;
+import org.ifn660.jflexer.cil.CILOption;
 
 public class FieldDeclaration extends Node implements Declaration {
     private List<String>  fieldmodifier;
@@ -17,7 +24,7 @@ public class FieldDeclaration extends Node implements Declaration {
         this.identifiernode = identifiernode;
         this.varInit = varInit;
         
-        this.cilLocalVarIndex = INDEX_COUNT++;
+        //this.cilLocalVarIndex = INDEX_COUNT++;
     }
 
 	@Override
@@ -34,4 +41,18 @@ public class FieldDeclaration extends Node implements Declaration {
     public int getCilLocalVarIndex() {
         return cilLocalVarIndex;
     }
+    
+    @Override
+    public void codeGeneration(Path path, CILOption cilOption) throws IOException {
+        StringBuilder msg = new StringBuilder(CIL.ONE_IDENT);
+        msg.append(".field");
+        iterateModifiers(msg, this.fieldmodifier);
+        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+        type.codeGeneration(path, cilOption);
+        identifiernode.codeGeneration(path, cilOption);
+        //msg.append("\r\n");
+        
+       
+    }
+    //.field private static int32 z
 }

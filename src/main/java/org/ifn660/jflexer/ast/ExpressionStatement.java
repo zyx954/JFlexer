@@ -20,7 +20,7 @@ public class ExpressionStatement extends Statement {
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        CIL.comment("Expression statement x=local[0], y=local[1], y = x + 2;", path);
+        //CIL.comment("Expression statement x=local[0], y=local[1], y = x + 4;", path);
         expression.codeGeneration(path, cilOption);
     }
 }

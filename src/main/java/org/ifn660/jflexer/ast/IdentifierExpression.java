@@ -35,11 +35,14 @@ public class IdentifierExpression extends Expression {
         
         if (cilOption == CILOption.LEFT_HAND_SIDE) {
             msg.append(CIL.STLOC + declaration.getCilLocalVarIndex() + "\r\n");
-            msg.append(CIL.TWO_IDENT);
+            //msg.append(CIL.TWO_IDENT);
         }
-        
-        msg.append(CIL.LDLOC + declaration.getCilLocalVarIndex() + "\r\n");
-        
+        else 
+        {
+            //msg.append(CIL.STLOC + declaration.getCilLocalVarIndex() + "\r\n");
+          //  msg.append(CIL.TWO_IDENT);
+            msg.append(CIL.LDLOC + declaration.getCilLocalVarIndex() + "\r\n");
+        }
         Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
     }
 }

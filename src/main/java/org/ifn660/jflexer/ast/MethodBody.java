@@ -1,9 +1,12 @@
 package org.ifn660.jflexer.ast;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
+import org.ifn660.jflexer.cil.CIL;
 import org.ifn660.jflexer.cil.CILOption;
 
 public class MethodBody extends Node {
@@ -43,5 +46,9 @@ public class MethodBody extends Node {
 	    for (Statement statement : statements) {
 	        statement.codeGeneration(path, cilOption);
 	    }
+	    StringBuilder msg = new StringBuilder(CIL.TWO_IDENT);
+        msg.append("ref\r\n");
+        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+    
 	}
 }
