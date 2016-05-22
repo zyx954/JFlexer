@@ -1,9 +1,12 @@
 package org.ifn660.jflexer.ast;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
+import org.ifn660.jflexer.cil.CIL;
 import org.ifn660.jflexer.cil.CILOption;
 
 public class MethodBody extends Node {
@@ -40,8 +43,28 @@ public class MethodBody extends Node {
 	
 	@Override
 	public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-	    for (Statement statement : statements) {
-	        statement.codeGeneration(path, cilOption);
+		StringBuilder msg = new StringBuilder(CIL.ONE_IDENT);
+		msg.append(".entrypoint\r\n");
+		msg.append(CIL.ONE_IDENT);
+		 msg.append(".locals init (");
+        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+        
+ 
+        
+		for (Statement statement : statements) {
+			if (Declaration.class.isInstance(statement)){
+		           statement.codeGeneration(path, cilOption);
+		       }
+	    }
+		StringBuilder msg2 = new StringBuilder(CIL.ONE_IDENT);
+		 msg2.append(")");
+         Files.write(path, msg2.toString().getBytes(), StandardOpenOption.APPEND);
+         
+		for (Statement statement : statements) {
+			if (!Declaration.class.isInstance(statement)){
+		          
+		   	        statement.codeGeneration(path, cilOption);
+		      }
 	    }
 	}
 }
