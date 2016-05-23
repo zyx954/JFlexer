@@ -43,12 +43,12 @@ public class MethodBody extends Node {
 	
 	@Override
 	public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-		emit(path, CIL.TWO_IDENT + ".entrypoint\r\n" + CIL.TWO_IDENT + ".locals init (");      
+		emit(path, CIL.TWO_IDENT + ".entrypoint\r\n" + CIL.TWO_IDENT + ".locals init (");
+		
         boolean firstOne = true;		
         for (Statement statement : statements) {
 			if (Declaration.class.isInstance(statement)){	           
-		           if (firstOne)
-		            {
+		           if (firstOne) {
 		                firstOne = false;
 		            } else {
 		            	emit(path, ",\r\n" + CIL.THREE_IDENT);
