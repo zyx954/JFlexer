@@ -26,7 +26,7 @@ public class AssignmentExpression extends Expression {
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        expression.codeGeneration(path, CILOption.RIGHT_HAND_SIDE);
+        expression.codeGeneration(path, cilOption);
         leftHandSide.codeGeneration(path, CILOption.LEFT_HAND_SIDE);
     }
 }

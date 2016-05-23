@@ -40,7 +40,7 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        if (cilOption == CILOption.INIT) {
+        if (cilOption == CILOption.DECLARE) {
         	StringBuilder msg = new StringBuilder(" ");
             
             msg.append("[");
@@ -56,11 +56,13 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
             Files.write(path, msg2.toString().getBytes(), StandardOpenOption.APPEND);
             
         } else {
-        	varInit.codeGeneration(path, cilOption);
-        	StringBuilder index = new StringBuilder(CIL.TWO_IDENT);
-        	index.append(CIL.STLOC);
-        	index.append(this.getCilLocalVarIndex()+"\r\n");
-        	Files.write(path, index.toString().getBytes(), StandardOpenOption.APPEND);
+            if (varInit != null) {
+            	varInit.codeGeneration(path, cilOption);
+            	StringBuilder index = new StringBuilder(CIL.TWO_IDENT);
+            	index.append(CIL.STLOC);
+            	index.append(this.getCilLocalVarIndex()+"\r\n");
+            	Files.write(path, index.toString().getBytes(), StandardOpenOption.APPEND);
+            }
         }
         
 
