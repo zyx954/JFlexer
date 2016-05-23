@@ -43,52 +43,33 @@ public class MethodBody extends Node {
 	
 	@Override
 	public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-		StringBuilder msg = new StringBuilder(CIL.TWO_IDENT);
-		msg.append(".entrypoint\r\n");
-		msg.append(CIL.TWO_IDENT);
-		 msg.append(".locals init (");
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
-        
-        
-        boolean firstOne = true;
-		
+		emit(path, CIL.TWO_IDENT + ".entrypoint\r\n" + CIL.TWO_IDENT + ".locals init (");      
+        boolean firstOne = true;		
         for (Statement statement : statements) {
 			if (Declaration.class.isInstance(statement)){	           
 		           if (firstOne)
 		            {
 		                firstOne = false;
 		            } else {
-		            	StringBuilder msg4 = new StringBuilder();
-		                msg4.append(",\r\n");
-		                msg4.append(CIL.THREE_IDENT);
-		                Files.write(path, msg4.toString().getBytes(), StandardOpenOption.APPEND);
+		            	emit(path, ",\r\n" + CIL.THREE_IDENT);
 		            }
 		           statement.codeGeneration(path, CILOption.INIT);
 		       }
-		
 	    }
-        StringBuilder msg2 = new StringBuilder();
-		 msg2.append(")\r\n");
-		 Files.write(path, msg2.toString().getBytes(), StandardOpenOption.APPEND);
-		 
+        
+        emit(path, ")\r\n");       
         for (Statement statement : statements) {
 			if (Declaration.class.isInstance(statement)){	           
 		           statement.codeGeneration(path, CILOption.DECLARE);
 		       }
-		
-	    }
-		
-         
+	    }  
          
 		for (Statement statement : statements) {
-			if (!Declaration.class.isInstance(statement)){
-		          
+			if (!Declaration.class.isInstance(statement)){	          
 		   	        statement.codeGeneration(path, cilOption);
 		      }
 	    }
-	    StringBuilder msg3 = new StringBuilder(CIL.TWO_IDENT);
-        msg3.append("ret\r\n");
-        Files.write(path, msg3.toString().getBytes(), StandardOpenOption.APPEND);
-    
+		
+		emit(path, CIL.TWO_IDENT + "ret\r\n");   
 	}
 }

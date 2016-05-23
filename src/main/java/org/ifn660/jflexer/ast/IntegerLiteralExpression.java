@@ -17,8 +17,6 @@ public class IntegerLiteralExpression extends Expression {
 	
 	@Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-	    StringBuilder msg = new StringBuilder(CIL.TWO_IDENT);
-        msg.append(CIL.LDC_I4_S + "   " + value + "\r\n");
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+		emit(path, CIL.TWO_IDENT + CIL.LDC_I4_S + "   " + value + "\r\n");
 	}
 }

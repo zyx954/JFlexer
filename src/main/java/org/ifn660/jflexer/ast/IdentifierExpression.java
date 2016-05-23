@@ -31,18 +31,12 @@ public class IdentifierExpression extends Expression {
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        StringBuilder msg = new StringBuilder(CIL.TWO_IDENT);
+        emit(path, CIL.TWO_IDENT);
         
         if (cilOption == CILOption.LEFT_HAND_SIDE) {
-            msg.append(CIL.STLOC + declaration.getCilLocalVarIndex() + "\r\n");
-            //msg.append(CIL.TWO_IDENT);
+        	emit(path, CIL.STLOC + declaration.getCilLocalVarIndex() + "\r\n");
+        } else {
+        	emit(path, CIL.LDLOC + declaration.getCilLocalVarIndex() + "\r\n");
         }
-        else 
-        {
-            //msg.append(CIL.STLOC + declaration.getCilLocalVarIndex() + "\r\n");
-          //  msg.append(CIL.TWO_IDENT);
-            msg.append(CIL.LDLOC + declaration.getCilLocalVarIndex() + "\r\n");
-        }
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
     }
 }

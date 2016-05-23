@@ -3,7 +3,9 @@ package org.ifn660.jflexer.ast;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import org.ifn660.jflexer.cil.CILOption;
@@ -93,9 +95,13 @@ public abstract class Node {
         }
     }
 
-    public void iterateModifiers(StringBuilder msg, List<String> modifiers) {
+    public void iterateModifiers(Path path, List<String> modifiers) throws IOException {
         for (String modifier : modifiers) {
-            msg.append(" " + modifier);
+            emit(path, modifier + " ");
         }
+    }
+    
+    public void emit(Path path, String str) throws IOException{
+    	Files.write(path, str.getBytes(), StandardOpenOption.APPEND);
     }
 }
