@@ -42,14 +42,16 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
         if (cilOption == CILOption.INIT) {
         	String str = String.valueOf(this.getCilLocalVarIndex());      	
-            emit(path, "[" + str + "]");
+            emit(path, "[" + str + "] ");
             type.codeGeneration(path, cilOption);
-            emit(path, this.getName());          
+            emit(path, this.getName());
         } else {
-        	varInit.codeGeneration(path, cilOption);
-        	emit(path, CIL.TWO_IDENT + CIL.STLOC);
-        	String str = String.valueOf(this.getCilLocalVarIndex());
-        	emit(path, str + "\r\n");
+            if (varInit != null) {
+            	varInit.codeGeneration(path, cilOption);
+            	emit(path, CIL.TWO_IDENT + CIL.STLOC);
+            	String str = String.valueOf(this.getCilLocalVarIndex());
+            	emit(path, str + "\r\n");
+            }
         }
     }
 }
