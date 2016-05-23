@@ -91,6 +91,10 @@ nonterminal		 CastExpression, AmbiguousName;
 nonterminal      AssignmentExpression Assignment;
 nonterminal      AssignmentOperator AssignmentOperator;
 nonterminal      FieldDeclaration FieldDeclaration;
+nonterminal      MethodInvocation;
+nonterminal      TypeName;
+nonterminal      ArgumentList_opt;
+nonterminal      PackageOrTypeName, ExpressionComma_opt, ArgumentList;
 
 /* Compilation related grammar */
 
@@ -502,6 +506,7 @@ PrimaryNoNewArray           ::= Literal:l
                             {:
                                 RESULT = new IntegerLiteralExpression(l);
                             :}
+                            | MethodInvocation
                             ;
 
 Literal                     ::= INTEGER_LITERAL:il
@@ -703,5 +708,25 @@ IntegralType                ::= INT:i
 
 FloatingPointType           ::= DOUBLE
                             | FLOAT
+                            ;
+
+MethodInvocation            ::= TypeName DOT TypeArguments_opt Identifier ( ArgumentList_opt );
+
+TypeName                    ::= Identifier
+                            | PackageOrTypeName DOT Identifier
+                            ;
+
+PackageOrTypeName           ::= Identifier 
+                            | PackageOrTypeName DOT Identifier
+                            ;
+
+ArgumentList_opt            ::= ArgumentList
+                            | /* empty */
+                            ;
+
+ArgumentList                ::= Expression ExpressionComma_opt;
+
+ExpressionComma_opt         ::= ExpressionComma_opt COMMA Expression
+                            | /* empty */
                             ;
 
