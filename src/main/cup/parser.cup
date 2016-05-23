@@ -87,12 +87,12 @@ nonterminal      TypeParameters_opt, TypeParameters, Superclass_opt, Superclass,
 nonterminal      Throws_opt, Throws, TypeArguments_opt, TypeArguments;
 nonterminal      PreIncrementExpression, PreDecrementExpression;
 nonterminal      PostIncrementExpression, PostDecrementExpression, ArrayCreationExpression;
-nonterminal		 CastExpression, AmbiguousName;
+nonterminal		 CastExpression;
 nonterminal      AssignmentExpression Assignment;
 nonterminal      AssignmentOperator AssignmentOperator;
 nonterminal      FieldDeclaration FieldDeclaration;
-nonterminal      MethodInvocation;
-nonterminal      TypeName;
+nonterminal      MethodInvocationStatement MethodInvocation;
+nonterminal      Name;
 nonterminal      ArgumentList_opt;
 nonterminal      PackageOrTypeName, ExpressionComma_opt, ArgumentList;
 
@@ -495,18 +495,13 @@ ExpressionName              ::= Identifier:id
                             {:
                                  RESULT = new IdentifierExpression(id);
                             :}
-                            | AmbiguousName DOT Identifier
-                            ;
-                            
-AmbiguousName               ::= Identifier
-                            | AmbiguousName DOT Identifier
+                            | Name DOT Identifier
                             ;
 
 PrimaryNoNewArray           ::= Literal:l
                             {:
                                 RESULT = new IntegerLiteralExpression(l);
                             :}
-                            | MethodInvocation
                             ;
 
 Literal                     ::= INTEGER_LITERAL:il
@@ -613,6 +608,10 @@ StatementExpression         ::= Assignment:ass
                             {:
                                  RESULT = new ExpressionStatement(ass);
                             :}
+                            | MethodInvocation:mi
+                            {:
+                                RESULT = mi;
+                            :}
                             ;
 
 LocalVariableDeclarationStatement ::= LocalVariableDeclaration:lvd SEMICOLON
@@ -710,14 +709,14 @@ FloatingPointType           ::= DOUBLE
                             | FLOAT
                             ;
 
-MethodInvocation            ::= TypeName DOT TypeArguments_opt Identifier ( ArgumentList_opt );
-
-TypeName                    ::= Identifier
-                            | PackageOrTypeName DOT Identifier
+MethodInvocation            ::= Name DOT Identifier LPAREN ArgumentList_opt RPAREN
+                            {:
+                                RESULT = new MethodInvocationStatement();
+                            :}
                             ;
 
-PackageOrTypeName           ::= Identifier 
-                            | PackageOrTypeName DOT Identifier
+Name                        ::= Identifier
+                            | Name DOT Identifier
                             ;
 
 ArgumentList_opt            ::= ArgumentList
