@@ -12,7 +12,7 @@ public class CIL {
     
     public static final String STLOC = "stloc.";
     
-    public static final String LDC_I4_S = "ldc.i4";
+    public static final String LDC_I4_S = "ldc.i4.s";
     
     public static final String ONE_IDENT = "   ";
     

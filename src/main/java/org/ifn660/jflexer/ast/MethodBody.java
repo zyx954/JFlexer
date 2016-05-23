@@ -49,24 +49,36 @@ public class MethodBody extends Node {
 		 msg.append(".locals init (");
         Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
         
- 
-        int i =1;
-		for (Statement statement : statements) {
-			if (Declaration.class.isInstance(statement)){
-		           statement.codeGeneration(path, cilOption);
-		           if (++i!=statements.size())
+        
+        boolean firstOne = true;
+		
+        for (Statement statement : statements) {
+			if (Declaration.class.isInstance(statement)){	           
+		           if (firstOne)
 		            {
-		                StringBuilder msg4 = new StringBuilder();
+		                firstOne = false;
+		            } else {
+		            	StringBuilder msg4 = new StringBuilder();
 		                msg4.append(",\r\n");
 		                msg4.append(CIL.THREE_IDENT);
 		                Files.write(path, msg4.toString().getBytes(), StandardOpenOption.APPEND);
 		            }
+		           statement.codeGeneration(path, CILOption.INIT);
 		       }
 		
 	    }
-		StringBuilder msg2 = new StringBuilder();
+        StringBuilder msg2 = new StringBuilder();
 		 msg2.append(")\r\n");
-         Files.write(path, msg2.toString().getBytes(), StandardOpenOption.APPEND);
+		 Files.write(path, msg2.toString().getBytes(), StandardOpenOption.APPEND);
+		 
+        for (Statement statement : statements) {
+			if (Declaration.class.isInstance(statement)){	           
+		           statement.codeGeneration(path, CILOption.DECLARE);
+		       }
+		
+	    }
+		
+         
          
 		for (Statement statement : statements) {
 			if (!Declaration.class.isInstance(statement)){

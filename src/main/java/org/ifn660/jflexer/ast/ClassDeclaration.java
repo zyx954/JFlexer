@@ -31,7 +31,7 @@ public class ClassDeclaration extends Node {
         msg.append(".assembly " + classname.value + "{}\r\n");
         msg.append(".class ");
         iterateModifiers(msg, this.modifiers);
-        msg.append(" " + classname.value + "." + classname.value + " extends [mscorlib]System.object\r\n");
+        msg.append(" " + classname.value + "." + classname.value + " extends [mscorlib]System.Object\r\n");
         msg.append("{\r\n");
         Files.write(path, msg.toString().getBytes(), StandardOpenOption.CREATE);
 
