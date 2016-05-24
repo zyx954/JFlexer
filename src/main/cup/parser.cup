@@ -92,9 +92,9 @@ nonterminal      AssignmentExpression Assignment;
 nonterminal      AssignmentOperator AssignmentOperator;
 nonterminal      FieldDeclaration FieldDeclaration;
 nonterminal      MethodInvocationStatement MethodInvocation;
-nonterminal      Name;
-nonterminal      ArgumentList_opt;
-nonterminal      PackageOrTypeName, ExpressionComma_opt, ArgumentList;
+nonterminal      List<String> Name;
+nonterminal      List<Expression> ArgumentList_opt;
+nonterminal      List<Expression> PackageOrTypeName, ExpressionComma_opt, ArgumentList;
 
 /* Compilation related grammar */
 
@@ -709,23 +709,52 @@ FloatingPointType           ::= DOUBLE
                             | FLOAT
                             ;
 
-MethodInvocation            ::= Name DOT Identifier LPAREN ArgumentList_opt RPAREN
+MethodInvocation            ::= Name:n DOT Identifier:m LPAREN ArgumentList_opt:alopt RPAREN
                             {:
-                                RESULT = new MethodInvocationStatement();
+                                RESULT = new MethodInvocationStatement(n,m,alopt);
                             :}
                             ;
 
-Name                        ::= Identifier
-                            | Name DOT Identifier
+Name                        ::= Identifier:i 
+                            {:
+                                RESULT = new ArrayList<>();
+                                RESULT.add (i.value);
+                            :}
+                            | Name:n DOT Identifier:i 
+                            {:
+                                if (n == null) {
+                                    n = new ArrayList<>();
+                                }
+                                RESULT = n;
+                                RESULT.add (i.value);
+                            :}
                             ;
 
-ArgumentList_opt            ::= ArgumentList
+ArgumentList_opt            ::= ArgumentList:a
+                            {:
+                                RESULT = a;
+                            :}
                             | /* empty */
                             ;
 
-ArgumentList                ::= Expression ExpressionComma_opt;
+ArgumentList                ::= Expression:e ExpressionComma_opt:ec
+                            {:
+                                RESULT = new ArrayList<>();
+                                RESULT.add(e);
+                                if (ec != null) {
+                                    RESULT.addAll(ec);
+                                }
+                            :}
+                            ;
 
-ExpressionComma_opt         ::= ExpressionComma_opt COMMA Expression
+ExpressionComma_opt         ::= ExpressionComma_opt:ec COMMA Expression:e
+                            {:
+                                if (ec == null) {
+                                    ec = new ArrayList<>();
+                                }
+                                RESULT = ec;
+                                RESULT.add (e);
+                            :}
                             | /* empty */
                             ;
 

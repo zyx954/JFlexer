@@ -37,19 +37,11 @@ public class MethodDeclaration extends Node implements Declaration {
 
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        StringBuilder msg = new StringBuilder(CIL.ONE_IDENT);
-        msg.append(".method");
-        iterateModifiers(msg, this.modifiers);
-        msg.append(" " + result.getNameType() + " " + methodname.value + "(string[] args) \r\n");
-        msg.append(CIL.ONE_IDENT);
-        msg.append("{\r\n");
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
-        
+        emit(path, CIL.ONE_IDENT + ".method ");
+        iterateModifiers(path, this.modifiers);
+        emit(path, result.getNameType() + " " + methodname.value + "(string[] args) \r\n" + CIL.ONE_IDENT + "{\r\n");
         methodBody.codeGeneration(path, cilOption);
-        
-        msg = new StringBuilder(CIL.ONE_IDENT);
-        msg.append("}\r\n");
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+        emit(path, CIL.ONE_IDENT + "}\r\n");
     }
 
     @Override

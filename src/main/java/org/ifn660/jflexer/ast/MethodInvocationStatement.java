@@ -1,5 +1,45 @@
 package org.ifn660.jflexer.ast;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+
+import org.ifn660.jflexer.cil.CIL;
+import org.ifn660.jflexer.cil.CILOption;
+
 public class MethodInvocationStatement extends Statement {
-    //TODO implement the code gen
+    String invokeObject;
+    String invokeClass;
+    IdentifierNode invokeMethod;
+    List<Expression> invokeParameter;
+
+    public MethodInvocationStatement(List<String> name,
+            IdentifierNode invokeMethod, List<Expression> invokeParameter) {
+        this.invokeMethod = invokeMethod;
+        this.invokeParameter = invokeParameter;
+        this.invokeObject = name.get(name.size() - 1);
+        this.invokeClass = name.get(0);
+    }
+
+    @Override
+    public void resolveNames(LexicalScope scope) {
+
+        for (Expression expression : invokeParameter) {
+            expression.resolveNames(scope);
+        }
+    }
+
+    @Override
+    public void codeGeneration(Path path, CILOption cilOption)
+            throws IOException {
+        emit(path, CIL.TWO_IDENT + CIL.LDSFLD + CIL.THREE_IDENT
+                + "class [JDK]java.lang." + invokeObject + " [JDK]java.lang."
+                + invokeClass + "::" + invokeObject + "\r\n");
+        emit(path, CIL.TWO_IDENT + CIL.LDC_I4_S + "\r\n");
+        emit(path, CIL.TWO_IDENT + CIL.CALLVIRT + CIL.THREE_IDENT
+                + "instance void [JDK]java.lang." + invokeObject + "::"
+                + invokeMethod.value + "(");
+        iterateParameters(path,invokeParameter);
+        emit(path, ")" + "\r\n");
+    }
 }

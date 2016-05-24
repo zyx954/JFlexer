@@ -21,25 +21,16 @@ public class NamedType extends Type {
 		this.nametype = nametype;
 	}
 	
-	public String getNameType() {
-		
+	public String getNameType() {		
 		return nametype;
 	}
 
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        StringBuilder msg = new StringBuilder(" ");
-        if (nametype.equals("int"))
-        {msg.append(nametype+"32");
-        msg.append(" ");
-        
+        if (nametype.equals("int")) {
+        	emit(path, nametype + "32 ");
         }
         //TODO: zyx: need add more constion like double , float etc...
         //TODO: zyx : need add codeGeneration() method to the ElementType() for UnannReferenceType
-            
-        
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
     }
-	
-
 }

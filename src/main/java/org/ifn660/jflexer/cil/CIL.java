@@ -14,6 +14,10 @@ public class CIL {
     
     public static final String LDC_I4_S = "ldc.i4";
     
+    public static final String LDSFLD ="ldsfld";
+    
+    public static final String CALLVIRT = "callvirt";
+    
     public static final String ONE_IDENT = "   ";
     
     public static final String TWO_IDENT = "      ";

@@ -26,20 +26,11 @@ public class ClassDeclaration extends Node {
 
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        StringBuilder msg = new StringBuilder();
-        msg.append(".assembly extern mscorlib{}\r\n");
-        msg.append(".assembly " + classname.value + "{}\r\n");
-        msg.append(".class ");
-        iterateModifiers(msg, this.modifiers);
-        msg.append(" " + classname.value + "." + classname.value + " extends [mscorlib]System.Object\r\n");
-        msg.append("{\r\n");
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.CREATE);
-
+    	Files.write(path, "".getBytes(), StandardOpenOption.CREATE);
+        emit(path, ".assembly extern mscorlib{}\r\n.assembly " + classname.value + "{}\r\n.class ");
+        iterateModifiers(path, this.modifiers);       
+        emit(path, classname.value + "." + classname.value + " extends [mscorlib]System.Object\r\n{\r\n");
         classBody.codeGeneration(path, cilOption);
-
-        msg = new StringBuilder();
-        msg.append("}\r\n");
-        Files.write(path, msg.toString().getBytes(), StandardOpenOption.APPEND);
+        emit(path, "}\r\n");
     }
-
 }
