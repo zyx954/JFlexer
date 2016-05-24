@@ -16,8 +16,7 @@
       stloc.1
       ldloc.1
       ldsfld          class [JDK]java.lang.out [JDK]java.lang.System::out
-      ldc.i4
-      callvirt          instance void [JDK]java.lang.out::println(y)
+      callvirt          instance void [JDK]java.lang.out::println(int32)
       ret
    }
 }

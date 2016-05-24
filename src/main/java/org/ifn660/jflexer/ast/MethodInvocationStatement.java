@@ -35,11 +35,9 @@ public class MethodInvocationStatement extends Statement {
         emit(path, CIL.TWO_IDENT + CIL.LDSFLD + CIL.THREE_IDENT
                 + "class [JDK]java.lang." + invokeObject + " [JDK]java.lang."
                 + invokeClass + "::" + invokeObject + "\r\n");
-        emit(path, CIL.TWO_IDENT + CIL.LDC_I4_S + "\r\n");
+        //emit(path, CIL.TWO_IDENT + CIL.LDC_I4_S + "\r\n");
         emit(path, CIL.TWO_IDENT + CIL.CALLVIRT + CIL.THREE_IDENT
                 + "instance void [JDK]java.lang." + invokeObject + "::"
-                + invokeMethod.value + "(");
-        iterateParameters(path,invokeParameter);
-        emit(path, ")" + "\r\n");
+                + invokeMethod.value + "(int32)" + "\r\n");
     }
 }
