@@ -37,9 +37,9 @@ public class IdentifierExpression extends Expression {
             
             emit(path, CIL.STLOC + declaration.getCilLocalVarIndex() + "\r\n");
             emit(path, CIL.TWO_IDENT);
+        } else {
+        	emit(path, CIL.LDLOC + declaration.getCilLocalVarIndex() + "\r\n");
         }
-        
-        emit(path, CIL.LDLOC + declaration.getCilLocalVarIndex() + "\r\n");
     }
     public IdentifierNode getIdentifierNode() {
         return identifier;

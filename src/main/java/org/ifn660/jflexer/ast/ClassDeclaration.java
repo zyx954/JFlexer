@@ -27,7 +27,7 @@ public class ClassDeclaration extends Node {
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
     	Files.write(path, "".getBytes(), StandardOpenOption.CREATE);
-        emit(path, ".assembly extern mscorlib{}\r\n.assembly " + classname.value + "{}\r\n.class ");
+        emit(path, ".assembly extern mscorlib{}\r\n.assembly extern JDK{}\r\n.assembly " + classname.value + "{}\r\n.class ");
         iterateModifiers(path, this.modifiers);       
         emit(path, classname.value + "." + classname.value + " extends [mscorlib]System.Object\r\n{\r\n");
         classBody.codeGeneration(path, cilOption);

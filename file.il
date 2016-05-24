@@ -1,4 +1,5 @@
 .assembly extern mscorlib{}
+.assembly extern JDK{}
 .assembly Example{}
 .class public Example.Example extends [mscorlib]System.Object
 {
@@ -14,9 +15,9 @@
       ldloc.0
       add
       stloc.1
+      ldsfld          class [JDK]java.lang.out1 [JDK]java.lang.System::out1
       ldloc.1
-      ldsfld          class [JDK]java.lang.out [JDK]java.lang.System::out
-      callvirt          instance void [JDK]java.lang.out::println(int32)
+      callvirt          instance void [JDK]java.lang.out1::println(int32)
       ret
    }
 }

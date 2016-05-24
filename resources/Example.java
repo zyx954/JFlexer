@@ -6,6 +6,6 @@ public class Example {
         int x = 42;
         int y;
         y = x + 31;
-        System.out.println(y);
+        System.out1.println(y);
     }
 }
