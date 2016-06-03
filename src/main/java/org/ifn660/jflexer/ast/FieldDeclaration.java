@@ -31,11 +31,23 @@ public class FieldDeclaration extends Node implements Declaration {
 	public String getName() {
 		return identifiernode.value;
 	}
+   public String getType() {
+        return type.getNameType();
+    }
+	   @Override
+	    public String toString() {
+	        return "field";
+	    }
 	
 	@Override
     public void resolveNames(LexicalScope scope) {
         type.resolveNames(scope);
     }
+	@Override
+	   public String passVariables(String variable)  {
+	    return variable;
+	        
+	     }
 
     @Override
     public int getCilLocalVarIndex() {

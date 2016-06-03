@@ -22,7 +22,9 @@ public class MethodBody extends Node {
     @Override
     public void resolveNames(LexicalScope scope) {
         // the scope from whom invoked this method is the parent scope
-        this.scope.parentScope = scope;
+        this.scope.parentScope = scope;//here the parent scope is the creat by the classbody. with one hashmap. so we can call the parentScope to 
+        
+        //we can call --- this.scope.parentScope.sympaltable  OR  the this.scope.symbolTable
 
         // add all declaration statement to the symbol table of method scope
         for (Statement statement : statements) {
@@ -34,13 +36,35 @@ public class MethodBody extends Node {
                 // if this is true, then record that declaration in the symbol
                 // table
                 this.scope.symbolTable.put(declaration.getName(), declaration);
+                //zyx here continus to add the has code into this scope 
+                
             }
         }
 
         for (Statement statement : statements) {
             statement.resolveNames(this.scope);
         }
+        //System.out.println(this.scope.parentScope.symbolTable.values());
+//        for (String key :this.scope.parentScope.symbolTable.keySet())
+//                {
+//                System.out.println(key);
+//            
+//            
+//                }
+//        System.out.println("00000000000000");
     }
+    
+    @Override
+    public String passVariables(String variable)  {
+        
+        for (Statement statement : statements) {
+           statement.passVariables(variable);
+        }
+        //methodBody.passVariables(variable);
+        //System.out.println(variable);
+        return variable;
+
+     }
 
 	@Override
 	public void codeGeneration(Path path, CILOption cilOption) throws IOException {

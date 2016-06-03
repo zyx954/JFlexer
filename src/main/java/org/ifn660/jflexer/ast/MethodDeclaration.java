@@ -29,6 +29,13 @@ public class MethodDeclaration extends Node implements Declaration {
     public void resolveNames(LexicalScope scope) {
         methodBody.resolveNames(scope);
     }
+    
+    @Override
+    public String passVariables(String variable)  {
+        methodBody.passVariables(variable);
+        return variable;
+        
+     }
 
     @Override
     public String getName() {

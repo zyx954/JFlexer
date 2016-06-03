@@ -16,6 +16,9 @@ public abstract class Node {
 
     public void resolveNames(LexicalScope scope) {
     }
+    public String passVariables(String variable) {
+        return variable;
+    }
 
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
     }

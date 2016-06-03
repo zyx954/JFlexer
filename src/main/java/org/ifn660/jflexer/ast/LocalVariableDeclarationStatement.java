@@ -13,7 +13,7 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
 	private IdentifierNode identifiernode;
     private VariableInitializer varInit;
     
-    int cilLocalVarIndex;
+    int cilLocalVarIndex; 
     
     public LocalVariableDeclarationStatement(Type type, IdentifierNode identifiernode, VariableInitializer varInit) {
         this.identifiernode = identifiernode;
@@ -27,6 +27,10 @@ public class LocalVariableDeclarationStatement extends Statement implements Decl
     public void resolveNames(LexicalScope scope) {
         type.resolveNames(scope);
     }
+    @Override
+    public String passVariables(String variable)  {
+        return variable;
+     }
 
     @Override
     public String getName() {

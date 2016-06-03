@@ -22,6 +22,14 @@ public class ClassDeclaration extends Node {
     @Override
     public void resolveNames(LexicalScope scope) {
         classBody.resolveNames(scope);
+        passVariables(classname.value);
+
+    }
+    
+    @Override
+    public String passVariables(String variable)  {
+       classBody.passVariables(variable);
+       return variable;
     }
 
     @Override

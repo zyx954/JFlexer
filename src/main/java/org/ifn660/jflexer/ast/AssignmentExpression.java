@@ -23,6 +23,12 @@ public class AssignmentExpression extends Expression {
         leftHandSide.resolveNames(scope);
         expression.resolveNames(scope);
     }
+    @Override
+    public String passVariables(String variable)  {
+        expression.passVariables(variable);
+        return variable;
+        
+     }
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {

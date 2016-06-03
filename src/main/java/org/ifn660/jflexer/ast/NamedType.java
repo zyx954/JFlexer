@@ -30,7 +30,7 @@ public class NamedType extends Type {
         if (nametype.equals("int")) {
         	emit(path, nametype + "32 ");
         }
-        //TODO: zyx: need add more constion like double , float etc...
+        //TODO: zyx: need add more condition like double , float etc...
         //TODO: zyx : need add codeGeneration() method to the ElementType() for UnannReferenceType
     }
 }

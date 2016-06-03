@@ -20,17 +20,28 @@ public class ClassBody extends Node {
     public void resolveNames(LexicalScope scope) {
         // the scope from whom invoked this method is the parent scope
         this.scope.parentScope = scope;
+        //this is work as well --this.scope.parentScope.parentScope=scope;
+        
         
         // add all declaration statement to the symbol table of method scope
         for(Declaration declaration : declarations) {
-            this.scope.symbolTable.put(declaration.getName(), declaration);
+            this.scope.symbolTable.put(declaration.getName(), declaration);// here is the onw method of hashmap "put" put the pair value to the 
         }
         
         for (Declaration declaration : declarations) {
             Node node = (Node) declaration;
-            node.resolveNames(this.scope);
+            node.resolveNames(this.scope);//zyx : from here the scope with hte hashtable, we put before.
         }
     }
+   @Override
+public String passVariables(String variable)  {
+    for (Declaration declaration : declarations) {
+        declaration.passVariables(variable);
+    }
+    return variable;
+
+ }
+	
 	
 	@Override
 	public void codeGeneration (Path path, CILOption cilOption) throws IOException {

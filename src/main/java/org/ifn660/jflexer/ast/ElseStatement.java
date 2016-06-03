@@ -13,5 +13,15 @@ public class ElseStatement extends Statement{
     public void resolveNames(LexicalScope scope) {
         elseStatement.resolveNames(scope);
     }
+    @Override
+    public void passVariables(String variable)  {
+        
+        
+            elseStatement.passVariables(variable);
+            //System.out.println(variable);
+           // System.out.println("&&&&&&");
+        //methodBody.passVariables(variable);
+        
+     }
 
 }

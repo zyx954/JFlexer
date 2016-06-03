@@ -24,6 +24,8 @@ public class CIL {
     
     public static final String THREE_IDENT = "          ";
     
+    public static final String STSFLD = "stsfld";
+    
     public static String getBinaryOperator(BinaryOperator operator) {
         String cilOperator = "";
         

@@ -17,6 +17,17 @@ public class ExpressionStatement extends Statement {
     public void resolveNames(LexicalScope scope) {
         expression.resolveNames(scope);
     }
+    @Override
+    public String passVariables(String variable)  {
+        
+        
+        expression.passVariables(variable);
+//            System.out.println(variable);
+//            System.out.println("&&&&&&");
+        //methodBody.passVariables(variable);
+        return variable;
+        
+     }
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {

@@ -14,7 +14,7 @@
       ldloc.0
       ldc.i4   3
       add
-      stloc.0
+      stsfld  int32 nullnull
       ldsfld          class [JDK]java.lang.out1 [JDK]java.lang.System::out1
       ldloc.0
       callvirt          instance void [JDK]java.lang.out1::println(int32)

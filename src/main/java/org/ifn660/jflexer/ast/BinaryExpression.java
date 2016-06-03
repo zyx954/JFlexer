@@ -24,6 +24,12 @@ public class BinaryExpression extends Expression {
         leftHandSide.resolveNames(scope);
         rightHandSide.resolveNames(scope);
     }
+    @Override
+    public String passVariables(String variable)  {
+        rightHandSide.passVariables(variable);
+        return variable;
+
+     }
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {

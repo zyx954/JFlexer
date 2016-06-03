@@ -7,6 +7,7 @@ public class Example {
         //int y;
         //y = x + 31;
         z=3+x;
+        //x=4+x;
         System.out1.println(z);
     }
 }

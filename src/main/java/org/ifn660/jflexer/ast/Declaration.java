@@ -12,4 +12,6 @@ public interface Declaration {
     String getName();
     
     int getCilLocalVarIndex();
+    
+    public String passVariables(String variable);
 }
