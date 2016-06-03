@@ -44,7 +44,7 @@ public class FieldDeclaration extends Node implements Declaration {
     
     @Override
     public void codeGeneration(Path path, CILOption cilOption) throws IOException {
-        emit(path, CIL.ONE_IDENT + ".field");
+        emit(path, CIL.ONE_IDENT + ".field"+" ");
         iterateModifiers(path, this.fieldmodifier);
         type.codeGeneration(path, cilOption);
         identifiernode.codeGeneration(path, cilOption);    
